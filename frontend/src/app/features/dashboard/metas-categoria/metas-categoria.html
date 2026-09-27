@@ -1,0 +1,60 @@
+<section class="painel" aria-labelledby="titulo-metas-categoria" [attr.aria-busy]="carregando()">
+  <h2 id="titulo-metas-categoria">
+    Metas por categoria <span class="periodo-titulo">— {{ periodo() }}</span>
+  </h2>
+
+  @if (mes() === null) {
+    @if (mesesEstourados() === null) {
+      <p>Carregando…</p>
+    } @else if (textoMesesEstourados(); as texto) {
+      <p class="atencao-meses" role="status"><span aria-hidden="true">⚠</span> {{ texto }}</p>
+    } @else {
+      <p>Nenhuma categoria passou da própria meta em {{ ano() }}.</p>
+    }
+    <p>
+      Escolha um mês no seletor para ver o andamento de cada categoria.
+      <a routerLink="/metas" [queryParams]="paramsMetas()">Ajustar metas</a>
+    </p>
+  } @else if (erro(); as mensagem) {
+    <p class="aviso-erro" role="alert">{{ mensagem }}</p>
+  } @else if (carregando() && !dados()) {
+    <p>Carregando as metas…</p>
+  } @else if (dados(); as d) {
+    @if (d.comMeta.length === 0) {
+      <p>
+        Você ainda não definiu metas por categoria para {{ periodo() }}.
+        <a routerLink="/metas" [queryParams]="paramsMetas()">Definir metas</a>
+      </p>
+    } @else {
+      <ul class="metas">
+        @for (c of d.comMeta; track c.categoriaId) {
+          <li class="meta" [attr.data-situacao]="c.situacao">
+            <div class="meta__topo">
+              <strong>{{ c.categoria }}</strong>
+              <span class="meta__situacao">
+                <span aria-hidden="true">{{ situacao(c.situacao).icone }}</span>
+                {{ situacao(c.situacao).texto }}
+              </span>
+            </div>
+            <progress
+              [value]="barra(c.percentual)"
+              max="100"
+              [attr.aria-label]="
+                'Meta de ' + c.categoria + ': ' + percentualTexto(c.percentual) + ' usados'
+              "
+            ></progress>
+            <p class="meta__texto">
+              {{ c.gasto | currency: 'BRL' }} de {{ c.meta | currency: 'BRL' }} —
+              {{ percentualTexto(c.percentual) }}
+            </p>
+          </li>
+        }
+      </ul>
+      <p><a routerLink="/metas" [queryParams]="paramsMetas()">Ajustar metas</a></p>
+    }
+
+    @if (dica(); as texto) {
+      <p class="dica">{{ texto }}</p>
+    }
+  }
+</section>

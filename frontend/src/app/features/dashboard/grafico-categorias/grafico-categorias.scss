@@ -1,0 +1,35 @@
+.periodo-titulo {
+  font-weight: 400;
+  color: var(--cor-texto-suave);
+}
+
+.resumo-grafico {
+  font-weight: 600;
+}
+
+.tabela-dados {
+  width: 100%;
+  margin-top: var(--espaco-2);
+  border-collapse: collapse;
+
+  th,
+  td {
+    padding: var(--espaco-2);
+    text-align: left;
+    border-bottom: 1px solid var(--cor-borda);
+  }
+
+  .col-numerica {
+    text-align: right;
+    white-space: nowrap;
+  }
+}
+
+.amostra {
+  display: inline-block;
+  width: 0.875rem;
+  height: 0.875rem;
+  margin-right: var(--espaco-2);
+  vertical-align: middle;
+  border-radius: 2px;
+}

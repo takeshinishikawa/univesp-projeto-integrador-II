@@ -1,0 +1,50 @@
+.resumo-grafico {
+  font-weight: 600;
+}
+
+.dica {
+  margin: var(--espaco-3) 0 0;
+  color: var(--cor-texto-suave);
+  font-size: 0.9375rem;
+}
+
+.tabela-dados {
+  width: 100%;
+  margin-top: var(--espaco-2);
+  border-collapse: collapse;
+
+  th,
+  td {
+    padding: var(--espaco-2);
+    text-align: left;
+    border-bottom: 1px solid var(--cor-borda);
+  }
+
+  .col-numerica {
+    text-align: right;
+    white-space: nowrap;
+  }
+}
+
+.negativo {
+  color: var(--cor-despesa);
+}
+
+.linha-destaque {
+  background: #eff4ff;
+}
+
+.mes-botao {
+  padding: var(--espaco-1) 0;
+  color: var(--cor-primaria);
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 0.15em;
+  background: none;
+  border: 0;
+  cursor: pointer;
+
+  &[aria-pressed='true'] {
+    color: var(--cor-texto);
+  }
+}

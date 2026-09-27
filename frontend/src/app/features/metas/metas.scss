@@ -1,0 +1,265 @@
+.intro {
+  margin-top: 0;
+}
+
+// Resumo do mês: a meta é a soma das categorias, então é só leitura.
+.resumo-mes__numeros {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--espaco-2) var(--espaco-4);
+  margin: 0 0 var(--espaco-2);
+
+  dt {
+    color: var(--cor-texto-suave);
+    font-size: 0.9375rem;
+  }
+
+  dd {
+    margin: 0;
+  }
+}
+
+.resumo-mes__valor {
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.resumo-mes__origem {
+  margin: 0 0 var(--espaco-3);
+  color: var(--cor-texto-suave);
+}
+
+// Categorias à esquerda; a visão do ano e a cópia ficam ao lado quando cabe.
+.metas {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--espaco-4);
+  align-items: start;
+  margin-top: var(--espaco-4);
+
+  @media (min-width: 64rem) {
+    grid-template-columns: minmax(0, 3fr) minmax(18rem, 2fr);
+  }
+}
+
+.metas__lateral {
+  display: grid;
+  gap: var(--espaco-4);
+  min-width: 0;
+}
+
+.tabela-metas__antiga {
+  color: var(--cor-texto-suave);
+  font-size: 0.8125rem;
+}
+
+// Seletor de mês e ano à esquerda; meta e gasto do mês distribuídos no espaço que sobra.
+.resumo-mes {
+  display: grid;
+  grid-template-columns: 1fr;
+  align-items: center;
+  gap: var(--espaco-3) var(--espaco-5);
+  margin-top: var(--espaco-4);
+
+  @media (min-width: 48rem) {
+    grid-template-columns: auto minmax(0, 1fr);
+  }
+}
+
+.resumo-mes__periodo {
+  min-width: 0;
+  max-width: 100%;
+}
+
+.resumo-mes__conteudo {
+  min-width: 0;
+  text-align: center;
+
+  .resumo-mes__numeros {
+    justify-content: space-evenly;
+  }
+
+  .resumo-mes__origem {
+    margin-bottom: 0;
+  }
+}
+
+.categorias {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.categoria {
+  padding: var(--espaco-3) 0;
+  border-bottom: 1px solid var(--cor-borda);
+}
+
+.categoria__form {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--espaco-2) var(--espaco-3);
+}
+
+.categoria__nome {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 14rem;
+  overflow-wrap: anywhere;
+}
+
+// Valor gasto à esquerda; o percentual de consumo (selo) alinhado à direita.
+.categoria__gasto {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--espaco-1) var(--espaco-3);
+  color: var(--cor-texto-suave);
+  font-size: 0.9375rem;
+}
+
+.categoria__campo {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  margin-left: auto;
+  gap: var(--espaco-2);
+
+  input {
+    width: 9rem;
+  }
+}
+
+.categoria__erro {
+  flex-basis: 100%;
+  margin: 0;
+  color: var(--cor-despesa);
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+// Situação da meta: texto + cor (nunca só cor).
+.selo-situacao {
+  display: inline-block;
+  padding: 0 var(--espaco-2);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  border: 1px solid currentcolor;
+  border-radius: var(--raio);
+
+  &[data-situacao='DENTRO'] {
+    color: var(--cor-receita);
+    background: var(--cor-receita-fundo);
+  }
+
+  &[data-situacao='ATENCAO'] {
+    color: var(--cor-atencao);
+    background: var(--cor-atencao-fundo);
+  }
+
+  &[data-situacao='ESTOURADA'] {
+    color: var(--cor-despesa);
+    background: var(--cor-despesa-fundo);
+  }
+}
+
+.copiar {
+  display: grid;
+  gap: var(--espaco-3);
+  justify-items: start;
+  max-width: 32rem;
+
+  label,
+  legend {
+    font-weight: 600;
+  }
+
+  select {
+    max-width: 20rem;
+  }
+}
+
+.copiar__campo {
+  padding: 0;
+  margin: 0;
+  border: 0;
+
+  label {
+    display: block;
+  }
+
+  select {
+    margin-top: var(--espaco-1);
+  }
+
+  legend {
+    padding: 0;
+    margin-bottom: var(--espaco-1);
+  }
+}
+
+.copiar__opcao {
+  display: flex;
+  align-items: center;
+  gap: var(--espaco-2);
+  min-height: 2.75rem;
+
+  input {
+    width: 1.25rem;
+    height: 1.25rem;
+  }
+}
+
+.aviso-sucesso {
+  padding: var(--espaco-2) var(--espaco-3);
+  margin: 0 0 var(--espaco-3);
+  color: var(--cor-receita);
+  background: var(--cor-receita-fundo);
+  border: 1px solid var(--cor-receita);
+  border-radius: var(--raio);
+  font-weight: 600;
+}
+
+.tabela-metas {
+  width: 100%;
+  border-collapse: collapse;
+
+  th,
+  td {
+    padding: var(--espaco-2);
+    text-align: left;
+    border-bottom: 1px solid var(--cor-borda);
+  }
+
+  .col-numerica {
+    text-align: right;
+    white-space: nowrap;
+  }
+}
+
+.linha-destaque {
+  background: var(--cor-fundo);
+  font-weight: 700;
+}
+
+.mes-botao {
+  min-height: 2.75rem;
+  padding: 0 var(--espaco-1);
+  color: var(--cor-primaria);
+  font: inherit;
+  font-weight: inherit;
+  text-decoration: underline;
+  background: none;
+  border: 0;
+  cursor: pointer;
+}
+
+.dica {
+  margin: var(--espaco-2) 0 0;
+  color: var(--cor-texto-suave);
+  font-size: 0.875rem;
+}

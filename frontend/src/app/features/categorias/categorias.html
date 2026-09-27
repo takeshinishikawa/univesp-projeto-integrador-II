@@ -1,0 +1,114 @@
+<h1 class="sr-only">Categorias</h1>
+
+<section class="painel nova" aria-labelledby="titulo-nova">
+  <h2 id="titulo-nova">Nova categoria</h2>
+  <p>
+    Crie categorias para separar melhor o que você gasta e recebe (por exemplo, Pets ou Assinaturas)
+    e deixar os gráficos mais claros. Só você vê as suas categorias.
+  </p>
+
+  <form class="nova__form" [formGroup]="form" (ngSubmit)="adicionar()" novalidate>
+    <app-form-field label="Nome" inputId="categoria-nome" [control]="form.controls.nome">
+      <input id="categoria-nome" type="text" maxlength="50" formControlName="nome" />
+    </app-form-field>
+
+    <app-form-field label="Tipo" inputId="categoria-tipo" [control]="form.controls.tipo">
+      <select id="categoria-tipo" formControlName="tipo">
+        <option value="DESPESA">Despesa</option>
+        <option value="RECEITA">Receita</option>
+      </select>
+    </app-form-field>
+
+    <app-button type="submit" [disabled]="salvando()">Adicionar categoria</app-button>
+  </form>
+</section>
+
+@if (erroAcao(); as mensagem) {
+  <p class="aviso-erro" role="alert">{{ mensagem }}</p>
+}
+@if (aviso(); as mensagem) {
+  <p class="aviso-sucesso" role="status">{{ mensagem }}</p>
+}
+
+@if (erro(); as mensagem) {
+  <p class="aviso-erro" role="alert">{{ mensagem }}</p>
+} @else if (carregando()) {
+  <p>Carregando categorias…</p>
+} @else {
+  <div class="grupos">
+    @for (grupo of grupos(); track grupo.tipo) {
+      <section [attr.aria-labelledby]="'titulo-' + grupo.tipo">
+        <h2 [id]="'titulo-' + grupo.tipo">{{ grupo.titulo }}</h2>
+        <ul class="lista">
+          @for (categoria of grupo.itens; track categoria.id) {
+            <li class="item">
+              @if (editandoId() === categoria.id) {
+                <form
+                  class="item__edicao"
+                  (submit)="$event.preventDefault(); salvarEdicao(categoria)"
+                >
+                  <label class="sr-only" for="categoria-edicao">
+                    Novo nome da categoria {{ categoria.nome }}
+                  </label>
+                  <input
+                    id="categoria-edicao"
+                    type="text"
+                    maxlength="50"
+                    [formControl]="nomeEdicao"
+                  />
+                  <app-button type="submit" [disabled]="salvando()">Salvar</app-button>
+                  <app-button variant="secondary" (click)="cancelarEdicao()">Cancelar</app-button>
+                </form>
+              } @else {
+                <span class="item__nome">{{ categoria.nome }}</span>
+                @if (categoria.padrao) {
+                  <span class="selo">padrão</span>
+                } @else {
+                  <span class="item__acoes">
+                    <app-button
+                      variant="secondary"
+                      [ariaLabel]="'Renomear ' + categoria.nome"
+                      (click)="iniciarEdicao(categoria)"
+                    >
+                      Renomear
+                    </app-button>
+                    <app-button
+                      variant="danger"
+                      [ariaLabel]="'Excluir ' + categoria.nome"
+                      (click)="pedirExclusao(categoria)"
+                    >
+                      Excluir
+                    </app-button>
+                  </span>
+                }
+              }
+            </li>
+          } @empty {
+            <li class="item">Nenhuma categoria de {{ grupo.titulo.toLowerCase() }}.</li>
+          }
+        </ul>
+      </section>
+    }
+  </div>
+
+  <app-regras-categoria [categorias]="categorias()" />
+}
+
+@if (excluindo(); as categoria) {
+  <app-modal titulo="Excluir categoria" (fechar)="cancelarExclusao()">
+    @if (erroModal(); as mensagem) {
+      <p class="aviso-erro" role="alert">{{ mensagem }}</p>
+    }
+    <p>
+      Excluir a categoria <strong>{{ categoria.nome }}</strong
+      >? Isso não pode ser desfeito. Se ela estiver em transações, mova-as para outra categoria
+      antes.
+    </p>
+    <div class="acoes-modal">
+      <app-button variant="secondary" (click)="cancelarExclusao()">Cancelar</app-button>
+      <app-button variant="danger" [disabled]="salvando()" (click)="confirmarExclusao()">
+        {{ salvando() ? 'Excluindo…' : 'Excluir' }}
+      </app-button>
+    </div>
+  </app-modal>
+}

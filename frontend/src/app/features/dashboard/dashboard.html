@@ -1,0 +1,96 @@
+<h1 class="sr-only">Resumo financeiro</h1>
+
+<div class="filtros">
+  <app-seletor-periodo prefixo="dashboard" [(mes)]="mes" [(ano)]="ano" />
+
+  @if (contas().length > 1) {
+    <div class="filtro-conta">
+      <label for="dashboard-conta">Conta</label>
+      <select id="dashboard-conta" (change)="aoEscolherConta($event)">
+        <option value="0" [selected]="contaId() === null">Todas as contas</option>
+        @for (conta of contas(); track conta.id) {
+          <option [value]="conta.id" [selected]="contaId() === conta.id">{{ conta.nome }}</option>
+        }
+      </select>
+    </div>
+  }
+
+  @if (resumo(); as r) {
+    <div class="filtros__aviso" aria-live="polite">
+      @if (r.alertaOrcamentoEstourado) {
+        <p class="alerta-orcamento">
+          <span aria-hidden="true">⚠</span>
+          <strong>Orçamento estourado:</strong>
+          {{ mensagemAlerta() }}
+          <a routerLink="/metas" [queryParams]="paramsMeta()">Alterar meta</a>
+        </p>
+      } @else if (r.situacaoOrcamento === 'ATENCAO' && mensagemAtencao()) {
+        <p class="atencao-orcamento">
+          <span aria-hidden="true">⚠</span>
+          <strong>Atenção:</strong>
+          {{ mensagemAtencao() }}
+          <a routerLink="/metas" [queryParams]="paramsMeta()">Alterar meta</a>
+        </p>
+      } @else if (semMetaNoMes()) {
+        <p class="dica-meta">
+          Você ainda não definiu uma meta de gastos para {{ periodoTexto() }}.
+          <a routerLink="/metas" [queryParams]="paramsMeta()">Definir meta</a>
+        </p>
+      }
+    </div>
+  }
+</div>
+
+<!-- Região "viva": leitores de tela anunciam quando os valores mudam. -->
+<div class="resumo" aria-live="polite" aria-atomic="true" [attr.aria-busy]="carregando()">
+  @if (erro(); as mensagem) {
+    <p class="aviso-erro" role="alert">{{ mensagem }}</p>
+  } @else if (carregando() && !resumo()) {
+    <p>Carregando resumo…</p>
+  }
+
+  @if (resumo(); as r) {
+    <div class="cards">
+      <app-card titulo="Total de receitas" variante="receita">
+        <p class="valor">{{ r.totalReceitas | currency: 'BRL' }}</p>
+      </app-card>
+      <app-card
+        titulo="Total de despesas"
+        [variante]="r.alertaOrcamentoEstourado ? 'alerta' : 'despesa'"
+      >
+        <p class="valor">{{ r.totalDespesas | currency: 'BRL' }}</p>
+      </app-card>
+      <app-card titulo="Saldo atual">
+        <p class="valor" [class.valor--negativo]="saldoNegativo()">
+          {{ r.saldoAtual | currency: 'BRL' }}
+          @if (saldoNegativo()) {
+            <span class="sr-only">(saldo negativo)</span>
+          }
+        </p>
+      </app-card>
+    </div>
+  }
+</div>
+
+<app-comprometido [mes]="mes()" [ano]="ano()" />
+
+<div class="graficos">
+  <app-grafico-evolucao
+    [ano]="ano()"
+    [mes]="mes()"
+    [contaId]="contaId()"
+    (mesEscolhido)="mes.set($event)"
+  />
+  <app-grafico-categorias [mes]="mes()" [ano]="ano()" [contaId]="contaId()" />
+</div>
+
+<app-metas-categoria
+  class="metas-categoria"
+  [mes]="mes()"
+  [ano]="ano()"
+  [mesesEstourados]="mesesComCategoriaEstourada()"
+/>
+
+<app-insights [mes]="mes()" [ano]="ano()" />
+
+<app-objetivos-resumo />

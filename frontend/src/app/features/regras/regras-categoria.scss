@@ -1,0 +1,79 @@
+:host {
+  display: block;
+  margin-top: var(--espaco-4);
+}
+
+.regras__nova {
+  display: grid;
+  gap: var(--espaco-2);
+  justify-items: start;
+  max-width: 36rem;
+  margin-bottom: var(--espaco-3);
+
+  app-form-field {
+    width: 100%;
+    margin-bottom: var(--espaco-2);
+  }
+}
+
+.regras__vazio {
+  padding: var(--espaco-3);
+  color: var(--cor-texto-suave);
+  background: var(--cor-fundo);
+  border-radius: var(--raio);
+}
+
+.regras__lista {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.regra {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--espaco-2);
+  padding: var(--espaco-2) 0;
+  border-bottom: 1px solid var(--cor-borda);
+}
+
+.regra__texto {
+  overflow-wrap: anywhere;
+}
+
+.regra__acoes,
+.regra__edicao {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--espaco-2);
+}
+
+.regra__edicao {
+  width: 100%;
+
+  input,
+  select {
+    flex: 1 1 12rem;
+    width: auto;
+  }
+}
+
+.aviso-sucesso {
+  padding: var(--espaco-2) var(--espaco-3);
+  margin: 0 0 var(--espaco-3);
+  color: var(--cor-receita);
+  background: var(--cor-receita-fundo);
+  border: 1px solid var(--cor-receita);
+  border-radius: var(--raio);
+  font-weight: 600;
+}
+
+.acoes-modal {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: var(--espaco-2);
+}

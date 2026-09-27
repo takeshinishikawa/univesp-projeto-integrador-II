@@ -1,0 +1,81 @@
+:host {
+  display: block;
+}
+
+.periodo-titulo {
+  font-weight: 400;
+  color: var(--cor-texto-suave);
+}
+
+.metas {
+  padding: 0;
+  margin: 0 0 var(--espaco-3);
+  list-style: none;
+}
+
+.meta {
+  padding: var(--espaco-2) 0;
+  border-bottom: 1px solid var(--cor-borda);
+}
+
+.meta__topo {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: var(--espaco-1) var(--espaco-3);
+}
+
+.meta__situacao {
+  font-size: 0.9375rem;
+  font-weight: 600;
+}
+
+progress {
+  width: 100%;
+  height: 0.875rem;
+  margin: var(--espaco-1) 0;
+  accent-color: var(--cor-receita);
+}
+
+.meta__texto {
+  margin: 0;
+  color: var(--cor-texto-suave);
+}
+
+.meta[data-situacao='DENTRO'] .meta__situacao {
+  color: var(--cor-receita);
+}
+
+.meta[data-situacao='ATENCAO'] {
+  progress {
+    accent-color: #a16207;
+  }
+
+  .meta__situacao {
+    color: var(--cor-atencao);
+  }
+}
+
+.meta[data-situacao='ESTOURADA'] {
+  progress {
+    accent-color: var(--cor-despesa);
+  }
+
+  .meta__situacao {
+    color: var(--cor-despesa);
+  }
+}
+
+.atencao-meses {
+  padding: var(--espaco-2) var(--espaco-3);
+  color: var(--cor-atencao);
+  background: var(--cor-atencao-fundo);
+  border: 1px solid var(--cor-atencao);
+  border-radius: var(--raio);
+  font-weight: 600;
+}
+
+.dica {
+  margin: 0;
+  color: var(--cor-texto-suave);
+}

@@ -1,0 +1,275 @@
+<h1 class="sr-only">Contas</h1>
+
+<p class="intro">
+  Cadastre onde o seu dinheiro está: conta corrente, cartão, dinheiro na carteira. Cada transação
+  pertence a uma conta, e o cartão mostra quanto há <strong>a pagar</strong>. O pagamento da fatura
+  é uma <strong>transferência</strong>: mexe nos saldos, mas não conta como receita nem despesa.
+</p>
+
+@if (aviso()) {
+  <p class="aviso-sucesso" role="status">{{ aviso() }}</p>
+}
+@if (erroAcao(); as mensagem) {
+  @if (!emEdicao() && !excluindo()) {
+    <p class="aviso-erro" role="alert">{{ mensagem }}</p>
+  }
+}
+
+<section class="painel" aria-labelledby="titulo-contas">
+  <h2 id="titulo-contas">Suas contas</h2>
+
+  @if (erro(); as mensagem) {
+    <p class="aviso-erro" role="alert">{{ mensagem }}</p>
+  } @else if (carregando()) {
+    <p>Carregando as contas…</p>
+  } @else {
+    <ul class="contas">
+      @for (conta of ativas(); track conta.id) {
+        <li class="conta">
+          <div class="conta__topo">
+            <strong>{{ conta.nome }}</strong>
+            <span class="selo" data-tom="neutro">{{ rotuloTipo(conta.tipo) }}</span>
+          </div>
+          <p
+            class="conta__saldo"
+            [class.conta__saldo--negativo]="conta.saldo < 0 && conta.tipo !== 'CARTAO_CREDITO'"
+          >
+            {{ saldoTexto(conta) }}
+          </p>
+          <p class="conta__detalhe">{{ textoQuantidade(conta) }}</p>
+          <div class="conta__acoes">
+            <a
+              class="conta__link"
+              routerLink="/transacoes"
+              [queryParams]="{ contaId: conta.id }"
+              [attr.aria-label]="'Ver transações de ' + conta.nome"
+              >Ver transações</a
+            >
+            <app-button
+              variant="secondary"
+              [ariaLabel]="'Editar ' + conta.nome"
+              (click)="abrirEdicao(conta)"
+            >
+              Editar
+            </app-button>
+            <app-button
+              variant="secondary"
+              [ariaLabel]="'Arquivar ' + conta.nome"
+              (click)="alternarArquivo(conta)"
+            >
+              Arquivar
+            </app-button>
+            <app-button
+              variant="danger"
+              [ariaLabel]="'Excluir ' + conta.nome"
+              (click)="pedirExclusao(conta)"
+            >
+              Excluir
+            </app-button>
+          </div>
+        </li>
+      }
+    </ul>
+
+    <p class="total">
+      Total geral das contas ativas: <strong>{{ totalGeralTexto() }}</strong>
+    </p>
+
+    @if (arquivadas().length > 0) {
+      <h3>Arquivadas</h3>
+      <ul class="contas contas--arquivadas">
+        @for (conta of arquivadas(); track conta.id) {
+          <li class="conta">
+            <div class="conta__topo">
+              <strong>{{ conta.nome }}</strong>
+              <span class="selo" data-tom="neutro">arquivada</span>
+            </div>
+            <div class="conta__acoes">
+              <app-button
+                variant="secondary"
+                [ariaLabel]="'Reativar ' + conta.nome"
+                (click)="alternarArquivo(conta)"
+              >
+                Reativar
+              </app-button>
+              <app-button
+                variant="danger"
+                [ariaLabel]="'Excluir ' + conta.nome"
+                (click)="pedirExclusao(conta)"
+              >
+                Excluir
+              </app-button>
+            </div>
+          </li>
+        }
+      </ul>
+    }
+  }
+</section>
+
+<div class="formularios">
+  <section class="painel" aria-labelledby="titulo-nova-conta">
+    <h2 id="titulo-nova-conta">Nova conta</h2>
+    <form id="form-nova-conta" [formGroup]="novaForm" (ngSubmit)="criar()" novalidate>
+      <app-form-field label="Nome" inputId="conta-nome" [control]="novaForm.controls.nome">
+        <input id="conta-nome" type="text" maxlength="60" formControlName="nome" />
+      </app-form-field>
+      <app-form-field label="Tipo" inputId="conta-tipo" [control]="novaForm.controls.tipo">
+        <select id="conta-tipo" formControlName="tipo">
+          @for (tipo of tipos; track tipo.valor) {
+            <option [value]="tipo.valor">{{ tipo.rotulo }}</option>
+          }
+        </select>
+      </app-form-field>
+      <app-form-field
+        label="Saldo inicial (R$)"
+        inputId="conta-saldo"
+        dica="Quanto havia na conta quando você começou a usar o app. No cartão, deixe 0."
+        [control]="novaForm.controls.saldoInicial"
+      >
+        <input
+          id="conta-saldo"
+          type="number"
+          appMoeda
+          inputmode="decimal"
+          step="0.01"
+          formControlName="saldoInicial"
+        />
+      </app-form-field>
+      <app-button type="submit" [disabled]="salvando()">Adicionar conta</app-button>
+    </form>
+  </section>
+
+  <section class="painel" aria-labelledby="titulo-transferencia">
+    <h2 id="titulo-transferencia">Nova transferência</h2>
+    <p class="dica">Use para pagar a fatura do cartão ou mover dinheiro entre contas suas.</p>
+    <form
+      id="form-transferencia"
+      [formGroup]="transferenciaForm"
+      (ngSubmit)="transferir()"
+      novalidate
+    >
+      <app-form-field
+        label="Sai da conta"
+        inputId="transf-origem"
+        [control]="transferenciaForm.controls.contaOrigemId"
+      >
+        <select id="transf-origem" formControlName="contaOrigemId">
+          <option [ngValue]="0" disabled>Selecione…</option>
+          @for (conta of ativas(); track conta.id) {
+            <option [ngValue]="conta.id">{{ conta.nome }}</option>
+          }
+        </select>
+      </app-form-field>
+      <app-form-field
+        label="Entra na conta"
+        inputId="transf-destino"
+        [control]="transferenciaForm.controls.contaDestinoId"
+      >
+        <select id="transf-destino" formControlName="contaDestinoId">
+          <option [ngValue]="0" disabled>Selecione…</option>
+          @for (conta of ativas(); track conta.id) {
+            <option [ngValue]="conta.id">{{ conta.nome }}</option>
+          }
+        </select>
+      </app-form-field>
+      @if (
+        transferenciaForm.errors?.['mesmaConta'] &&
+        transferenciaForm.controls.contaDestinoId.touched
+      ) {
+        <p class="aviso-erro" role="alert">
+          A conta de origem e a de destino devem ser diferentes.
+        </p>
+      }
+      <app-form-field
+        label="Valor (R$)"
+        inputId="transf-valor"
+        [control]="transferenciaForm.controls.valor"
+      >
+        <input
+          id="transf-valor"
+          type="number"
+          appMoeda
+          inputmode="decimal"
+          step="0.01"
+          min="0.01"
+          formControlName="valor"
+        />
+      </app-form-field>
+      <app-form-field
+        label="Data"
+        inputId="transf-data"
+        [control]="transferenciaForm.controls.data"
+      >
+        <input id="transf-data" type="date" formControlName="data" />
+      </app-form-field>
+      <app-form-field
+        label="Descrição"
+        inputId="transf-descricao"
+        [opcional]="true"
+        [control]="transferenciaForm.controls.descricao"
+      >
+        <input id="transf-descricao" type="text" maxlength="150" formControlName="descricao" />
+      </app-form-field>
+      <app-button type="submit" [disabled]="salvando()">Registrar transferência</app-button>
+    </form>
+  </section>
+</div>
+
+@if (emEdicao(); as conta) {
+  <app-modal [titulo]="'Editar ' + conta.nome" (fechar)="emEdicao.set(null)">
+    @if (erroAcao(); as mensagem) {
+      <p class="aviso-erro" role="alert">{{ mensagem }}</p>
+    }
+    <form id="form-edicao-conta" [formGroup]="edicaoForm" (ngSubmit)="salvarEdicao()" novalidate>
+      <app-form-field label="Nome" inputId="edicao-nome" [control]="edicaoForm.controls.nome">
+        <input id="edicao-nome" type="text" maxlength="60" formControlName="nome" />
+      </app-form-field>
+      <app-form-field label="Tipo" inputId="edicao-tipo" [control]="edicaoForm.controls.tipo">
+        <select id="edicao-tipo" formControlName="tipo">
+          @for (tipo of tipos; track tipo.valor) {
+            <option [value]="tipo.valor">{{ tipo.rotulo }}</option>
+          }
+        </select>
+      </app-form-field>
+      <app-form-field
+        label="Saldo inicial (R$)"
+        inputId="edicao-saldo"
+        [control]="edicaoForm.controls.saldoInicial"
+      >
+        <input
+          id="edicao-saldo"
+          type="number"
+          appMoeda
+          inputmode="decimal"
+          step="0.01"
+          formControlName="saldoInicial"
+        />
+      </app-form-field>
+      <div class="acoes-modal">
+        <app-button variant="secondary" (click)="emEdicao.set(null)">Cancelar</app-button>
+        <app-button type="submit" [disabled]="salvando()">{{
+          salvando() ? 'Salvando…' : 'Salvar'
+        }}</app-button>
+      </div>
+    </form>
+  </app-modal>
+}
+
+@if (excluindo(); as conta) {
+  <app-modal titulo="Excluir conta" (fechar)="excluindo.set(null)">
+    @if (erroAcao(); as mensagem) {
+      <p class="aviso-erro" role="alert">{{ mensagem }}</p>
+    }
+    <p>
+      Excluir a conta <strong>{{ conta.nome }}</strong
+      >? Só é possível se ela não tiver transações; do contrário, arquive-a.
+    </p>
+    <div class="acoes-modal">
+      <app-button variant="secondary" (click)="excluindo.set(null)">Cancelar</app-button>
+      <app-button variant="danger" [disabled]="salvando()" (click)="confirmarExclusao()">
+        {{ salvando() ? 'Excluindo…' : 'Excluir' }}
+      </app-button>
+    </div>
+  </app-modal>
+}

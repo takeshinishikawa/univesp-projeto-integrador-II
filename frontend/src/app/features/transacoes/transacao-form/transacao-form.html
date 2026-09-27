@@ -1,0 +1,66 @@
+<form [formGroup]="form" (ngSubmit)="enviar()" novalidate>
+  @if (erro(); as mensagem) {
+    <p class="aviso-erro" role="alert">{{ mensagem }}</p>
+  }
+
+  <app-form-field label="Tipo" inputId="transacao-tipo" [control]="form.controls.tipo">
+    <select id="transacao-tipo" formControlName="tipo">
+      <option value="DESPESA">Despesa</option>
+      <option value="RECEITA">Receita</option>
+    </select>
+  </app-form-field>
+
+  <app-form-field
+    label="Categoria"
+    inputId="transacao-categoria"
+    [control]="form.controls.categoriaId"
+  >
+    <select id="transacao-categoria" formControlName="categoriaId">
+      <option [ngValue]="0" disabled>Selecione…</option>
+      @for (categoria of categoriasDoTipo(); track categoria.id) {
+        <option [ngValue]="categoria.id">{{ categoria.nome }}</option>
+      }
+    </select>
+  </app-form-field>
+
+  @if (contas().length > 1) {
+    <app-form-field label="Conta" inputId="transacao-conta" [control]="form.controls.contaId">
+      <select id="transacao-conta" formControlName="contaId">
+        @for (conta of contas(); track conta.id) {
+          <option [ngValue]="conta.id">{{ conta.nome }}</option>
+        }
+      </select>
+    </app-form-field>
+  }
+
+  <app-form-field
+    label="Descrição"
+    inputId="transacao-descricao"
+    [control]="form.controls.descricao"
+  >
+    <input id="transacao-descricao" type="text" formControlName="descricao" maxlength="150" />
+  </app-form-field>
+
+  <app-form-field label="Valor (R$)" inputId="transacao-valor" [control]="form.controls.valor">
+    <input
+      id="transacao-valor"
+      type="number"
+      appMoeda
+      inputmode="decimal"
+      step="0.01"
+      min="0.01"
+      formControlName="valor"
+    />
+  </app-form-field>
+
+  <app-form-field label="Data" inputId="transacao-data" [control]="form.controls.dataTransacao">
+    <input id="transacao-data" type="date" formControlName="dataTransacao" />
+  </app-form-field>
+
+  <div class="acoes">
+    <app-button variant="secondary" (click)="cancelar.emit()">Cancelar</app-button>
+    <app-button type="submit" [disabled]="salvando()">
+      {{ salvando() ? 'Salvando…' : 'Salvar' }}
+    </app-button>
+  </div>
+</form>

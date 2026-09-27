@@ -1,0 +1,112 @@
+.intro {
+  margin-top: 0;
+}
+
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 14rem), 1fr));
+  gap: var(--espaco-3);
+  margin-bottom: var(--espaco-3);
+}
+
+.valor {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.detalhe {
+  margin: 0;
+  color: var(--cor-texto-suave);
+  font-size: 0.875rem;
+}
+
+.mostrar-ignoradas {
+  display: flex;
+  align-items: center;
+  gap: var(--espaco-2);
+  min-height: 2.75rem;
+  margin-bottom: var(--espaco-3);
+
+  input {
+    width: 1.25rem;
+    height: 1.25rem;
+  }
+}
+
+.vazio {
+  padding: var(--espaco-3);
+  background: var(--cor-superficie);
+  border: 1px dashed var(--cor-borda-campo);
+  border-radius: var(--raio);
+}
+
+.col-numerica {
+  text-align: right;
+  white-space: nowrap;
+}
+
+.selos {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--espaco-1);
+}
+
+.ignorada {
+  color: var(--cor-texto-suave);
+}
+
+.link-botao,
+.ver-transacoes {
+  min-height: 2.75rem;
+  padding: 0 var(--espaco-1);
+  color: var(--cor-primaria);
+  font: inherit;
+  text-decoration: underline;
+  background: none;
+  border: 0;
+  cursor: pointer;
+}
+
+.ver-transacoes {
+  display: inline-flex;
+  align-items: center;
+}
+
+// A tabela é larga por natureza: descrição com largura mínima, datas e valores sem quebrar.
+app-table {
+  ::ng-deep tbody th[scope='row'] {
+    min-width: 12rem;
+  }
+
+  ::ng-deep thead th {
+    white-space: nowrap;
+  }
+
+  ::ng-deep tbody td.cobrancas {
+    white-space: nowrap;
+  }
+}
+
+.reajuste {
+  max-width: 13rem;
+  color: var(--cor-atencao);
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+.acoes-linha {
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0;
+}
+
+.cobrancas span {
+  display: block;
+}
+
+.ver-transacoes,
+.link-botao {
+  white-space: nowrap;
+}

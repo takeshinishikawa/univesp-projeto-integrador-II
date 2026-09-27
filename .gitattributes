@@ -1,0 +1,4 @@
+# Normaliza para LF: scripts .sh e o entrypoint do Docker quebram no Linux com CRLF.
+* text=auto eol=lf
+*.ofx -text
+*.ico binary

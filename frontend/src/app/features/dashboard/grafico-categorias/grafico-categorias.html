@@ -1,0 +1,56 @@
+<section class="painel" aria-labelledby="titulo-categorias" [attr.aria-busy]="carregando()">
+  <h2 id="titulo-categorias">
+    Despesas por categoria <span class="periodo-titulo">— {{ periodo() }}</span>
+  </h2>
+
+  @if (erro(); as mensagem) {
+    <p class="aviso-erro" role="alert">{{ mensagem }}</p>
+  } @else if (carregando() && !dados()) {
+    <p>Carregando as categorias…</p>
+  } @else if (dados(); as d) {
+    @if (d.categorias.length === 0) {
+      <p>
+        Sem despesas em {{ periodo() }}. <a routerLink="/transacoes">Adicione uma transação</a> ou
+        <a routerLink="/importar">importe um extrato</a>.
+      </p>
+    } @else {
+      <p class="resumo-grafico" aria-live="polite">{{ resumoTexto() }}</p>
+
+      @if (configuracao(); as config) {
+        <app-grafico [configuracao]="config" [descricao]="descricao()" altura="20rem">
+          <table class="tabela-dados">
+            <caption class="sr-only">
+              Despesas por categoria em
+              {{
+                periodo()
+              }}
+            </caption>
+            <thead>
+              <tr>
+                <th scope="col">Categoria</th>
+                <th scope="col" class="col-numerica">Total</th>
+                <th scope="col" class="col-numerica">Percentual</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (c of d.categorias; track c.categoriaId; let i = $index) {
+                <tr>
+                  <th scope="row">
+                    <span
+                      class="amostra"
+                      aria-hidden="true"
+                      [style.background]="corDaCategoria(i)"
+                    ></span>
+                    {{ c.categoria }}
+                  </th>
+                  <td class="col-numerica">{{ c.total | currency: 'BRL' }}</td>
+                  <td class="col-numerica">{{ c.percentual | number: '1.1-1' }}%</td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </app-grafico>
+      }
+    }
+  }
+</section>

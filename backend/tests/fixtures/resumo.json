@@ -1,0 +1,173 @@
+[
+  {
+    "arquivo": "NU_123456789_01JAN2026_31JAN2026.ofx",
+    "tipo": "EXTRATO",
+    "periodo": "20260101-20260131",
+    "transacoes": 16,
+    "totalReceitas": 10000,
+    "totalDespesas": 9718.47,
+    "ignoradasEsperadas": 2
+  },
+  {
+    "arquivo": "NU_123456789_01FEV2026_28FEV2026.ofx",
+    "tipo": "EXTRATO",
+    "periodo": "20260201-20260228",
+    "transacoes": 18,
+    "totalReceitas": 10110.12,
+    "totalDespesas": 10042.07,
+    "ignoradasEsperadas": 2
+  },
+  {
+    "arquivo": "NU_123456789_01MAR2026_31MAR2026.ofx",
+    "tipo": "EXTRATO",
+    "periodo": "20260301-20260331",
+    "transacoes": 19,
+    "totalReceitas": 11845.68,
+    "totalDespesas": 10113.86,
+    "ignoradasEsperadas": 2
+  },
+  {
+    "arquivo": "NU_123456789_01ABR2026_30ABR2026.ofx",
+    "tipo": "EXTRATO",
+    "periodo": "20260401-20260430",
+    "transacoes": 16,
+    "totalReceitas": 10000,
+    "totalDespesas": 10087,
+    "ignoradasEsperadas": 2
+  },
+  {
+    "arquivo": "NU_123456789_01MAI2026_31MAI2026.ofx",
+    "tipo": "EXTRATO",
+    "periodo": "20260501-20260531",
+    "transacoes": 16,
+    "totalReceitas": 10084.51,
+    "totalDespesas": 9806.99,
+    "ignoradasEsperadas": 2
+  },
+  {
+    "arquivo": "NU_123456789_01JUN2026_30JUN2026.ofx",
+    "tipo": "EXTRATO",
+    "periodo": "20260601-20260630",
+    "transacoes": 21,
+    "totalReceitas": 12500,
+    "totalDespesas": 10161.35,
+    "ignoradasEsperadas": 2
+  },
+  {
+    "arquivo": "NU_123456789_01JUL2026_31JUL2026.ofx",
+    "tipo": "EXTRATO",
+    "periodo": "20260701-20260731",
+    "transacoes": 20,
+    "totalReceitas": 13195.76,
+    "totalDespesas": 10174.52,
+    "ignoradasEsperadas": 3
+  },
+  {
+    "arquivo": "NU_123456789_01AGO2026_31AGO2026.ofx",
+    "tipo": "EXTRATO",
+    "periodo": "20260801-20260831",
+    "transacoes": 21,
+    "totalReceitas": 11350.71,
+    "totalDespesas": 11402.31,
+    "ignoradasEsperadas": 2
+  },
+  {
+    "arquivo": "NU_123456789_01SET2026_25SET2026.ofx",
+    "tipo": "EXTRATO",
+    "periodo": "20260901-20260925",
+    "transacoes": 18,
+    "totalReceitas": 10000,
+    "totalDespesas": 10691.84,
+    "ignoradasEsperadas": 2
+  },
+  {
+    "arquivo": "NU_123456789_01JAN2026_25SET2026.ofx",
+    "tipo": "EXTRATO",
+    "periodo": "20260101-20260925",
+    "transacoes": 165,
+    "totalReceitas": 99086.78,
+    "totalDespesas": 92198.41,
+    "ignoradasEsperadas": 19
+  },
+  {
+    "arquivo": "Nubank_2026-02-05.ofx",
+    "tipo": "FATURA",
+    "periodo": "20260101-20260128",
+    "transacoes": 36,
+    "totalReceitas": 3180.44,
+    "totalDespesas": 3295.57,
+    "ignoradasEsperadas": 1
+  },
+  {
+    "arquivo": "Nubank_2026-03-05.ofx",
+    "tipo": "FATURA",
+    "periodo": "20260129-20260228",
+    "transacoes": 41,
+    "totalReceitas": 3295.57,
+    "totalDespesas": 3450,
+    "ignoradasEsperadas": 1
+  },
+  {
+    "arquivo": "Nubank_2026-04-05.ofx",
+    "tipo": "FATURA",
+    "periodo": "20260301-20260328",
+    "transacoes": 37,
+    "totalReceitas": 3450,
+    "totalDespesas": 3429.04,
+    "ignoradasEsperadas": 1
+  },
+  {
+    "arquivo": "Nubank_2026-05-05.ofx",
+    "tipo": "FATURA",
+    "periodo": "20260329-20260428",
+    "transacoes": 36,
+    "totalReceitas": 3429.04,
+    "totalDespesas": 3396.87,
+    "ignoradasEsperadas": 1
+  },
+  {
+    "arquivo": "Nubank_2026-06-05.ofx",
+    "tipo": "FATURA",
+    "periodo": "20260429-20260528",
+    "transacoes": 37,
+    "totalReceitas": 3396.87,
+    "totalDespesas": 3425.34,
+    "ignoradasEsperadas": 1
+  },
+  {
+    "arquivo": "Nubank_2026-07-05.ofx",
+    "tipo": "FATURA",
+    "periodo": "20260529-20260628",
+    "transacoes": 41,
+    "totalReceitas": 3453.24,
+    "totalDespesas": 3522.61,
+    "ignoradasEsperadas": 1
+  },
+  {
+    "arquivo": "Nubank_2026-08-05.ofx",
+    "tipo": "FATURA",
+    "periodo": "20260629-20260728",
+    "transacoes": 35,
+    "totalReceitas": 3494.71,
+    "totalDespesas": 4848.26,
+    "ignoradasEsperadas": 1
+  },
+  {
+    "arquivo": "Nubank_2026-09-05.ofx",
+    "tipo": "FATURA",
+    "periodo": "20260729-20260828",
+    "transacoes": 43,
+    "totalReceitas": 4848.26,
+    "totalDespesas": 3970.03,
+    "ignoradasEsperadas": 1
+  },
+  {
+    "arquivo": "Nubank_2026-10-05.ofx",
+    "tipo": "FATURA",
+    "periodo": "20260829-20260928",
+    "transacoes": 38,
+    "totalReceitas": 3970.03,
+    "totalDespesas": 3255.37,
+    "ignoradasEsperadas": 1
+  }
+]

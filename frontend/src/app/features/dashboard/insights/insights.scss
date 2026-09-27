@@ -1,0 +1,57 @@
+:host {
+  display: block;
+  margin-top: var(--espaco-4);
+}
+
+h2 {
+  margin-top: 0;
+}
+
+.periodo {
+  color: var(--cor-texto-suave);
+  font-weight: 400;
+}
+
+.insights {
+  display: grid;
+  gap: var(--espaco-2);
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.insight {
+  display: flex;
+  gap: var(--espaco-2);
+  padding: var(--espaco-2) var(--espaco-3);
+  background: var(--cor-fundo);
+  border-left: 4px solid var(--cor-texto-suave);
+  border-radius: var(--raio);
+
+  &[data-severidade='ATENCAO'] {
+    color: var(--cor-atencao);
+    background: var(--cor-atencao-fundo);
+    border-left-color: var(--cor-atencao);
+  }
+
+  &[data-severidade='POSITIVO'] {
+    color: var(--cor-receita);
+    background: var(--cor-receita-fundo);
+    border-left-color: var(--cor-receita);
+  }
+}
+
+.insight__icone {
+  flex: none;
+  font-weight: 700;
+}
+
+.insight__texto {
+  margin: 0;
+  overflow-wrap: anywhere;
+
+  a {
+    margin-left: var(--espaco-2);
+    white-space: nowrap;
+  }
+}

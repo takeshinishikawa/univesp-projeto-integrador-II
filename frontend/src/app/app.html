@@ -1,0 +1,62 @@
+<a class="pular-para-conteudo" href="#conteudo" (click)="$event.preventDefault(); conteudo.focus()">
+  Pular para o conteúdo
+</a>
+
+<header class="topo">
+  <div class="container topo__conteudo">
+    <a class="topo__marca" routerLink="/">Finanças Pessoais</a>
+
+    @if (auth.autenticado()) {
+      <nav aria-label="Principal">
+        <ul class="topo__menu">
+          <li>
+            <a routerLink="/dashboard" routerLinkActive="ativo" ariaCurrentWhenActive="page"
+              >Resumo</a
+            >
+          </li>
+          <li>
+            <a routerLink="/transacoes" routerLinkActive="ativo" ariaCurrentWhenActive="page"
+              >Transações</a
+            >
+          </li>
+          <li>
+            <a routerLink="/importar" routerLinkActive="ativo" ariaCurrentWhenActive="page"
+              >Importar</a
+            >
+          </li>
+          <li>
+            <a routerLink="/metas" routerLinkActive="ativo" ariaCurrentWhenActive="page">Metas</a>
+          </li>
+          <li>
+            <a routerLink="/recorrentes" routerLinkActive="ativo" ariaCurrentWhenActive="page"
+              >Recorrentes</a
+            >
+          </li>
+          <li>
+            <a routerLink="/objetivos" routerLinkActive="ativo" ariaCurrentWhenActive="page"
+              >Objetivos</a
+            >
+          </li>
+          <li>
+            <a routerLink="/contas" routerLinkActive="ativo" ariaCurrentWhenActive="page">Contas</a>
+          </li>
+          <li>
+            <a routerLink="/categorias" routerLinkActive="ativo" ariaCurrentWhenActive="page"
+              >Categorias</a
+            >
+          </li>
+        </ul>
+      </nav>
+      <div class="topo__usuario">
+        @if (auth.usuario(); as usuario) {
+          <span class="topo__nome">{{ usuario.nome }}</span>
+        }
+        <app-button variant="secondary" (click)="sair()">Sair</app-button>
+      </div>
+    }
+  </div>
+</header>
+
+<main id="conteudo" #conteudo class="container conteudo" tabindex="-1">
+  <router-outlet />
+</main>

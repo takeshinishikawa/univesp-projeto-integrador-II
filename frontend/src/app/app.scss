@@ -1,0 +1,86 @@
+.pular-para-conteudo {
+  position: absolute;
+  top: -4rem;
+  left: var(--espaco-3);
+  padding: var(--espaco-2) var(--espaco-3);
+  background: var(--cor-superficie);
+  border: 2px solid var(--cor-primaria);
+  border-radius: var(--raio);
+  z-index: 10;
+
+  &:focus {
+    top: var(--espaco-2);
+  }
+}
+
+.topo {
+  background: var(--cor-superficie);
+  border-bottom: 1px solid var(--cor-borda);
+}
+
+.topo__conteudo {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--espaco-1) var(--espaco-5);
+  padding-block: var(--espaco-2);
+}
+
+// Marca à esquerda, menu ocupando o meio e o usuário à direita, tudo na mesma linha quando cabe.
+nav {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.topo__marca {
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: var(--cor-texto);
+  text-decoration: none;
+}
+
+.topo__menu {
+  display: flex;
+  flex-wrap: wrap; // com 5 itens não cabe em uma linha no celular
+  gap: 0 var(--espaco-4);
+  padding: 0;
+  margin: 0;
+  list-style: none;
+
+  a {
+    display: inline-block;
+    padding: var(--espaco-2) 0;
+    color: var(--cor-texto);
+    text-decoration: none;
+    border-bottom: 3px solid transparent;
+
+    &:hover {
+      border-bottom-color: var(--cor-borda);
+    }
+
+    &.ativo {
+      font-weight: 700;
+      color: var(--cor-primaria);
+      border-bottom-color: var(--cor-primaria);
+    }
+  }
+}
+
+.topo__usuario {
+  display: flex;
+  align-items: center;
+  gap: var(--espaco-3);
+  margin-left: auto;
+}
+
+.topo__nome {
+  color: var(--cor-texto-suave);
+}
+
+.conteudo {
+  padding-block: var(--espaco-4);
+
+  &:focus {
+    outline: none; // foco programático: o alvo é a região, não um controle
+  }
+}

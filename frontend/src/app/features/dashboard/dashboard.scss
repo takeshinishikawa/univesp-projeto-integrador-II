@@ -1,0 +1,88 @@
+.filtros {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: var(--espaco-3);
+  margin-bottom: var(--espaco-3);
+}
+
+// O aviso do orçamento ocupa o espaço que sobra ao lado do seletor de período.
+.filtros__aviso {
+  flex: 1 1 22rem;
+  min-width: 0;
+
+  p {
+    margin: 0;
+  }
+}
+
+.filtro-conta {
+  display: flex;
+  flex-direction: column;
+  gap: var(--espaco-1);
+
+  label {
+    font-weight: 600;
+  }
+}
+
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
+  gap: var(--espaco-3);
+  margin-bottom: var(--espaco-4);
+}
+
+.valor {
+  margin: 0;
+  font-size: 1.75rem;
+  font-weight: 700;
+}
+
+.valor--negativo {
+  color: var(--cor-despesa);
+}
+
+.alerta-orcamento {
+  padding: var(--espaco-3);
+  color: var(--cor-alerta);
+  background: var(--cor-alerta-fundo);
+  border: 2px solid var(--cor-alerta);
+  border-radius: var(--raio);
+}
+
+.atencao-orcamento {
+  padding: var(--espaco-3);
+  color: var(--cor-atencao);
+  background: var(--cor-atencao-fundo);
+  border: 2px solid var(--cor-atencao);
+  border-radius: var(--raio);
+}
+
+.metas-categoria {
+  margin-top: var(--espaco-4);
+}
+
+.dica-meta {
+  color: var(--cor-texto-suave);
+}
+
+.resumo {
+  min-height: 8rem;
+}
+
+.graficos {
+  display: grid;
+  gap: var(--espaco-4);
+  margin-top: var(--espaco-4);
+
+  @media (min-width: 70rem) {
+    grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+    align-items: start;
+  }
+}
+
+.alerta-orcamento > span,
+.atencao-orcamento > span {
+  margin-right: var(--espaco-1);
+}
