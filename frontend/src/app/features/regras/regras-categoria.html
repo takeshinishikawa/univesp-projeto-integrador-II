@@ -1,0 +1,157 @@
+<section class="painel regras" aria-labelledby="titulo-regras">
+  <h2 id="titulo-regras">Regras de categorização</h2>
+  <p>
+    Uma regra diz: <em>descrição contém X → categoria Y</em>. Ao importar um extrato, as suas regras
+    são aplicadas antes das regras do app, e o lançamento aparece marcado como "regra sua". Você
+    pode trocar a categoria na revisão da importação.
+  </p>
+
+  <form class="regras__nova" [formGroup]="form" (ngSubmit)="adicionar()" novalidate>
+    <app-form-field
+      label="Descrição contém"
+      inputId="regra-novo-termo"
+      dica="Sem diferenciar maiúsculas, acentos ou pontuação. Mínimo de 3 caracteres."
+      [control]="form.controls.termo"
+    >
+      <input id="regra-novo-termo" type="text" maxlength="100" formControlName="termo" />
+    </app-form-field>
+
+    <app-form-field
+      label="Categoria"
+      inputId="regra-nova-categoria"
+      [control]="form.controls.categoriaId"
+    >
+      <select id="regra-nova-categoria" formControlName="categoriaId">
+        <option [ngValue]="0">Selecione…</option>
+        @if (despesas().length > 0) {
+          <optgroup label="Despesas">
+            @for (categoria of despesas(); track categoria.id) {
+              <option [ngValue]="categoria.id">{{ categoria.nome }}</option>
+            }
+          </optgroup>
+        }
+        @if (receitas().length > 0) {
+          <optgroup label="Receitas">
+            @for (categoria of receitas(); track categoria.id) {
+              <option [ngValue]="categoria.id">{{ categoria.nome }}</option>
+            }
+          </optgroup>
+        }
+      </select>
+    </app-form-field>
+
+    <app-button type="submit" [disabled]="salvando()">Adicionar regra</app-button>
+  </form>
+
+  @if (erroAcao(); as mensagem) {
+    <p class="aviso-erro" role="alert">{{ mensagem }}</p>
+  }
+  @if (aviso(); as mensagem) {
+    <p class="aviso-sucesso" role="status">{{ mensagem }}</p>
+  }
+
+  @if (erro(); as mensagem) {
+    <p class="aviso-erro" role="alert">{{ mensagem }}</p>
+  } @else if (carregando()) {
+    <p>Carregando regras…</p>
+  } @else if (regras().length === 0) {
+    <p class="regras__vazio">
+      Você ainda não tem regras. Para criar a primeira, vá em <strong>Transações</strong>, selecione
+      itens de uma categoria (por exemplo, "Outros"), mova-os para a categoria certa e aceite a
+      pergunta "Usar sempre esta categoria?". Ou preencha o formulário acima.
+    </p>
+  } @else {
+    <ul class="regras__lista">
+      @for (regra of regras(); track regra.id) {
+        <li class="regra">
+          @if (editandoId() === regra.id) {
+            <form
+              class="regra__edicao"
+              (submit)="$event.preventDefault(); salvarEdicao(regra)"
+              novalidate
+            >
+              <label class="sr-only" for="regra-edicao-termo">
+                Novo termo da regra {{ regra.termo }}
+              </label>
+              <input
+                id="regra-edicao-termo"
+                type="text"
+                maxlength="100"
+                [formControl]="termoEdicao"
+              />
+              <label class="sr-only" for="regra-edicao-categoria">
+                Categoria da regra {{ regra.termo }}
+              </label>
+              <select id="regra-edicao-categoria" [formControl]="categoriaEdicao">
+                @if (despesas().length > 0) {
+                  <optgroup label="Despesas">
+                    @for (categoria of despesas(); track categoria.id) {
+                      <option [ngValue]="categoria.id">{{ categoria.nome }}</option>
+                    }
+                  </optgroup>
+                }
+                @if (receitas().length > 0) {
+                  <optgroup label="Receitas">
+                    @for (categoria of receitas(); track categoria.id) {
+                      <option [ngValue]="categoria.id">{{ categoria.nome }}</option>
+                    }
+                  </optgroup>
+                }
+              </select>
+              <app-button type="submit" [disabled]="salvando()">Salvar</app-button>
+              <app-button variant="secondary" (click)="cancelarEdicao()">Cancelar</app-button>
+            </form>
+          } @else {
+            <span class="regra__texto">
+              descrição contém <strong>{{ regra.termo }}</strong> <span aria-hidden="true"> → </span
+              ><span class="sr-only"> vai para </span>
+              <strong>{{ nomeDaCategoria(regra) }}</strong>
+            </span>
+            <span class="regra__acoes">
+              <app-button
+                variant="secondary"
+                [ariaLabel]="'Aplicar ao histórico a regra ' + regra.termo"
+                [disabled]="aplicandoId() !== null"
+                (click)="aplicar(regra)"
+              >
+                {{ aplicandoId() === regra.id ? 'Aplicando…' : 'Aplicar ao histórico' }}
+              </app-button>
+              <app-button
+                variant="secondary"
+                [ariaLabel]="'Editar a regra ' + regra.termo"
+                (click)="iniciarEdicao(regra)"
+              >
+                Editar
+              </app-button>
+              <app-button
+                variant="danger"
+                [ariaLabel]="'Excluir a regra ' + regra.termo"
+                (click)="pedirExclusao(regra)"
+              >
+                Excluir
+              </app-button>
+            </span>
+          }
+        </li>
+      }
+    </ul>
+  }
+</section>
+
+@if (excluindo(); as regra) {
+  <app-modal titulo="Excluir regra" (fechar)="cancelarExclusao()">
+    @if (erroModal(); as mensagem) {
+      <p class="aviso-erro" role="alert">{{ mensagem }}</p>
+    }
+    <p>
+      Excluir a regra <strong>{{ regra.termo }}</strong> → {{ nomeDaCategoria(regra) }}? As
+      transações que já foram classificadas por ela continuam como estão.
+    </p>
+    <div class="acoes-modal">
+      <app-button variant="secondary" (click)="cancelarExclusao()">Cancelar</app-button>
+      <app-button variant="danger" [disabled]="salvando()" (click)="confirmarExclusao()">
+        {{ salvando() ? 'Excluindo…' : 'Excluir' }}
+      </app-button>
+    </div>
+  </app-modal>
+}

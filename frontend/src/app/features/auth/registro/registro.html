@@ -1,0 +1,37 @@
+<section class="auth">
+  <h1>Criar conta</h1>
+
+  <form [formGroup]="form" (ngSubmit)="criarConta()" novalidate>
+    @if (erro(); as mensagem) {
+      <p class="aviso-erro" role="alert">{{ mensagem }}</p>
+    }
+
+    <app-form-field label="Nome" inputId="registro-nome" [control]="form.controls.nome">
+      <input id="registro-nome" type="text" formControlName="nome" autocomplete="name" />
+    </app-form-field>
+
+    <app-form-field label="E-mail" inputId="registro-email" [control]="form.controls.email">
+      <input id="registro-email" type="email" formControlName="email" autocomplete="email" />
+    </app-form-field>
+
+    <app-form-field
+      label="Senha"
+      inputId="registro-senha"
+      dica="Mínimo de 8 caracteres."
+      [control]="form.controls.senha"
+    >
+      <input
+        id="registro-senha"
+        type="password"
+        formControlName="senha"
+        autocomplete="new-password"
+      />
+    </app-form-field>
+
+    <app-button type="submit" [disabled]="enviando()">
+      {{ enviando() ? 'Criando conta…' : 'Criar conta' }}
+    </app-button>
+  </form>
+
+  <p class="auth__alternativa">Já tem conta? <a routerLink="/login">Entrar</a></p>
+</section>

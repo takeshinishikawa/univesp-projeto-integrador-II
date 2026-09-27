@@ -1,0 +1,444 @@
+<h1 class="sr-only">Transações</h1>
+
+<section class="filtros" aria-labelledby="titulo-filtros">
+  <h2 id="titulo-filtros" class="sr-only">Filtros</h2>
+
+  <form [formGroup]="filtroForm" (ngSubmit)="aplicarFiltros()" novalidate>
+    <div class="periodo-linha">
+      <app-seletor-periodo
+        prefixo="transacoes"
+        [desabilitado]="todoHistorico()"
+        [(mes)]="mes"
+        [(ano)]="ano"
+      />
+      <label class="todo-historico">
+        <input
+          type="checkbox"
+          [checked]="todoHistorico()"
+          (change)="alternarTodoHistorico($event)"
+        />
+        Todo o histórico (ignora mês e ano)
+      </label>
+      <div class="filtros__acoes">
+        <app-button type="submit">Filtrar</app-button>
+        <app-button variant="secondary" (click)="limparFiltros()">Limpar filtros</app-button>
+        <app-button (click)="abrirNovo()"
+          ><span aria-hidden="true">+</span> Nova transação</app-button
+        >
+      </div>
+    </div>
+    <div class="filtros__campos">
+      <app-form-field
+        label="Descrição contém"
+        inputId="filtro-busca"
+        [control]="filtroForm.controls.busca"
+      >
+        <input id="filtro-busca" type="search" formControlName="busca" maxlength="150" />
+      </app-form-field>
+
+      <app-form-field
+        label="Categoria"
+        inputId="filtro-categoria"
+        [control]="filtroForm.controls.categoriaId"
+      >
+        <select id="filtro-categoria" formControlName="categoriaId">
+          <option [ngValue]="0">Todas</option>
+          @if (categoriasDespesa().length > 0) {
+            <optgroup label="Despesas">
+              @for (categoria of categoriasDespesa(); track categoria.id) {
+                <option [ngValue]="categoria.id">{{ categoria.nome }}</option>
+              }
+            </optgroup>
+          }
+          @if (categoriasReceita().length > 0) {
+            <optgroup label="Receitas">
+              @for (categoria of categoriasReceita(); track categoria.id) {
+                <option [ngValue]="categoria.id">{{ categoria.nome }}</option>
+              }
+            </optgroup>
+          }
+        </select>
+      </app-form-field>
+
+      @if (variasContas()) {
+        <app-form-field
+          label="Conta"
+          inputId="filtro-conta"
+          [control]="filtroForm.controls.contaId"
+        >
+          <select id="filtro-conta" formControlName="contaId">
+            <option [ngValue]="0">Todas</option>
+            @for (conta of contasAtivas(); track conta.id) {
+              <option [ngValue]="conta.id">{{ conta.nome }}</option>
+            }
+          </select>
+        </app-form-field>
+      }
+
+      <app-form-field label="Tipo" inputId="filtro-tipo" [control]="filtroForm.controls.tipo">
+        <select id="filtro-tipo" formControlName="tipo">
+          <option value="">Todos</option>
+          <option value="DESPESA">Despesa</option>
+          <option value="RECEITA">Receita</option>
+        </select>
+      </app-form-field>
+
+      <app-form-field
+        label="Valor mínimo (R$)"
+        inputId="filtro-valor-min"
+        [control]="filtroForm.controls.valorMin"
+      >
+        <input
+          id="filtro-valor-min"
+          type="number"
+          appMoeda
+          inputmode="decimal"
+          step="0.01"
+          min="0"
+          formControlName="valorMin"
+        />
+      </app-form-field>
+
+      <app-form-field
+        label="Valor máximo (R$)"
+        inputId="filtro-valor-max"
+        [control]="filtroForm.controls.valorMax"
+      >
+        <input
+          id="filtro-valor-max"
+          type="number"
+          appMoeda
+          inputmode="decimal"
+          step="0.01"
+          min="0"
+          formControlName="valorMax"
+        />
+      </app-form-field>
+    </div>
+
+    @if (erroFiltro(); as mensagem) {
+      <p class="aviso-erro" role="alert">{{ mensagem }}</p>
+    }
+  </form>
+</section>
+
+<!-- Anuncia o resultado das ações (salvar/excluir/mover) e da filtragem para leitores de tela. -->
+<p class="aviso-sucesso" role="status">{{ aviso() }}</p>
+
+@if (propostaRegra(); as proposta) {
+  <section class="proposta-regra" aria-labelledby="titulo-regra">
+    <h2 id="titulo-regra" class="proposta-regra__titulo">
+      Usar sempre {{ proposta.categoriaNome }} para descrições parecidas?
+    </h2>
+    <p>
+      Nas próximas importações, lançamentos cuja descrição contenha o termo abaixo já virão em
+      <strong>{{ proposta.categoriaNome }}</strong
+      >. É opcional; você pode ver e desfazer suas regras na tela Categorias.
+    </p>
+
+    @if (erroRegra(); as mensagem) {
+      <p class="aviso-erro" role="alert">{{ mensagem }}</p>
+    }
+
+    <form (submit)="$event.preventDefault(); criarRegra()" novalidate>
+      <app-form-field label="Descrição contém" inputId="regra-termo" [control]="termoRegra">
+        <input id="regra-termo" type="text" maxlength="100" [formControl]="termoRegra" />
+      </app-form-field>
+
+      <label class="proposta-regra__opcao">
+        <input
+          type="checkbox"
+          [checked]="aplicarNoHistorico()"
+          (change)="alternarAplicarNoHistorico($event)"
+        />
+        Aplicar também às transações que já existem
+      </label>
+
+      <div class="proposta-regra__acoes">
+        <app-button type="submit" [disabled]="salvandoRegra()">
+          {{ salvandoRegra() ? 'Criando…' : 'Criar regra' }}
+        </app-button>
+        <app-button variant="secondary" [disabled]="salvandoRegra()" (click)="dispensarRegra()">
+          Agora não
+        </app-button>
+      </div>
+    </form>
+  </section>
+}
+
+@if (erro(); as mensagem) {
+  <p class="aviso-erro" role="alert">{{ mensagem }}</p>
+} @else if (carregando() && transacoes().length === 0) {
+  <p>Carregando transações…</p>
+} @else if (transacoes().length === 0) {
+  <p>
+    {{
+      filtrando()
+        ? 'Nenhuma transação encontrada com esses filtros.'
+        : 'Nenhuma transação neste período.'
+    }}
+  </p>
+} @else {
+  <p class="resumo" role="status">
+    <strong>{{ resumo().textoQuantidade }}</strong>
+    <span>Receitas: {{ resumo().receitas | currency: 'BRL' }}</span>
+    <span>Despesas: {{ resumo().despesas | currency: 'BRL' }}</span>
+  </p>
+
+  @if (quantidadeSelecionada() > 0) {
+    <section class="massa" aria-labelledby="titulo-massa">
+      <h2 id="titulo-massa" class="massa__titulo">
+        {{ quantidadeSelecionada() }}
+        {{ quantidadeSelecionada() === 1 ? 'selecionada' : 'selecionadas' }}
+      </h2>
+
+      @if (erroSelecao(); as mensagem) {
+        <p class="aviso-erro" role="alert">{{ mensagem }}</p>
+      }
+
+      @if (tipoDaSelecao() === 'MISTO') {
+        <p class="massa__dica">
+          A seleção mistura receitas e despesas. Para mudar a categoria, selecione só um tipo (use o
+          filtro Tipo).
+        </p>
+      } @else {
+        <div class="massa__campo">
+          <label for="massa-categoria">Mover para a categoria</label>
+          <select
+            id="massa-categoria"
+            [value]="categoriaDestino()"
+            (change)="aoEscolherDestino($event)"
+          >
+            <option value="0">Selecione…</option>
+            @for (categoria of categoriasDeDestino(); track categoria.id) {
+              <option [value]="categoria.id">{{ categoria.nome }}</option>
+            }
+          </select>
+        </div>
+      }
+
+      @if (variasContas()) {
+        <div class="massa__campo">
+          <label for="massa-conta">Mover para a conta</label>
+          <select
+            id="massa-conta"
+            [value]="contaDestino()"
+            (change)="aoEscolherContaDestino($event)"
+          >
+            <option value="0">Selecione…</option>
+            @for (conta of contasAtivas(); track conta.id) {
+              <option [value]="conta.id">{{ conta.nome }}</option>
+            }
+          </select>
+          <app-button
+            variant="secondary"
+            [disabled]="contaDestino() === 0 || salvando()"
+            (click)="moverSelecionadasParaConta()"
+          >
+            Mover para a conta
+          </app-button>
+        </div>
+      }
+
+      <div class="massa__acoes">
+        <app-button
+          [disabled]="tipoDaSelecao() === 'MISTO' || categoriaDestino() === 0 || salvando()"
+          (click)="moverSelecionadas()"
+        >
+          {{ salvando() ? 'Movendo…' : 'Mover' }}
+        </app-button>
+        <app-button variant="danger" (click)="pedirExclusaoDasSelecionadas()">
+          Excluir selecionadas
+        </app-button>
+        <app-button variant="secondary" (click)="limparSelecao()">Limpar seleção</app-button>
+      </div>
+    </section>
+  }
+
+  <app-table legenda="Transações do período e filtros selecionados">
+    <thead>
+      <tr>
+        <th scope="col" class="col-selecao">
+          <input
+            type="checkbox"
+            aria-label="Selecionar todas as transações listadas"
+            [checked]="todasSelecionadas()"
+            [indeterminate]="algumasSelecionadas()"
+            (change)="alternarTodas()"
+          />
+        </th>
+        <th scope="col">Data</th>
+        <th scope="col">Descrição</th>
+        <th scope="col">Categoria</th>
+        @if (variasContas()) {
+          <th scope="col">Conta</th>
+        }
+        <th scope="col">Tipo</th>
+        <th scope="col" class="col-numerica">Valor</th>
+        <th scope="col">Ações</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (t of transacoes(); track t.id) {
+        <tr [class.selecionada]="estaSelecionada(t.id)">
+          <td class="col-selecao">
+            <input
+              type="checkbox"
+              [attr.aria-label]="'Selecionar ' + t.descricao"
+              [checked]="estaSelecionada(t.id)"
+              (change)="alternarSelecao(t.id)"
+            />
+          </td>
+          <th scope="row">{{ t.dataTransacao | date: 'dd/MM/yyyy' }}</th>
+          <td>
+            {{ t.descricao }}
+            @if (t.transferenciaId) {
+              <span class="rotulo">transferência</span>
+            }
+          </td>
+          <td>{{ nomesDasCategorias().get(t.categoriaId) ?? '—' }}</td>
+          @if (variasContas()) {
+            <td>{{ nomesDasContas().get(t.contaId) ?? '—' }}</td>
+          }
+          <td>{{ t.tipo === 'RECEITA' ? 'Receita' : 'Despesa' }}</td>
+          <td
+            class="col-numerica"
+            [class.receita]="t.tipo === 'RECEITA'"
+            [class.despesa]="t.tipo === 'DESPESA'"
+          >
+            <span aria-hidden="true">{{ t.tipo === 'RECEITA' ? '+' : '−' }}</span>
+            {{ t.valor | currency: 'BRL' }}
+          </td>
+          <td class="col-acoes">
+            <div class="acoes">
+              @if (!t.transferenciaId) {
+                <app-button
+                  variant="secondary"
+                  [ariaLabel]="'Editar ' + t.descricao"
+                  (click)="abrirEdicao(t)"
+                >
+                  Editar
+                </app-button>
+                @if (variasContas()) {
+                  <app-button
+                    variant="secondary"
+                    [ariaLabel]="'Marcar como transferência: ' + t.descricao"
+                    (click)="pedirTransferencia(t)"
+                  >
+                    Transferência
+                  </app-button>
+                }
+              }
+              <app-button
+                variant="danger"
+                [ariaLabel]="'Excluir ' + t.descricao"
+                (click)="pedirExclusao(t)"
+              >
+                Excluir
+              </app-button>
+            </div>
+          </td>
+        </tr>
+      }
+    </tbody>
+  </app-table>
+}
+
+@if (formulario() !== null) {
+  <app-modal
+    [titulo]="emEdicao() ? 'Editar transação' : 'Nova transação'"
+    (fechar)="fecharFormulario()"
+  >
+    <app-transacao-form
+      [transacao]="emEdicao()"
+      [categorias]="categorias()"
+      [contas]="contasAtivas()"
+      [salvando]="salvando()"
+      [erro]="erroModal()"
+      (salvar)="salvar($event)"
+      (cancelar)="fecharFormulario()"
+    />
+  </app-modal>
+}
+
+@if (marcandoTransferencia(); as alvo) {
+  <app-modal titulo="Marcar como transferência" (fechar)="marcandoTransferencia.set(null)">
+    @if (erroModal(); as mensagem) {
+      <p class="aviso-erro" role="alert">{{ mensagem }}</p>
+    }
+    <p>
+      <strong>{{ alvo.descricao }}</strong> ({{ alvo.valor | currency: 'BRL' }}) sairá dos
+      relatórios de receitas e despesas, e a outra ponta entrará na conta escolhida. Serve, por
+      exemplo, para o pagamento da fatura do cartão.
+    </p>
+    <div class="massa__campo">
+      <label for="transferencia-conta">
+        {{ alvo.tipo === 'DESPESA' ? 'Dinheiro vai para a conta' : 'Dinheiro vem da conta' }}
+      </label>
+      <select
+        id="transferencia-conta"
+        [value]="contaDaTransferencia()"
+        (change)="aoEscolherContaDaTransferencia($event)"
+      >
+        <option value="0">Selecione…</option>
+        @for (conta of contasParaTransferir(alvo); track conta.id) {
+          <option [value]="conta.id">{{ conta.nome }}</option>
+        }
+      </select>
+    </div>
+    <div class="acoes-modal">
+      <app-button variant="secondary" (click)="marcandoTransferencia.set(null)"
+        >Cancelar</app-button
+      >
+      <app-button
+        [disabled]="contaDaTransferencia() === 0 || salvando()"
+        (click)="confirmarTransferencia()"
+      >
+        {{ salvando() ? 'Salvando…' : 'Marcar como transferência' }}
+      </app-button>
+    </div>
+  </app-modal>
+}
+
+@if (excluindo(); as alvo) {
+  <app-modal titulo="Excluir transação" (fechar)="cancelarExclusao()">
+    @if (erroModal(); as mensagem) {
+      <p class="aviso-erro" role="alert">{{ mensagem }}</p>
+    }
+    <p>
+      Excluir <strong>{{ alvo.descricao }}</strong> ({{ alvo.valor | currency: 'BRL' }})? Essa ação
+      não pode ser desfeita.
+    </p>
+    <div class="acoes-modal">
+      <app-button variant="secondary" (click)="cancelarExclusao()">Cancelar</app-button>
+      <app-button variant="danger" [disabled]="salvando()" (click)="confirmarExclusao()">
+        {{ salvando() ? 'Excluindo…' : 'Excluir' }}
+      </app-button>
+    </div>
+  </app-modal>
+}
+
+@if (excluindoSelecionadas()) {
+  <app-modal titulo="Excluir transações selecionadas" (fechar)="cancelarExclusaoDasSelecionadas()">
+    @if (erroModal(); as mensagem) {
+      <p class="aviso-erro" role="alert">{{ mensagem }}</p>
+    }
+    <p>
+      Excluir <strong>{{ quantidadeSelecionada() }}</strong>
+      {{ quantidadeSelecionada() === 1 ? 'transação' : 'transações' }}? Essa ação não pode ser
+      desfeita.
+    </p>
+    <div class="acoes-modal">
+      <app-button variant="secondary" (click)="cancelarExclusaoDasSelecionadas()">
+        Cancelar
+      </app-button>
+      <app-button
+        variant="danger"
+        [disabled]="salvando()"
+        (click)="confirmarExclusaoDasSelecionadas()"
+      >
+        {{ salvando() ? 'Excluindo…' : 'Excluir' }}
+      </app-button>
+    </div>
+  </app-modal>
+}

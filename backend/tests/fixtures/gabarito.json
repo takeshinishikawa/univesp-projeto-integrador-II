@@ -1,0 +1,2502 @@
+{
+  "6a0f8dac-9b2d-424b-6d5a-412bec68cab8": {
+    "categoria": "Alimentação",
+    "ignorada": false,
+    "memo": "Compra no débito - Hortifruti Verde Vida"
+  },
+  "6a8329b0-7e4e-41a6-1c55-a8cdd965ce10": {
+    "categoria": "Outros",
+    "ignorada": false,
+    "memo": "Transferência enviada pelo Pix - RAFAEL TEIXEIRA ALVES (Transferência enviada)"
+  },
+  "6aa7d0e4-78e6-4a8b-4449-e4f050c1ec2b": {
+    "categoria": "Salário",
+    "ignorada": false,
+    "memo": "Transferência recebida pelo Pix - ACME TECNOLOGIA LTDA - 11.222.333/0001-81 - ITAÚ UNIBANCO S.A. (0341) Agência: 1234 Conta: 56789-0"
+  },
+  "6a686124-f22e-43a4-6ba7-cec11e12dc3c": {
+    "categoria": "Moradia",
+    "ignorada": false,
+    "memo": "Transferência enviada pelo Pix - CARLOS ANDRADE LIMA - •••.651.204-•• - BCO BRADESCO S.A. (0237) Agência: 2210 Conta: 18845-7"
+  },
+  "6a3907d7-bb41-4ee3-dde0-e4b1b04a23e0": {
+    "categoria": "Alimentação",
+    "ignorada": false,
+    "memo": "Compra no débito - Padaria Pao Quente"
+  },
+  "6adbe0e0-9753-4899-8b54-f5c80ee91e8e": {
+    "categoria": "Investimentos",
+    "ignorada": true,
+    "memo": "Transferência enviada pelo Pix - USUARIO TESTE - •••.111.222-•• - Banco XP S.A. (0348) Agência: 1 Conta: 123456-7"
+  },
+  "6a85feb3-3e84-4f0f-23cc-ee6eb4cbae1b": {
+    "categoria": "Outros",
+    "ignorada": true,
+    "memo": "Pagamento recebido"
+  },
+  "6ad6f05b-e5c3-4a37-0754-94c458583832": {
+    "categoria": "Saúde",
+    "ignorada": false,
+    "memo": "Pagamento de boleto efetuado - UNIMED SEGUROS SAUDE S.A."
+  },
+  "6a5f199b-1adf-4087-7682-37701592d329": {
+    "categoria": "Alimentação",
+    "ignorada": false,
+    "memo": "Compra no débito - Hortifruti Verde Vida"
+  },
+  "6a6d3255-9ea8-4dff-c2e2-128cbc3c4869": {
+    "categoria": "Outros",
+    "ignorada": false,
+    "memo": "Transferência enviada pelo Pix - RAFAEL TEIXEIRA ALVES - •••.236.910-•• - ITAÚ UNIBANCO S.A. (0341) Agência: 4521 Conta: 30281-6"
+  },
+  "6a24ec1e-18d7-4beb-32e2-c5f2b01cef5a": {
+    "categoria": "Moradia",
+    "ignorada": false,
+    "memo": "Pagamento de boleto efetuado - CONDOMINIO EDIFICIO ALVORADA"
+  },
+  "6aa003ea-0b07-4acb-5b6d-95c7a6893461": {
+    "categoria": "Moradia",
+    "ignorada": false,
+    "memo": "Pagamento de boleto efetuado - SABESP CIA SANEAMENTO BASICO"
+  },
+  "6a58c5ea-ee19-4b26-c9a4-235a35a3b5b2": {
+    "categoria": "Alimentação",
+    "ignorada": false,
+    "memo": "Compra no débito - Feira Livre do Bairro"
+  },
+  "6a601798-5115-4214-7867-e119957c2526": {
+    "categoria": "Moradia",
+    "ignorada": false,
+    "memo": "Pagamento de boleto efetuado - ENEL DISTRIBUICAO SAO PAULO"
+  },
+  "6a4b526a-3011-4cde-dc37-905a5a7d964f": {
+    "categoria": "Moradia",
+    "ignorada": false,
+    "memo": "Pagamento de boleto efetuado - TELEFONICA BRASIL S.A. VIVO FIBRA"
+  },
+  "6a0c5937-fa04-47bb-34da-45ba4ab595e3": {
+    "categoria": "Alimentação",
+    "ignorada": false,
+    "memo": "Compra no débito - Feira Livre do Bairro"
+  },
+  "6a1bdffc-07cc-47dd-54d5-75f96b2598db": {
+    "categoria": "Salário",
+    "ignorada": false,
+    "memo": "Transferência recebida pelo Pix - ACME TECNOLOGIA LTDA - 11.222.333/0001-81 - ITAÚ UNIBANCO S.A. (0341) Agência: 1234 Conta: 56789-0"
+  },
+  "6a2b244d-70f0-4918-600e-4f8e2d73cb85": {
+    "categoria": "Moradia",
+    "ignorada": false,
+    "memo": "Transferência enviada pelo Pix - CARLOS ANDRADE LIMA - •••.651.204-•• - BCO BRADESCO S.A. (0237) Agência: 2210 Conta: 18845-7"
+  },
+  "6a6c9603-ffe6-48bb-f115-b76c73132ef4": {
+    "categoria": "Investimentos",
+    "ignorada": true,
+    "memo": "Transferência enviada pelo Pix - USUARIO TESTE - •••.111.222-•• - Banco XP S.A. (0348) Agência: 1 Conta: 123456-7"
+  },
+  "6ac9ea19-28ba-49b0-3ee1-b19931cc3235": {
+    "categoria": "Outros",
+    "ignorada": true,
+    "memo": "Pagamento recebido"
+  },
+  "6abafab4-3a8f-428b-9795-68c7865a43c0": {
+    "categoria": "Saúde",
+    "ignorada": false,
+    "memo": "Pagamento de boleto efetuado - UNIMED SEGUROS SAUDE S.A."
+  },
+  "6a8cec57-a43f-46c0-70ae-0b985766aa18": {
+    "categoria": "Moradia",
+    "ignorada": false,
+    "memo": "Pagamento de boleto efetuado - CONDOMINIO EDIFICIO ALVORADA"
+  },
+  "6a011faf-2a9a-420a-3aed-59a3bd83e880": {
+    "categoria": "Moradia",
+    "ignorada": false,
+    "memo": "Pagamento de boleto efetuado - SABESP CIA SANEAMENTO BASICO"
+  },
+  "6a63791b-e7c5-4920-4a22-9ca749317d14": {
+    "categoria": "Alimentação",
+    "ignorada": false,
+    "memo": "Compra no débito - Hortifruti Verde Vida"
+  },
+  "6aa63aa9-62e3-4024-d614-9af003fd7bcf": {
+    "categoria": "Alimentação",
+    "ignorada": false,
+    "memo": "Compra no débito - Hortifruti Verde Vida"
+  },
+  "6ad7b0e6-8221-485b-4219-7ddfa824e840": {
+    "categoria": "Moradia",
+    "ignorada": false,
+    "memo": "Pagamento de boleto efetuado - ENEL DISTRIBUICAO SAO PAULO"
+  },
+  "6a77aa4b-2eb3-43ee-eaaa-2fa186127737": {
+    "categoria": "Outros",
+    "ignorada": false,
+    "memo": "Transferência enviada pelo Pix - RAFAEL TEIXEIRA ALVES (Transferência enviada)"
+  },
+  "6acf4e12-72c4-45a4-5cec-35a931e581cb": {
+    "categoria": "Alimentação",
+    "ignorada": false,
+    "memo": "Compra no débito - Feira Livre do Bairro"
+  },
+  "6ad4895b-0168-4605-1cf7-d271050265b6": {
+    "categoria": "Moradia",
+    "ignorada": false,
+    "memo": "Pagamento de boleto efetuado - ULTRAGAZ COMERCIAL LTDA"
+  },
+  "6a00c8cf-6ff8-40fc-b815-2be0f548d79b": {
+    "categoria": "Moradia",
+    "ignorada": false,
+    "memo": "Pagamento de boleto efetuado - TELEFONICA BRASIL S.A. VIVO FIBRA"
+  },
+  "6a60c042-54e4-425b-3bc4-c7245b067a04": {
+    "categoria": "Saúde",
+    "ignorada": false,
+    "memo": "Compra no débito - Farmacia Bem Estar"
+  },
+  "6aa0fae0-d6d0-4a85-180e-67be62113c79": {
+    "categoria": "Outros",
+    "ignorada": false,
+    "memo": "Transferência enviada pelo Pix - CAMILA FERREIRA DUARTE - •••.577.038-•• - BANCO INTER (0077) Agência: 1 Conta: 4409172-0"
+  },
+  "6ab71a66-a706-4e85-ba3d-65fef92f9e54": {
+    "categoria": "Outros",
+    "ignorada": false,
+    "memo": "Transferência recebida pelo Pix - THIAGO MARTINS RIBEIRO - •••.402.773-•• - NU PAGAMENTOS - IP (0260) Agência: 1 Conta: 9134426-5"
+  },
+  "6ae6b38e-a1db-4f72-a4ee-eb7840def908": {
+    "categoria": "Outros",
+    "ignorada": false,
+    "memo": "Transferência enviada pelo Pix - CAMILA FERREIRA DUARTE (Transferência enviada)"
+  },
+  "6a7f37e4-7268-4ad3-17fb-215b5bdf9754": {
+    "categoria": "Alimentação",
+    "ignorada": false,
+    "memo": "Compra no débito - Feira Livre do Bairro"
+  },
+  "6a24afae-6397-483e-825d-c8292ea52f70": {
+    "categoria": "Salário",
+    "ignorada": false,
+    "memo": "Transferência recebida pelo Pix - ACME TECNOLOGIA LTDA - 11.222.333/0001-81 - ITAÚ UNIBANCO S.A. (0341) Agência: 1234 Conta: 56789-0"
+  },
+  "6aec3527-775b-42f9-a76b-6f6f043197e7": {
+    "categoria": "Moradia",
+    "ignorada": false,
+    "memo": "Transferência enviada pelo Pix - CARLOS ANDRADE LIMA - •••.651.204-•• - BCO BRADESCO S.A. (0237) Agência: 2210 Conta: 18845-7"
+  },
+  "6a90b053-c2a3-4765-4f26-5c3113dc45db": {
+    "categoria": "Outros",
+    "ignorada": false,
+    "memo": "Transferência enviada pelo Pix - MARIANA COSTA PEREIRA (Transferência enviada)"
+  },
+  "6af6eb84-aebc-4a06-7458-dfa466819304": {
+    "categoria": "Investimentos",
+    "ignorada": true,
+    "memo": "Transferência enviada pelo Pix - USUARIO TESTE - •••.111.222-•• - Banco XP S.A. (0348) Agência: 1 Conta: 123456-7"
+  },
+  "6a4c6ddc-7aef-4b08-f36d-5ea416f596ec": {
+    "categoria": "Saúde",
+    "ignorada": false,
+    "memo": "Compra no débito - Farmacia Bem Estar"
+  },
+  "6a2316e0-cfe9-40a9-8604-9a9980c8c2d0": {
+    "categoria": "Outros",
+    "ignorada": true,
+    "memo": "Pagamento recebido"
+  },
+  "6aa751a7-ae44-4ae2-c758-57b1a3980d93": {
+    "categoria": "Saúde",
+    "ignorada": false,
+    "memo": "Pagamento de boleto efetuado - UNIMED SEGUROS SAUDE S.A."
+  },
+  "6a43b95f-16c0-40b6-8998-b68c5e3b0bef": {
+    "categoria": "Outros",
+    "ignorada": false,
+    "memo": "Transferência recebida pelo Pix - BEATRIZ NOGUEIRA LOPES - •••.319.427-•• - BCO BRADESCO S.A. (0237) Agência: 1089 Conta: 55012-3"
+  },
+  "6adb6baf-7847-4383-e6f9-a4f27388aeee": {
+    "categoria": "Moradia",
+    "ignorada": false,
+    "memo": "Pagamento de boleto efetuado - CONDOMINIO EDIFICIO ALVORADA"
+  },
+  "6accb710-6e5a-4ba0-5e86-d0969fb38e07": {
+    "categoria": "Alimentação",
+    "ignorada": false,
+    "memo": "Compra no débito - Supermercado Bom Preco"
+  },
+  "6ab8e4c1-025d-4607-b022-de6ce5e44d40": {
+    "categoria": "Moradia",
+    "ignorada": false,
+    "memo": "Pagamento de boleto efetuado - SABESP CIA SANEAMENTO BASICO"
+  },
+  "6a5cc33d-877a-47ab-eb5b-e83704985d50": {
+    "categoria": "Freelance",
+    "ignorada": false,
+    "memo": "Transferência recebida pelo Pix - ESTUDIO CRIATIVO ME - 55.666.777/0001-88 - BANCO INTER (0077) Agência: 1 Conta: 8873210-4"
+  },
+  "6a40c596-74b2-4d73-c0d3-1b2e8c3bd0da": {
+    "categoria": "Moradia",
+    "ignorada": false,
+    "memo": "Pagamento de boleto efetuado - ENEL DISTRIBUICAO SAO PAULO"
+  },
+  "6a7e0e53-4e80-4f4a-9914-9a0b78c94bec": {
+    "categoria": "Outros",
+    "ignorada": false,
+    "memo": "Transferência enviada pelo Pix - CAMILA FERREIRA DUARTE (Transferência enviada)"
+  },
+  "6af6196e-9c16-467a-516f-0ca46059973c": {
+    "categoria": "Alimentação",
+    "ignorada": false,
+    "memo": "Compra no débito - Padaria Pao Quente"
+  },
+  "6a7b4e69-d91e-422c-5752-fd74f5ea56ae": {
+    "categoria": "Alimentação",
+    "ignorada": false,
+    "memo": "Compra no débito - Padaria Pao Quente"
+  },
+  "6ab75048-187d-42b0-405b-e449a37203cb": {
+    "categoria": "Moradia",
+    "ignorada": false,
+    "memo": "Pagamento de boleto efetuado - TELEFONICA BRASIL S.A. VIVO FIBRA"
+  },
+  "6a1290fb-1131-4cbb-26de-0c84a5ad06b1": {
+    "categoria": "Alimentação",
+    "ignorada": false,
+    "memo": "Compra no débito - Feira Livre do Bairro"
+  },
+  "6a203a07-b2da-4db1-bed3-582230167e4d": {
+    "categoria": "Saúde",
+    "ignorada": false,
+    "memo": "Compra no débito - Farmacia Bem Estar"
+  },
+  "6a9ce894-f003-4b1c-b744-dc9ff90d15a0": {
+    "categoria": "Outros",
+    "ignorada": false,
+    "memo": "Transferência enviada pelo Pix - BEATRIZ NOGUEIRA LOPES - •••.319.427-•• - BCO BRADESCO S.A. (0237) Agência: 1089 Conta: 55012-3"
+  },
+  "6a0e9370-cc62-4e1b-7223-84423224bdc4": {
+    "categoria": "Salário",
+    "ignorada": false,
+    "memo": "Transferência recebida pelo Pix - ACME TECNOLOGIA LTDA - 11.222.333/0001-81 - ITAÚ UNIBANCO S.A. (0341) Agência: 1234 Conta: 56789-0"
+  },
+  "6a17bf88-4274-41eb-74f8-41dd26d7675e": {
+    "categoria": "Moradia",
+    "ignorada": false,
+    "memo": "Transferência enviada pelo Pix - CARLOS ANDRADE LIMA - •••.651.204-•• - BCO BRADESCO S.A. (0237) Agência: 2210 Conta: 18845-7"
+  },
+  "6ab5e41d-7ec0-4f8e-a81e-6fd1462a0b00": {
+    "categoria": "Investimentos",
+    "ignorada": true,
+    "memo": "Transferência enviada pelo Pix - USUARIO TESTE - •••.111.222-•• - Banco XP S.A. (0348) Agência: 1 Conta: 123456-7"
+  },
+  "6af7a9df-ece6-4680-416e-348c1342d77b": {
+    "categoria": "Outros",
+    "ignorada": true,
+    "memo": "Pagamento recebido"
+  },
+  "6ac80a2c-42e8-435a-b6c3-abef010e2fc6": {
+    "categoria": "Saúde",
+    "ignorada": false,
+    "memo": "Pagamento de boleto efetuado - UNIMED SEGUROS SAUDE S.A."
+  },
+  "6a29ff34-6858-4f8b-4390-05b13a13c4ab": {
+    "categoria": "Saúde",
+    "ignorada": false,
+    "memo": "Compra no débito - Farmacia Bem Estar"
+  },
+  "6a9cdba5-1cd4-4996-8bb7-91858f7e4721": {
+    "categoria": "Outros",
+    "ignorada": false,
+    "memo": "Transferência enviada pelo Pix - CAMILA FERREIRA DUARTE (Transferência enviada)"
+  },
+  "6a649860-539d-4df5-9b1b-94ed8b4d4110": {
+    "categoria": "Moradia",
+    "ignorada": false,
+    "memo": "Pagamento de boleto efetuado - CONDOMINIO EDIFICIO ALVORADA"
+  },
+  "6a9fdd2c-5d15-446f-a17c-85eb2b6bca1c": {
+    "categoria": "Saúde",
+    "ignorada": false,
+    "memo": "Compra no débito - Farmacia Bem Estar"
+  },
+  "6a5d7d9f-2d0c-4bc6-819a-dc93a99a8279": {
+    "categoria": "Moradia",
+    "ignorada": false,
+    "memo": "Pagamento de boleto efetuado - SABESP CIA SANEAMENTO BASICO"
+  },
+  "6a446094-5fce-4b32-d51f-f22d484b11e4": {
+    "categoria": "Moradia",
+    "ignorada": false,
+    "memo": "Pagamento de boleto efetuado - ENEL DISTRIBUICAO SAO PAULO"
+  },
+  "6a8706d2-08d6-4c7b-a854-fd1f51a63b79": {
+    "categoria": "Alimentação",
+    "ignorada": false,
+    "memo": "Compra no débito - Supermercado Bom Preco"
+  },
+  "6a10c54d-a80e-41c7-47d3-5f02f1c6a8d4": {
+    "categoria": "Moradia",
+    "ignorada": false,
+    "memo": "Pagamento de boleto efetuado - ULTRAGAZ COMERCIAL LTDA"
+  },
+  "6a20273f-1339-4d24-8d6e-8cfb5f15dc4e": {
+    "categoria": "Moradia",
+    "ignorada": false,
+    "memo": "Pagamento de boleto efetuado - TELEFONICA BRASIL S.A. VIVO FIBRA"
+  },
+  "6a19e3ae-74b1-4111-cd56-0b61ff894d47": {
+    "categoria": "Outros",
+    "ignorada": false,
+    "memo": "Transferência enviada pelo Pix - MARIANA COSTA PEREIRA (Transferência enviada)"
+  },
+  "6ae542cf-07e1-4eda-3d6a-9ad28d8746c7": {
+    "categoria": "Outros",
+    "ignorada": false,
+    "memo": "Transferência enviada pelo Pix - THIAGO MARTINS RIBEIRO (Transferência enviada)"
+  },
+  "6a1a5ddf-8bc5-4c93-b938-aa3bfdcec452": {
+    "categoria": "Alimentação",
+    "ignorada": false,
+    "memo": "Compra no débito - Feira Livre do Bairro"
+  },
+  "6abe0099-2a3f-49dd-1c11-45bc5c4bc8e0": {
+    "categoria": "Alimentação",
+    "ignorada": false,
+    "memo": "Compra no débito - Hortifruti Verde Vida"
+  },
+  "6a5e0d13-1230-45c0-d5c3-f34632fe7762": {
+    "categoria": "Salário",
+    "ignorada": false,
+    "memo": "Transferência recebida pelo Pix - ACME TECNOLOGIA LTDA - 11.222.333/0001-81 - ITAÚ UNIBANCO S.A. (0341) Agência: 1234 Conta: 56789-0"
+  },
+  "6a9c8495-1671-4304-ff36-728abe2a5ba4": {
+    "categoria": "Moradia",
+    "ignorada": false,
+    "memo": "Transferência enviada pelo Pix - CARLOS ANDRADE LIMA - •••.651.204-•• - BCO BRADESCO S.A. (0237) Agência: 2210 Conta: 18845-7"
+  },
+  "6a3b0c1a-d7bf-42d5-f97a-bed5d9d60046": {
+    "categoria": "Investimentos",
+    "ignorada": true,
+    "memo": "Transferência enviada pelo Pix - USUARIO TESTE - •••.111.222-•• - Banco XP S.A. (0348) Agência: 1 Conta: 123456-7"
+  },
+  "6a3fa53c-c3e2-4e02-aad2-61bc2b8a7826": {
+    "categoria": "Alimentação",
+    "ignorada": false,
+    "memo": "Compra no débito - Padaria Pao Quente"
+  },
+  "6a56f6ba-c1f3-4de2-b582-9af0e3245973": {
+    "categoria": "Outros",
+    "ignorada": true,
+    "memo": "Pagamento recebido"
+  },
+  "6ab8d5e5-f81b-4ff7-c63e-d338574d185f": {
+    "categoria": "Saúde",
+    "ignorada": false,
+    "memo": "Pagamento de boleto efetuado - UNIMED SEGUROS SAUDE S.A."
+  },
+  "6a875b98-74d0-4d62-a9cf-8d2eae129803": {
+    "categoria": "Moradia",
+    "ignorada": false,
+    "memo": "Pagamento de boleto efetuado - CONDOMINIO EDIFICIO ALVORADA"
+  },
+  "6a073c12-2695-47eb-025c-a088a29a6343": {
+    "categoria": "Moradia",
+    "ignorada": false,
+    "memo": "Pagamento de boleto efetuado - SABESP CIA SANEAMENTO BASICO"
+  },
+  "6ae5e3f7-f87e-4bd9-72d0-91d0137a6681": {
+    "categoria": "Outros",
+    "ignorada": false,
+    "memo": "Transferência recebida pelo Pix - CAMILA FERREIRA DUARTE - •••.577.038-•• - BANCO INTER (0077) Agência: 1 Conta: 4409172-0"
+  },
+  "6a9b06f4-9dfa-4dd6-46a8-ae9faf5ae58e": {
+    "categoria": "Moradia",
+    "ignorada": false,
+    "memo": "Pagamento de boleto efetuado - ENEL DISTRIBUICAO SAO PAULO"
+  },
+  "6ae91057-53c9-46f2-141b-19f88ac72bfd": {
+    "categoria": "Moradia",
+    "ignorada": false,
+    "memo": "Pagamento de boleto efetuado - TELEFONICA BRASIL S.A. VIVO FIBRA"
+  },
+  "6a27bab9-2765-4b39-e69a-9a9a61e398ba": {
+    "categoria": "Alimentação",
+    "ignorada": false,
+    "memo": "Compra no débito - Padaria Pao Quente"
+  },
+  "6a82a62c-56ba-496b-8ccd-4f4f6b4f72c3": {
+    "categoria": "Alimentação",
+    "ignorada": false,
+    "memo": "Compra no débito - Hortifruti Verde Vida"
+  },
+  "6a439af5-7ab5-4dfd-78e4-80fdfbf4dd54": {
+    "categoria": "Salário",
+    "ignorada": false,
+    "memo": "Transferência recebida pelo Pix - ACME TECNOLOGIA LTDA - 11.222.333/0001-81 - ITAÚ UNIBANCO S.A. (0341) Agência: 1234 Conta: 56789-0"
+  },
+  "6a92e1a0-53df-415c-4ec0-44fbe90ab8c3": {
+    "categoria": "Moradia",
+    "ignorada": false,
+    "memo": "Transferência enviada pelo Pix - CARLOS ANDRADE LIMA - •••.651.204-•• - BCO BRADESCO S.A. (0237) Agência: 2210 Conta: 18845-7"
+  },
+  "6a3b4192-f32f-4cd7-f7e6-43ebbec4125b": {
+    "categoria": "Investimentos",
+    "ignorada": true,
+    "memo": "Transferência enviada pelo Pix - USUARIO TESTE - •••.111.222-•• - Banco XP S.A. (0348) Agência: 1 Conta: 123456-7"
+  },
+  "6a80ecf8-78a7-4b3c-aa36-4b52ed6245fb": {
+    "categoria": "Outros",
+    "ignorada": false,
+    "memo": "Transferência enviada pelo Pix - BEATRIZ NOGUEIRA LOPES - •••.319.427-•• - BCO BRADESCO S.A. (0237) Agência: 1089 Conta: 55012-3"
+  },
+  "6aabdc8a-75f6-4cdb-0fef-841af177a1b1": {
+    "categoria": "Outros",
+    "ignorada": true,
+    "memo": "Pagamento recebido"
+  },
+  "6ad02187-59b1-47c8-ef74-2235fa89565e": {
+    "categoria": "Saúde",
+    "ignorada": false,
+    "memo": "Pagamento de boleto efetuado - UNIMED SEGUROS SAUDE S.A."
+  },
+  "6acfba7d-949e-4203-7900-64b878d12f54": {
+    "categoria": "Alimentação",
+    "ignorada": false,
+    "memo": "Compra no débito - Feira Livre do Bairro"
+  },
+  "6a4c94b6-f3f4-4d5b-e22d-19a3f63fd191": {
+    "categoria": "Moradia",
+    "ignorada": false,
+    "memo": "Pagamento de boleto efetuado - CONDOMINIO EDIFICIO ALVORADA"
+  },
+  "6ac5320e-4d25-4ec9-d0a0-92a5f7a6a9cc": {
+    "categoria": "Alimentação",
+    "ignorada": false,
+    "memo": "Compra no débito - Hortifruti Verde Vida"
+  },
+  "6a85b048-6d88-483f-97a8-df59eaf97f4e": {
+    "categoria": "Moradia",
+    "ignorada": false,
+    "memo": "Pagamento de boleto efetuado - SABESP CIA SANEAMENTO BASICO"
+  },
+  "6a984130-2ef1-4ab1-3ba3-d0f5a475fdf7": {
+    "categoria": "Alimentação",
+    "ignorada": false,
+    "memo": "Compra no débito - Feira Livre do Bairro"
+  },
+  "6a76c33d-1b5b-4713-2d20-dd3af9cd2674": {
+    "categoria": "Moradia",
+    "ignorada": false,
+    "memo": "Pagamento de boleto efetuado - ENEL DISTRIBUICAO SAO PAULO"
+  },
+  "6a7aa266-fc86-4855-ca96-9b1090cc9537": {
+    "categoria": "Moradia",
+    "ignorada": false,
+    "memo": "Pagamento de boleto efetuado - ULTRAGAZ COMERCIAL LTDA"
+  },
+  "6a19917a-a7b4-44b4-16d9-e13e26031953": {
+    "categoria": "Alimentação",
+    "ignorada": false,
+    "memo": "Compra no débito - Padaria Pao Quente"
+  },
+  "6a0aa768-b675-44bc-10f5-36e7a9ebba2c": {
+    "categoria": "Moradia",
+    "ignorada": false,
+    "memo": "Pagamento de boleto efetuado - TELEFONICA BRASIL S.A. VIVO FIBRA"
+  },
+  "6af2fc58-cc84-463e-b66a-aaeddec28641": {
+    "categoria": "Outros",
+    "ignorada": false,
+    "memo": "Transferência enviada pelo Pix - CAMILA FERREIRA DUARTE - •••.577.038-•• - BANCO INTER (0077) Agência: 1 Conta: 4409172-0"
+  },
+  "6a38cd79-c82b-40b1-1147-69ca301c1bf0": {
+    "categoria": "Freelance",
+    "ignorada": false,
+    "memo": "Transferência recebida pelo Pix - ESTUDIO CRIATIVO ME - 55.666.777/0001-88 - BANCO INTER (0077) Agência: 1 Conta: 8873210-4"
+  },
+  "6a74d70e-862c-4d30-796a-8a558872c8aa": {
+    "categoria": "Alimentação",
+    "ignorada": false,
+    "memo": "Compra no débito - Feira Livre do Bairro"
+  },
+  "6a5d28c5-e984-440b-022b-dacc8f306cb8": {
+    "categoria": "Outros",
+    "ignorada": false,
+    "memo": "Transferência enviada pelo Pix - CAMILA FERREIRA DUARTE (Transferência enviada)"
+  },
+  "6a84ab01-bd4f-4999-ce3c-385dd68147fa": {
+    "categoria": "Outros",
+    "ignorada": false,
+    "memo": "Transferência enviada pelo Pix - CAMILA FERREIRA DUARTE - •••.577.038-•• - BANCO INTER (0077) Agência: 1 Conta: 4409172-0"
+  },
+  "6aa95355-92af-47fc-90e9-93e53ebb5b49": {
+    "categoria": "Outros",
+    "ignorada": false,
+    "memo": "Transferência enviada pelo Pix - BEATRIZ NOGUEIRA LOPES (Transferência enviada)"
+  },
+  "6a052c9f-67f7-47f9-1251-7aba1bf1f076": {
+    "categoria": "Outros",
+    "ignorada": false,
+    "memo": "Transferência recebida pelo Pix - RAFAEL TEIXEIRA ALVES - •••.236.910-•• - ITAÚ UNIBANCO S.A. (0341) Agência: 4521 Conta: 30281-6"
+  },
+  "6a8de0e4-16ec-4eff-2d77-9ff798534d86": {
+    "categoria": "Investimentos",
+    "ignorada": true,
+    "memo": "Transferência recebida pelo Pix - USUARIO TESTE - •••.111.222-•• - Banco XP S.A. (0348) Agência: 1 Conta: 123456-7"
+  },
+  "6a54fdee-4e5e-4e3f-5ee0-99203d2d6852": {
+    "categoria": "Alimentação",
+    "ignorada": false,
+    "memo": "Compra no débito - Supermercado Bom Preco"
+  },
+  "6a6b4cc3-7060-4072-d2bd-759c92fb79f2": {
+    "categoria": "Salário",
+    "ignorada": false,
+    "memo": "Transferência recebida pelo Pix - ACME TECNOLOGIA LTDA - 11.222.333/0001-81 - ITAÚ UNIBANCO S.A. (0341) Agência: 1234 Conta: 56789-0"
+  },
+  "6a5f24e2-d997-4351-231c-a94a219690ff": {
+    "categoria": "Moradia",
+    "ignorada": false,
+    "memo": "Transferência enviada pelo Pix - CARLOS ANDRADE LIMA - •••.651.204-•• - BCO BRADESCO S.A. (0237) Agência: 2210 Conta: 18845-7"
+  },
+  "6a66f3a8-07eb-4666-6c8b-24b4366b19fd": {
+    "categoria": "Investimentos",
+    "ignorada": true,
+    "memo": "Transferência enviada pelo Pix - USUARIO TESTE - •••.111.222-•• - Banco XP S.A. (0348) Agência: 1 Conta: 123456-7"
+  },
+  "6adf6095-3046-4c22-8a1f-e6b2ca4345d6": {
+    "categoria": "Saúde",
+    "ignorada": false,
+    "memo": "Compra no débito - Farmacia Bem Estar"
+  },
+  "6ac594bc-02e7-4ba1-8b18-1f45060e7302": {
+    "categoria": "Outros",
+    "ignorada": true,
+    "memo": "Pagamento recebido"
+  },
+  "6a82e475-4d7b-41c3-8e4a-a1d30af4f552": {
+    "categoria": "Saúde",
+    "ignorada": false,
+    "memo": "Pagamento de boleto efetuado - UNIMED SEGUROS SAUDE S.A."
+  },
+  "6a2509b4-ee01-4222-85d9-8103d2a80e01": {
+    "categoria": "Moradia",
+    "ignorada": false,
+    "memo": "Pagamento de boleto efetuado - CONDOMINIO EDIFICIO ALVORADA"
+  },
+  "6a6a4f79-0034-464f-6308-5e8e728da335": {
+    "categoria": "Moradia",
+    "ignorada": false,
+    "memo": "Pagamento de boleto efetuado - SABESP CIA SANEAMENTO BASICO"
+  },
+  "6ab7507d-3b49-41bc-e1ca-732f01966aa5": {
+    "categoria": "Outros",
+    "ignorada": false,
+    "memo": "Transferência enviada pelo Pix - THIAGO MARTINS RIBEIRO - •••.402.773-•• - NU PAGAMENTOS - IP (0260) Agência: 1 Conta: 9134426-5"
+  },
+  "6aef85ca-dd6c-4ac8-a18d-43f60ccac281": {
+    "categoria": "Outros",
+    "ignorada": false,
+    "memo": "Transferência enviada pelo Pix - RAFAEL TEIXEIRA ALVES - •••.236.910-•• - ITAÚ UNIBANCO S.A. (0341) Agência: 4521 Conta: 30281-6"
+  },
+  "6a0616d1-6d6a-46b2-9b8b-f9c8fc1340d3": {
+    "categoria": "Moradia",
+    "ignorada": false,
+    "memo": "Pagamento de boleto efetuado - ENEL DISTRIBUICAO SAO PAULO"
+  },
+  "6a825057-db0c-4f33-b7f6-54e0a1e8b4ed": {
+    "categoria": "Moradia",
+    "ignorada": false,
+    "memo": "Pagamento de boleto efetuado - TELEFONICA BRASIL S.A. VIVO FIBRA"
+  },
+  "6ac5dee7-22b6-450a-b97c-2779dcbb758d": {
+    "categoria": "Outros",
+    "ignorada": false,
+    "memo": "Transferência recebida pelo Pix - MARIANA COSTA PEREIRA - •••.148.552-•• - BCO SAFRA S.A. (0422) Agência: 71 Conta: 773867-1"
+  },
+  "6aef737b-bdf2-4a3f-7c53-3e98705ab0ad": {
+    "categoria": "Alimentação",
+    "ignorada": false,
+    "memo": "Compra no débito - Feira Livre do Bairro"
+  },
+  "6ac44488-5a3c-4f8c-9d7f-e8eed3a75265": {
+    "categoria": "Alimentação",
+    "ignorada": false,
+    "memo": "Compra no débito - Padaria Pao Quente"
+  },
+  "6a9e1150-6c71-4573-61bc-b2b12f1de208": {
+    "categoria": "Outros",
+    "ignorada": false,
+    "memo": "Transferência enviada pelo Pix - THIAGO MARTINS RIBEIRO (Transferência enviada)"
+  },
+  "6aa6ab3f-57e5-4209-e04f-93c5d9253265": {
+    "categoria": "Alimentação",
+    "ignorada": false,
+    "memo": "Compra no débito - Supermercado Bom Preco"
+  },
+  "6a7b2c78-4494-4f3b-35e8-9bb09c08697d": {
+    "categoria": "Outros",
+    "ignorada": false,
+    "memo": "Transferência enviada pelo Pix - THIAGO MARTINS RIBEIRO (Transferência enviada)"
+  },
+  "6a38ee54-a8ce-49ab-86b1-e4153164eff4": {
+    "categoria": "Salário",
+    "ignorada": false,
+    "memo": "Transferência recebida pelo Pix - ACME TECNOLOGIA LTDA - 11.222.333/0001-81 - ITAÚ UNIBANCO S.A. (0341) Agência: 1234 Conta: 56789-0"
+  },
+  "6ac99e4b-bfad-4af8-42c5-75a365d69d6c": {
+    "categoria": "Moradia",
+    "ignorada": false,
+    "memo": "Transferência enviada pelo Pix - CARLOS ANDRADE LIMA - •••.651.204-•• - BCO BRADESCO S.A. (0237) Agência: 2210 Conta: 18845-7"
+  },
+  "6a9b9dfc-9df9-47de-cf2d-d266bc3422be": {
+    "categoria": "Investimentos",
+    "ignorada": true,
+    "memo": "Transferência enviada pelo Pix - USUARIO TESTE - •••.111.222-•• - Banco XP S.A. (0348) Agência: 1 Conta: 123456-7"
+  },
+  "6a4b0847-bc52-4580-5683-055811a6c07c": {
+    "categoria": "Alimentação",
+    "ignorada": false,
+    "memo": "Compra no débito - Padaria Pao Quente"
+  },
+  "6a14a113-7ee1-46c3-d38f-4b42a88c7253": {
+    "categoria": "Outros",
+    "ignorada": true,
+    "memo": "Pagamento recebido"
+  },
+  "6aaaff3a-6962-4585-9f95-e37d68ff0d06": {
+    "categoria": "Saúde",
+    "ignorada": false,
+    "memo": "Pagamento de boleto efetuado - UNIMED SEGUROS SAUDE S.A."
+  },
+  "6a68ba25-2a1d-45e5-534f-61fc6ee341ba": {
+    "categoria": "Outros",
+    "ignorada": false,
+    "memo": "Transferência enviada pelo Pix - THIAGO MARTINS RIBEIRO (Transferência enviada)"
+  },
+  "6a401a24-7722-4ddc-1840-0526bf159181": {
+    "categoria": "Moradia",
+    "ignorada": false,
+    "memo": "Pagamento de boleto efetuado - CONDOMINIO EDIFICIO ALVORADA"
+  },
+  "6a24da4b-cab2-4097-75db-59dfd0176f8e": {
+    "categoria": "Saúde",
+    "ignorada": false,
+    "memo": "Compra no débito - Farmacia Bem Estar"
+  },
+  "6a5f2f43-9e74-4af1-2baa-cf5f190ec819": {
+    "categoria": "Freelance",
+    "ignorada": false,
+    "memo": "Transferência recebida pelo Pix - BEATRIZ NOGUEIRA LOPES - •••.319.427-•• - BCO BRADESCO S.A. (0237) Agência: 1089 Conta: 55012-3"
+  },
+  "6a726fea-1db8-46dc-17c6-e83ef25e308c": {
+    "categoria": "Moradia",
+    "ignorada": false,
+    "memo": "Pagamento de boleto efetuado - SABESP CIA SANEAMENTO BASICO"
+  },
+  "6a429cbf-fef0-4a6b-9be9-4ad7fe1caa1e": {
+    "categoria": "Moradia",
+    "ignorada": false,
+    "memo": "Pagamento de boleto efetuado - ENEL DISTRIBUICAO SAO PAULO"
+  },
+  "6acd6a62-bf78-4bf5-c11e-d1297e88f558": {
+    "categoria": "Outros",
+    "ignorada": false,
+    "memo": "Transferência recebida pelo Pix - THIAGO MARTINS RIBEIRO - •••.402.773-•• - NU PAGAMENTOS - IP (0260) Agência: 1 Conta: 9134426-5"
+  },
+  "6ab70c6d-4e3c-44ae-9fc4-8775f7bcb19b": {
+    "categoria": "Outros",
+    "ignorada": false,
+    "memo": "Transferência enviada pelo Pix - RAFAEL TEIXEIRA ALVES - •••.236.910-•• - ITAÚ UNIBANCO S.A. (0341) Agência: 4521 Conta: 30281-6"
+  },
+  "6aa6eeb4-7fff-45bd-3d6e-84af05e979c9": {
+    "categoria": "Moradia",
+    "ignorada": false,
+    "memo": "Pagamento de boleto efetuado - ULTRAGAZ COMERCIAL LTDA"
+  },
+  "6a80fad0-cf04-4dc1-7bf4-44106eac14dd": {
+    "categoria": "Alimentação",
+    "ignorada": false,
+    "memo": "Compra no débito - Feira Livre do Bairro"
+  },
+  "6a020338-2ab0-4402-57eb-d983e43719d8": {
+    "categoria": "Outros",
+    "ignorada": false,
+    "memo": "Transferência recebida pelo Pix - THIAGO MARTINS RIBEIRO - •••.402.773-•• - NU PAGAMENTOS - IP (0260) Agência: 1 Conta: 9134426-5"
+  },
+  "6ad91d6d-bc99-448a-b3f7-374f39df1920": {
+    "categoria": "Moradia",
+    "ignorada": false,
+    "memo": "Pagamento de boleto efetuado - TELEFONICA BRASIL S.A. VIVO FIBRA"
+  },
+  "6a491b32-498f-4404-fdd0-b9c6de69ab56": {
+    "categoria": "Alimentação",
+    "ignorada": false,
+    "memo": "Compra no débito - Feira Livre do Bairro"
+  },
+  "6a01f38a-8738-4ce9-c2cc-1a9821db5dbb": {
+    "categoria": "Salário",
+    "ignorada": false,
+    "memo": "Transferência recebida pelo Pix - ACME TECNOLOGIA LTDA - 11.222.333/0001-81 - ITAÚ UNIBANCO S.A. (0341) Agência: 1234 Conta: 56789-0"
+  },
+  "6aa4e769-368f-4cec-352a-7f55bf3a37a1": {
+    "categoria": "Moradia",
+    "ignorada": false,
+    "memo": "Transferência enviada pelo Pix - CARLOS ANDRADE LIMA - •••.651.204-•• - BCO BRADESCO S.A. (0237) Agência: 2210 Conta: 18845-7"
+  },
+  "6a4efe7c-b737-47cb-5bf0-3388826062b2": {
+    "categoria": "Investimentos",
+    "ignorada": true,
+    "memo": "Transferência enviada pelo Pix - USUARIO TESTE - •••.111.222-•• - Banco XP S.A. (0348) Agência: 1 Conta: 123456-7"
+  },
+  "6a0f579c-8ad9-4add-0d88-12d1bc090d42": {
+    "categoria": "Outros",
+    "ignorada": true,
+    "memo": "Pagamento recebido"
+  },
+  "6a132a25-c019-43b4-04bd-7f8cb23f690b": {
+    "categoria": "Saúde",
+    "ignorada": false,
+    "memo": "Pagamento de boleto efetuado - UNIMED SEGUROS SAUDE S.A."
+  },
+  "6a3599eb-53a8-4d59-901e-21f897fb47aa": {
+    "categoria": "Alimentação",
+    "ignorada": false,
+    "memo": "Compra no débito - Feira Livre do Bairro"
+  },
+  "6a86e77d-8579-43ab-b449-7fef980b9f60": {
+    "categoria": "Moradia",
+    "ignorada": false,
+    "memo": "Pagamento de boleto efetuado - CONDOMINIO EDIFICIO ALVORADA"
+  },
+  "6a8d9366-005c-4410-0579-064a8366c90a": {
+    "categoria": "Alimentação",
+    "ignorada": false,
+    "memo": "Compra no débito - Supermercado Bom Preco"
+  },
+  "6a16fdf8-60c5-4cdd-5c70-52a577fbdb6d": {
+    "categoria": "Moradia",
+    "ignorada": false,
+    "memo": "Pagamento de boleto efetuado - SABESP CIA SANEAMENTO BASICO"
+  },
+  "6a38583d-5dc7-4d05-edaf-7b12f46092af": {
+    "categoria": "Alimentação",
+    "ignorada": false,
+    "memo": "Compra no débito - Supermercado Bom Preco"
+  },
+  "6a7df647-29ee-4ab9-e71d-31c5ff4f2d14": {
+    "categoria": "Moradia",
+    "ignorada": false,
+    "memo": "Pagamento de boleto efetuado - ENEL DISTRIBUICAO SAO PAULO"
+  },
+  "6a362de6-5250-4cb5-a1a4-0a4b7cf8f386": {
+    "categoria": "Outros",
+    "ignorada": false,
+    "memo": "Transferência enviada pelo Pix - CAMILA FERREIRA DUARTE - •••.577.038-•• - BANCO INTER (0077) Agência: 1 Conta: 4409172-0"
+  },
+  "6a2e3b32-b545-4d52-7ffb-2fcc5871c2a6": {
+    "categoria": "Moradia",
+    "ignorada": false,
+    "memo": "Pagamento de boleto efetuado - TELEFONICA BRASIL S.A. VIVO FIBRA"
+  },
+  "6a9b2e56-56bd-414d-ebd0-3aca6b4967aa": {
+    "categoria": "Outros",
+    "ignorada": false,
+    "memo": "Transferência enviada pelo Pix - MARIANA COSTA PEREIRA - •••.148.552-•• - BCO SAFRA S.A. (0422) Agência: 71 Conta: 773867-1"
+  },
+  "6a6b6427-3964-4dc7-7ec2-8e407995e0b2": {
+    "categoria": "Alimentação",
+    "ignorada": false,
+    "memo": "Compra no débito - Feira Livre do Bairro"
+  },
+  "6a33d82f-939c-41e5-f913-25944fdcaaea": {
+    "categoria": "Alimentação",
+    "ignorada": false,
+    "memo": "Compra no débito - Supermercado Bom Preco"
+  },
+  "6aff0798-f900-4c66-627f-e03d8fd4e495": {
+    "categoria": "Alimentação",
+    "ignorada": false,
+    "memo": "Compra no débito - Hortifruti Verde Vida"
+  },
+  "6a61bfb1-0ecf-4f2d-fcaf-57d270ab7d9f": {
+    "categoria": "Outros",
+    "ignorada": false,
+    "memo": "Transferência enviada pelo Pix - CAMILA FERREIRA DUARTE (Transferência enviada)"
+  },
+  "6a1a4a38-6c11-488b-58b0-099da3d06bbd": {
+    "categoria": "Alimentação",
+    "ignorada": false,
+    "memo": "Keetabr*Churrascaria e"
+  },
+  "6af12a3e-e434-4b89-5772-4064bfc686d3": {
+    "categoria": "Alimentação",
+    "ignorada": false,
+    "memo": "Ifd*Pizzaria Napoli"
+  },
+  "6ab672be-1508-4ef0-6c77-d4dc47e6a06b": {
+    "categoria": "Transporte",
+    "ignorada": false,
+    "memo": "Dl*Uberrides"
+  },
+  "6aefd24a-689a-4fe1-cc43-4a7e1cdf464a": {
+    "categoria": "Outros",
+    "ignorada": false,
+    "memo": "Anthropic* Claude Sub"
+  },
+  "6a206713-5b89-49fa-80df-d525b3403911": {
+    "categoria": "Alimentação",
+    "ignorada": false,
+    "memo": "Keetabr*Churrascaria e"
+  },
+  "6a33e4fd-0f57-4b81-fd33-f805d4f6f390": {
+    "categoria": "Alimentação",
+    "ignorada": false,
+    "memo": "Ebanossorvete"
+  },
+  "6ad150fa-a0a1-4e9e-0adf-f6a692677a84": {
+    "categoria": "Lazer",
+    "ignorada": false,
+    "memo": "Netflix Entretenimento"
+  },
+  "6a01fbcb-210c-4a7c-9f41-2ec8b29f8838": {
+    "categoria": "Alimentação",
+    "ignorada": false,
+    "memo": "Hortifruti Verde Vida"
+  },
+  "6ac881a6-deaa-4b44-f945-d8b513d22308": {
+    "categoria": "Alimentação",
+    "ignorada": false,
+    "memo": "Kee*Restaurante New"
+  },
+  "6afc67b6-496c-4c80-e391-4aacf1986f87": {
+    "categoria": "Transporte",
+    "ignorada": false,
+    "memo": "Dl*Uberrides"
+  },
+  "6a7deaee-a210-4c1b-b058-850525fdeb2a": {
+    "categoria": "Alimentação",
+    "ignorada": false,
+    "memo": "Tom Buffet"
+  },
+  "6a062c12-c814-486e-041c-97f5f7e59f33": {
+    "categoria": "Transporte",
+    "ignorada": false,
+    "memo": "Uber *Trip"
+  },
+  "6a157c78-75b9-49ad-a143-1a2c06e2a53f": {
+    "categoria": "Transporte",
+    "ignorada": false,
+    "memo": "Stoppark Brigadeiro"
+  },
+  "6a00f179-b0b6-444b-93c8-d851eb1409e3": {
+    "categoria": "Alimentação",
+    "ignorada": false,
+    "memo": "Keetabr*Churrascaria e"
+  },
+  "6ab283e0-4974-474c-aca7-64c3a2d63850": {
+    "categoria": "Alimentação",
+    "ignorada": false,
+    "memo": "Gran Sapore"
+  },
+  "6a2cd079-2cde-4d9e-e7cd-b5108434e0a4": {
+    "categoria": "Transporte",
+    "ignorada": false,
+    "memo": "Dl*Uberrides"
+  },
+  "6ad0c70c-80e0-45fe-c75b-4ac048f6796f": {
+    "categoria": "Transporte",
+    "ignorada": false,
+    "memo": "Entry Park Estacioname"
+  },
+  "6a24a667-c5c9-4f57-5940-90e228b3fe40": {
+    "categoria": "Outros",
+    "ignorada": false,
+    "memo": "Amazon Marketplace"
+  },
+  "6a939702-68be-4ad8-8668-f5d5869d7245": {
+    "categoria": "Lazer",
+    "ignorada": false,
+    "memo": "Ebn *Spotify"
+  },
+  "6ac76c56-0d04-49e6-0a0f-5c2ac5fe4d2c": {
+    "categoria": "Saúde",
+    "ignorada": false,
+    "memo": "Drogaria Pacheco"
+  },
+  "6a2a9ad8-7e7d-4f7d-29ce-7586c549a8d0": {
+    "categoria": "Alimentação",
+    "ignorada": false,
+    "memo": "Mercado Bom Preco"
+  },
+  "6a777b71-3986-4045-1e93-a4a86a799091": {
+    "categoria": "Saúde",
+    "ignorada": false,
+    "memo": "Drogaria Pacheco"
+  },
+  "6a3ecc38-13bf-4ee3-9921-9fca1126a316": {
+    "categoria": "Alimentação",
+    "ignorada": false,
+    "memo": "Hortifruti Verde Vida"
+  },
+  "6a6f775e-284d-4514-ad19-5680d48dab4b": {
+    "categoria": "Transporte",
+    "ignorada": false,
+    "memo": "Auto Posto Central"
+  },
+  "6a075ca0-e945-427a-ceba-e62f58976f43": {
+    "categoria": "Saúde",
+    "ignorada": false,
+    "memo": "Smart Fit Academia"
+  },
+  "6a3b169d-5da6-4d5c-dfcb-9f2686a2a79d": {
+    "categoria": "Alimentação",
+    "ignorada": false,
+    "memo": "Supermercado Estrela"
+  },
+  "6a03e4be-a2ef-46e3-76d7-9e8e31ec2bc6": {
+    "categoria": "Alimentação",
+    "ignorada": false,
+    "memo": "Padaria Pao Quente"
+  },
+  "6a4d46ae-a04f-44bf-755d-1a7c8ab4082c": {
+    "categoria": "Transporte",
+    "ignorada": false,
+    "memo": "99*Pop"
+  },
+  "6ab3173e-8dae-4e1f-5edc-ae5c3dd1ac9c": {
+    "categoria": "Alimentação",
+    "ignorada": false,
+    "memo": "Mercado Bom Preco"
+  },
+  "6a4b39ec-947c-442b-4bfc-881cd93fe212": {
+    "categoria": "Alimentação",
+    "ignorada": false,
+    "memo": "Keetabr*Churrascaria e"
+  },
+  "6a58e7f5-419c-42e2-a4ec-c4a6fc623bdc": {
+    "categoria": "Moradia",
+    "ignorada": false,
+    "memo": "Conta Vivo"
+  },
+  "6af837db-b60f-4872-ce93-b2ac29dbd330": {
+    "categoria": "Transporte",
+    "ignorada": false,
+    "memo": "Entry Park Estacioname"
+  },
+  "6adcc197-710b-4306-bae0-5a4ede0c2a66": {
+    "categoria": "Transporte",
+    "ignorada": false,
+    "memo": "Dl*Uberrides"
+  },
+  "6ae5376e-c7fe-4f74-a27d-9b78759725a3": {
+    "categoria": "Outros",
+    "ignorada": false,
+    "memo": "Amazon Marketplace - Parcela 3/6"
+  },
+  "6a28e9ed-8269-4764-0c5e-07105ef63233": {
+    "categoria": "Transporte",
+    "ignorada": false,
+    "memo": "Auto Posto Central"
+  },
+  "6a7e12ea-586b-4f9d-60e7-bd6beed6f383": {
+    "categoria": "Transporte",
+    "ignorada": false,
+    "memo": "99*Pop"
+  },
+  "6a33fb42-c180-45bb-3cf1-a1196209388f": {
+    "categoria": "Outros",
+    "ignorada": false,
+    "memo": "Anthropic* Claude Sub"
+  },
+  "6a3809cf-1f7e-437e-1c2a-7e88743390f9": {
+    "categoria": "Lazer",
+    "ignorada": false,
+    "memo": "Netflix Entretenimento"
+  },
+  "6a6e96f1-9143-49d7-92a4-fe0f33f86327": {
+    "categoria": "Alimentação",
+    "ignorada": false,
+    "memo": "Cafe e Letras"
+  },
+  "6a15d7bf-60e6-414a-8840-11109e5c4eef": {
+    "categoria": "Alimentação",
+    "ignorada": false,
+    "memo": "Kee*Restaurante New"
+  },
+  "6ab7b850-f839-416c-0f7d-29439508fd4f": {
+    "categoria": "Transporte",
+    "ignorada": false,
+    "memo": "99*Pop"
+  },
+  "6a9a369a-8127-45c2-2ab0-4bd177b7ed14": {
+    "categoria": "Alimentação",
+    "ignorada": false,
+    "memo": "Supermercado Estrela"
+  },
+  "6adfa48e-6537-4434-0453-9adfee389131": {
+    "categoria": "Alimentação",
+    "ignorada": false,
+    "memo": "Toshe Pasteis"
+  },
+  "6ab9aa0a-906f-4a79-c535-3cd3bf1eb0ab": {
+    "categoria": "Transporte",
+    "ignorada": false,
+    "memo": "Entry Park Estacioname"
+  },
+  "6a5727e1-1a80-4dd6-9d55-a3a8b52b2962": {
+    "categoria": "Alimentação",
+    "ignorada": false,
+    "memo": "Toshe Pasteis"
+  },
+  "6a42a16b-a1fb-4c47-e59b-a344b771ea0e": {
+    "categoria": "Transporte",
+    "ignorada": false,
+    "memo": "Dl*Uberrides"
+  },
+  "6a8cdfc6-b256-451c-df28-301519a62ed1": {
+    "categoria": "Outros",
+    "ignorada": false,
+    "memo": "Mercadolivre*Mercadol"
+  },
+  "6a8b1e5f-86c2-4d6b-9093-cf7a9dfa1677": {
+    "categoria": "Alimentação",
+    "ignorada": false,
+    "memo": "Padaria Pao Quente"
+  },
+  "6a748170-4b27-4823-8792-79454d866909": {
+    "categoria": "Alimentação",
+    "ignorada": false,
+    "memo": "Atacadao Casa Nova"
+  },
+  "6a5001ca-dd6f-4255-f541-dd7d4747b4cb": {
+    "categoria": "Transporte",
+    "ignorada": false,
+    "memo": "99*Pop"
+  },
+  "6a6d25e6-712a-4e21-ea03-1229fc8620f9": {
+    "categoria": "Transporte",
+    "ignorada": false,
+    "memo": "Posto Ipiranga Sul"
+  },
+  "6a44f867-5bb2-4930-257f-b926c0869ace": {
+    "categoria": "Lazer",
+    "ignorada": false,
+    "memo": "Ebn *Spotify"
+  },
+  "6afa9800-fc76-40bc-ef6f-63deb54a94a7": {
+    "categoria": "Outros",
+    "ignorada": false,
+    "memo": "Kabum Informatica - Parcela 1/10"
+  },
+  "6a6bbe4a-e48a-4ad9-faee-d89abeadcad0": {
+    "categoria": "Transporte",
+    "ignorada": false,
+    "memo": "99*Pop"
+  },
+  "6a4481c9-2b59-4c25-505e-8b46d216c6d9": {
+    "categoria": "Transporte",
+    "ignorada": false,
+    "memo": "Entry Park Estacioname"
+  },
+  "6acf2e42-307a-426b-c3ed-22662bba0b32": {
+    "categoria": "Saúde",
+    "ignorada": false,
+    "memo": "Farmacia Bem Estar"
+  },
+  "6a9e1ac8-fbd3-48ba-716f-03851f1950e3": {
+    "categoria": "Lazer",
+    "ignorada": false,
+    "memo": "Cinemark Ingressos"
+  },
+  "6ab8d058-0731-4b67-6793-73f2cb26bc86": {
+    "categoria": "Saúde",
+    "ignorada": false,
+    "memo": "Smart Fit Academia"
+  },
+  "6aa40dc3-a186-4783-c5c5-fca6121d3d34": {
+    "categoria": "Moradia",
+    "ignorada": false,
+    "memo": "Conta Vivo"
+  },
+  "6ace7586-fcdd-479a-3f1d-3f7fcdfbc43d": {
+    "categoria": "Alimentação",
+    "ignorada": false,
+    "memo": "Tom Buffet"
+  },
+  "6aeea5cf-cc6c-4093-b30e-75db3cf501d3": {
+    "categoria": "Alimentação",
+    "ignorada": false,
+    "memo": "Kee*Restaurante New"
+  },
+  "6aad0cea-b56e-4903-0215-203b71694fbe": {
+    "categoria": "Saúde",
+    "ignorada": false,
+    "memo": "Drogaria Sao Paulo"
+  },
+  "6a71ec3e-0b64-474f-ba09-0576f2abd963": {
+    "categoria": "Alimentação",
+    "ignorada": false,
+    "memo": "Mercado Bom Preco"
+  },
+  "6a0b82bc-4ce3-4915-cc15-af10b110f567": {
+    "categoria": "Transporte",
+    "ignorada": false,
+    "memo": "Dl*Uberrides"
+  },
+  "6a6e3f11-c346-4b86-729d-9c24ec0dae26": {
+    "categoria": "Alimentação",
+    "ignorada": false,
+    "memo": "Atacadao Casa Nova"
+  },
+  "6a22bc3f-d081-46ce-e483-ae6e681e103e": {
+    "categoria": "Transporte",
+    "ignorada": false,
+    "memo": "Stoppark Brigadeiro"
+  },
+  "6a25cfad-8925-42f3-c7f5-23efea8a32d7": {
+    "categoria": "Alimentação",
+    "ignorada": false,
+    "memo": "Yakitori"
+  },
+  "6afdf218-58a5-40a8-eabd-7ad93d2319f6": {
+    "categoria": "Alimentação",
+    "ignorada": false,
+    "memo": "Ifd*Pizzaria Napoli"
+  },
+  "6a81e9b4-60db-486e-735a-6ad3d48ef82e": {
+    "categoria": "Outros",
+    "ignorada": false,
+    "memo": "Mercadolivre*Mercadol"
+  },
+  "6a145234-c263-4a86-e930-1f97606ce883": {
+    "categoria": "Outros",
+    "ignorada": false,
+    "memo": "Amazon Marketplace - Parcela 4/6"
+  },
+  "6a311a69-f69f-4a03-ec87-a84f1fc77f15": {
+    "categoria": "Alimentação",
+    "ignorada": false,
+    "memo": "Ebanossorvete"
+  },
+  "6a6ee944-ccf5-45d6-ae64-53ec2a98d5d9": {
+    "categoria": "Alimentação",
+    "ignorada": false,
+    "memo": "Atacadao Casa Nova"
+  },
+  "6a5e0b68-9057-462d-454f-1e5998e28a8b": {
+    "categoria": "Alimentação",
+    "ignorada": false,
+    "memo": "Ifd*Restaurante Sabor"
+  },
+  "6a23f9cf-e2d5-4cf8-ee0c-9a851da10ccb": {
+    "categoria": "Transporte",
+    "ignorada": false,
+    "memo": "Uber *Trip"
+  },
+  "6aca8c0a-349a-40fc-e1f7-13b3317b1600": {
+    "categoria": "Transporte",
+    "ignorada": false,
+    "memo": "Auto Posto Central"
+  },
+  "6a88d36d-697c-41cf-3aae-69d34e69d051": {
+    "categoria": "Alimentação",
+    "ignorada": false,
+    "memo": "Supermercado Estrela"
+  },
+  "6a54001f-2613-4d4f-40af-1259f91c55c2": {
+    "categoria": "Outros",
+    "ignorada": false,
+    "memo": "Anthropic* Claude Sub"
+  },
+  "6a084328-6bc8-498f-79e5-f56a82cded6b": {
+    "categoria": "Alimentação",
+    "ignorada": false,
+    "memo": "Ifd*Nara Obento"
+  },
+  "6a9de4c0-9fcc-40d2-68f4-d42e3b28fceb": {
+    "categoria": "Alimentação",
+    "ignorada": false,
+    "memo": "Toshe Pasteis"
+  },
+  "6a92b959-8877-4242-c013-f3086bbd9356": {
+    "categoria": "Transporte",
+    "ignorada": false,
+    "memo": "Dl*Uberrides"
+  },
+  "6a796a01-d9b2-4b91-3cd0-f80bb014abc2": {
+    "categoria": "Lazer",
+    "ignorada": false,
+    "memo": "Netflix Entretenimento"
+  },
+  "6a67e3f3-c0d7-4b1a-e338-95c008b1f667": {
+    "categoria": "Alimentação",
+    "ignorada": false,
+    "memo": "Padaria Pao Quente"
+  },
+  "6af15bad-0f02-4ebe-25f3-933c6bf541cb": {
+    "categoria": "Transporte",
+    "ignorada": false,
+    "memo": "99*Pop"
+  },
+  "6a192506-9d46-40ad-3b0c-569558dc9451": {
+    "categoria": "Transporte",
+    "ignorada": false,
+    "memo": "Entry Park Estacioname"
+  },
+  "6a5664b9-a7db-4ac4-beaa-3f52df60330b": {
+    "categoria": "Alimentação",
+    "ignorada": false,
+    "memo": "Ifd*Nara Obento"
+  },
+  "6acb0962-57c4-4c3a-b4b3-215d41510fe7": {
+    "categoria": "Transporte",
+    "ignorada": false,
+    "memo": "Posto Ipiranga Sul"
+  },
+  "6a969a2c-c0ee-4f9b-0a79-6bd4a73e2e8f": {
+    "categoria": "Outros",
+    "ignorada": false,
+    "memo": "Shopee*Loja"
+  },
+  "6aaeec39-0e5d-4902-ffc9-2e463d27cc22": {
+    "categoria": "Alimentação",
+    "ignorada": false,
+    "memo": "Kee*Restaurante New"
+  },
+  "6afdb941-2a05-466b-4432-7a82298cdfb2": {
+    "categoria": "Saúde",
+    "ignorada": false,
+    "memo": "Farmacia Bem Estar"
+  },
+  "6ab8d594-d829-4973-6866-bc987d06b79b": {
+    "categoria": "Educação",
+    "ignorada": false,
+    "memo": "Udemy*Curso Online"
+  },
+  "6a6307e3-2165-4c16-dcfc-18d4f1b5fe9e": {
+    "categoria": "Alimentação",
+    "ignorada": false,
+    "memo": "Tom Buffet"
+  },
+  "6ada19e2-37bf-4676-f8fb-588c77d8e924": {
+    "categoria": "Alimentação",
+    "ignorada": false,
+    "memo": "Cafe e Letras"
+  },
+  "6ae3d7f8-c497-4916-4893-5cdad2462d83": {
+    "categoria": "Transporte",
+    "ignorada": false,
+    "memo": "Uber *Trip"
+  },
+  "6a03f84d-8bd4-4d13-7aa4-a119767e19f5": {
+    "categoria": "Alimentação",
+    "ignorada": false,
+    "memo": "Hortifruti Verde Vida"
+  },
+  "6a6d9be0-f0a2-4a4d-2c40-359c169d05cb": {
+    "categoria": "Alimentação",
+    "ignorada": false,
+    "memo": "Atacadao Casa Nova"
+  },
+  "6ac98ba3-40b8-4aa5-79fe-f593eddf6dbf": {
+    "categoria": "Lazer",
+    "ignorada": false,
+    "memo": "Ebn *Spotify"
+  },
+  "6ad90a3f-9c19-448f-d005-2614803c9c92": {
+    "categoria": "Transporte",
+    "ignorada": false,
+    "memo": "99*Pop"
+  },
+  "6a98aacf-9e2b-4d34-1d54-f8f615faae07": {
+    "categoria": "Outros",
+    "ignorada": false,
+    "memo": "Kabum Informatica - Parcela 2/10"
+  },
+  "6a19cdb3-0412-4ba4-274b-e43e58def785": {
+    "categoria": "Transporte",
+    "ignorada": false,
+    "memo": "Stoppark Brigadeiro"
+  },
+  "6ac33071-9eb2-40b0-a42a-2010cf8d7bb5": {
+    "categoria": "Saúde",
+    "ignorada": false,
+    "memo": "Smart Fit Academia"
+  },
+  "6ae3ae7d-7cd4-4644-1523-34368222a5a3": {
+    "categoria": "Alimentação",
+    "ignorada": false,
+    "memo": "Mercado Bom Preco"
+  },
+  "6ab295c7-35ae-4cda-90c1-f5eacdc0103d": {
+    "categoria": "Alimentação",
+    "ignorada": false,
+    "memo": "Ifd*Pizzaria Napoli"
+  },
+  "6ae67512-1b13-4f9a-192b-7338fdebd9fe": {
+    "categoria": "Alimentação",
+    "ignorada": false,
+    "memo": "Ifd*Pizzaria Napoli"
+  },
+  "6a9c9e9e-4791-4fdf-ffa1-a57edcb20169": {
+    "categoria": "Moradia",
+    "ignorada": false,
+    "memo": "Conta Vivo"
+  },
+  "6a0c8b6f-5f9b-46c8-f0a8-2afbbc05b9e1": {
+    "categoria": "Transporte",
+    "ignorada": false,
+    "memo": "Dl*Uberrides"
+  },
+  "6a1def16-6464-433b-86a4-d46006afb40b": {
+    "categoria": "Alimentação",
+    "ignorada": false,
+    "memo": "Mercado Bom Preco"
+  },
+  "6abe3f28-42f1-4df5-735d-6b4e06000760": {
+    "categoria": "Alimentação",
+    "ignorada": false,
+    "memo": "Supermercado Estrela"
+  },
+  "6af5552a-5d14-4ee7-3584-28f4ae051a86": {
+    "categoria": "Transporte",
+    "ignorada": false,
+    "memo": "99*Pop"
+  },
+  "6a2a8edb-b068-4f0b-7d36-a2c5e363d717": {
+    "categoria": "Outros",
+    "ignorada": false,
+    "memo": "Amazon Marketplace - Parcela 5/6"
+  },
+  "6a22a232-4045-428c-7af6-fcf566a33c11": {
+    "categoria": "Alimentação",
+    "ignorada": false,
+    "memo": "Padaria Pao Quente"
+  },
+  "6a099400-b9cf-450f-b62b-7cc5ce1b1b61": {
+    "categoria": "Transporte",
+    "ignorada": false,
+    "memo": "Posto Ipiranga Sul"
+  },
+  "6abe2ab5-a8a8-46e8-d993-f4a53e9baf39": {
+    "categoria": "Alimentação",
+    "ignorada": false,
+    "memo": "Atacadao Casa Nova"
+  },
+  "6a51c695-6556-4ca9-5680-6427b7fc2a4f": {
+    "categoria": "Alimentação",
+    "ignorada": false,
+    "memo": "Cafe e Letras"
+  },
+  "6ae8a8b8-0926-49bb-2bb4-d36993f038ad": {
+    "categoria": "Outros",
+    "ignorada": false,
+    "memo": "Anthropic* Claude Sub"
+  },
+  "6afcb3a5-afc4-4de5-c0e5-8441dfcb85e7": {
+    "categoria": "Lazer",
+    "ignorada": false,
+    "memo": "Netflix Entretenimento"
+  },
+  "6ac7888d-695c-4ed1-5eb1-cd2e06cf1203": {
+    "categoria": "Transporte",
+    "ignorada": false,
+    "memo": "99*Pop"
+  },
+  "6a47d6fa-1c44-430a-1ffd-0540c42605d4": {
+    "categoria": "Transporte",
+    "ignorada": false,
+    "memo": "99*Pop"
+  },
+  "6a13d709-2121-4417-1822-85902e5b395b": {
+    "categoria": "Alimentação",
+    "ignorada": false,
+    "memo": "Supermercado Estrela"
+  },
+  "6a00c1ac-5a77-47b8-63b6-5fa0ccc83cb9": {
+    "categoria": "Alimentação",
+    "ignorada": false,
+    "memo": "Padaria Pao Quente"
+  },
+  "6a58340e-2949-4d02-d847-8c82e3491cad": {
+    "categoria": "Alimentação",
+    "ignorada": false,
+    "memo": "Ifd*Nara Obento"
+  },
+  "6a775dc2-83b0-4208-8bc0-17b92efa9bff": {
+    "categoria": "Transporte",
+    "ignorada": false,
+    "memo": "Auto Posto Central"
+  },
+  "6a19418c-7be0-46ee-a7f3-c468e2e6113c": {
+    "categoria": "Alimentação",
+    "ignorada": false,
+    "memo": "Yakitori"
+  },
+  "6a20d744-8b09-41a3-0d45-ea1809954374": {
+    "categoria": "Alimentação",
+    "ignorada": false,
+    "memo": "Cafe e Letras"
+  },
+  "6a7d729c-ac8c-4873-f977-f3d7be7be3f5": {
+    "categoria": "Transporte",
+    "ignorada": false,
+    "memo": "Uber *Trip"
+  },
+  "6a9d4438-40fc-4a39-506d-67130ca88401": {
+    "categoria": "Alimentação",
+    "ignorada": false,
+    "memo": "Mercado Bom Preco"
+  },
+  "6aaafee5-c84a-4fbc-c2df-aa2a7d4df139": {
+    "categoria": "Transporte",
+    "ignorada": false,
+    "memo": "Stoppark Brigadeiro"
+  },
+  "6a24d891-9ee4-4553-ce73-d1930de8787d": {
+    "categoria": "Lazer",
+    "ignorada": false,
+    "memo": "Ebn *Spotify"
+  },
+  "6a87ca27-86ae-4957-3359-3eefefe63899": {
+    "categoria": "Alimentação",
+    "ignorada": false,
+    "memo": "Kee*Restaurante New"
+  },
+  "6aeedd04-ab53-477b-b8fc-0c92412e73ff": {
+    "categoria": "Transporte",
+    "ignorada": false,
+    "memo": "Stoppark Brigadeiro"
+  },
+  "6aa6d5af-35c0-47ee-32b0-edc0a15f4cba": {
+    "categoria": "Alimentação",
+    "ignorada": false,
+    "memo": "Mercado Bom Preco"
+  },
+  "6adb6b67-7ae8-41c1-0921-f20ed781a5a4": {
+    "categoria": "Transporte",
+    "ignorada": false,
+    "memo": "Dl*Uberrides"
+  },
+  "6ad65f80-cc9c-4325-ebc0-ea9ec82091f4": {
+    "categoria": "Transporte",
+    "ignorada": false,
+    "memo": "Entry Park Estacioname"
+  },
+  "6ab20b19-b745-4272-0605-9023eaf791b3": {
+    "categoria": "Outros",
+    "ignorada": false,
+    "memo": "Shopee*Loja"
+  },
+  "6a6e2418-a8c9-4749-fa3d-8cbdb971c266": {
+    "categoria": "Outros",
+    "ignorada": false,
+    "memo": "Kabum Informatica - Parcela 3/10"
+  },
+  "6aa0d99f-5372-4c67-14d4-b66fc8792f85": {
+    "categoria": "Alimentação",
+    "ignorada": false,
+    "memo": "Ifd*Pizzaria Napoli"
+  },
+  "6acf2c52-5b65-4399-5060-10188abfac58": {
+    "categoria": "Saúde",
+    "ignorada": false,
+    "memo": "Smart Fit Academia"
+  },
+  "6a6a6c2e-3108-4aa1-b43f-ffe4318412e8": {
+    "categoria": "Alimentação",
+    "ignorada": false,
+    "memo": "Padaria Pao Quente"
+  },
+  "6a7da22c-bb64-4c9b-4ad1-8edc51f80cc1": {
+    "categoria": "Moradia",
+    "ignorada": false,
+    "memo": "Conta Vivo"
+  },
+  "6abc67bb-1972-4979-bf26-03bd1c86a735": {
+    "categoria": "Lazer",
+    "ignorada": false,
+    "memo": "Cinemark Ingressos"
+  },
+  "6a1f4edc-7c81-4785-bd02-1a6e4a7ce26d": {
+    "categoria": "Transporte",
+    "ignorada": false,
+    "memo": "Posto Ipiranga Sul"
+  },
+  "6ab7a900-4308-4563-67b7-62d903455bf5": {
+    "categoria": "Outros",
+    "ignorada": false,
+    "memo": "Dargham Importacao - Parcela 1/5"
+  },
+  "6a6031de-2c2e-429d-8eb0-bf9b42fc6830": {
+    "categoria": "Saúde",
+    "ignorada": false,
+    "memo": "Drogaria Sao Paulo"
+  },
+  "6af55a1d-886b-4dd6-dc99-cb937a385c25": {
+    "categoria": "Outros",
+    "ignorada": false,
+    "memo": "Amazon Marketplace - Parcela 6/6"
+  },
+  "6afe5afc-8db2-468c-bec9-0484bd171485": {
+    "categoria": "Alimentação",
+    "ignorada": false,
+    "memo": "Padaria Pao Quente"
+  },
+  "6a7ac255-e301-4fc4-cd6e-941ce770b919": {
+    "categoria": "Saúde",
+    "ignorada": false,
+    "memo": "Clinica Odonto Sorriso"
+  },
+  "6a1fc20e-f6bd-4147-5730-8ca576a70169": {
+    "categoria": "Alimentação",
+    "ignorada": false,
+    "memo": "Kee*Restaurante New"
+  },
+  "6a4c56b0-00d1-42c9-0a9d-702b72eb2596": {
+    "categoria": "Alimentação",
+    "ignorada": false,
+    "memo": "Cafe e Letras"
+  },
+  "6a481953-9624-4394-cf71-77a9c40d6d55": {
+    "categoria": "Alimentação",
+    "ignorada": false,
+    "memo": "Mercado Bom Preco"
+  },
+  "6a69e1a7-9573-4470-f419-de9fe52b2669": {
+    "categoria": "Alimentação",
+    "ignorada": false,
+    "memo": "Hortifruti Verde Vida"
+  },
+  "6a030871-ee81-4cd7-9b21-f21a820f043b": {
+    "categoria": "Outros",
+    "ignorada": false,
+    "memo": "Anthropic* Claude Sub"
+  },
+  "6a81ab1a-5a3e-4c81-f873-0c0b8b92cfc2": {
+    "categoria": "Lazer",
+    "ignorada": false,
+    "memo": "Netflix Entretenimento"
+  },
+  "6a43c22b-c12c-4e90-7fb6-3177e7715149": {
+    "categoria": "Alimentação",
+    "ignorada": false,
+    "memo": "Ifd*Nara Obento"
+  },
+  "6a86be34-fe25-4a46-fa19-7281e0799bab": {
+    "categoria": "Transporte",
+    "ignorada": false,
+    "memo": "Stoppark Brigadeiro"
+  },
+  "6a6399ce-bc44-48c6-5f5b-8ba59ba4af0e": {
+    "categoria": "Transporte",
+    "ignorada": false,
+    "memo": "Dl*Uberrides"
+  },
+  "6aa20aca-e23b-4c37-60dc-133f36d3aedd": {
+    "categoria": "Alimentação",
+    "ignorada": false,
+    "memo": "Mercado Bom Preco"
+  },
+  "6a10c388-01ab-4440-53a5-2aabb41a1d4f": {
+    "categoria": "Alimentação",
+    "ignorada": false,
+    "memo": "Gran Sapore"
+  },
+  "6af19a1e-68cf-483b-f4e8-ce8b456738d8": {
+    "categoria": "Alimentação",
+    "ignorada": false,
+    "memo": "Keetabr*Churrascaria e"
+  },
+  "6a5c0888-a127-47f6-af43-1c0b63617dc9": {
+    "categoria": "Alimentação",
+    "ignorada": false,
+    "memo": "Padaria Pao Quente"
+  },
+  "6a5a5a96-06b1-43c3-216e-4c715b9a5b56": {
+    "categoria": "Alimentação",
+    "ignorada": false,
+    "memo": "Tom Buffet"
+  },
+  "6a06c1e6-b3f4-4d67-3928-711924ba499c": {
+    "categoria": "Transporte",
+    "ignorada": false,
+    "memo": "99*Pop"
+  },
+  "6a51db13-9e8f-47b1-b521-457991ab9a98": {
+    "categoria": "Alimentação",
+    "ignorada": false,
+    "memo": "Ebanossorvete"
+  },
+  "6a0e628f-7852-4073-640e-23a5aee57789": {
+    "categoria": "Lazer",
+    "ignorada": false,
+    "memo": "Ebn *Spotify"
+  },
+  "6ac3ab0e-268c-436e-68ea-0f90e148271c": {
+    "categoria": "Transporte",
+    "ignorada": false,
+    "memo": "99*Pop"
+  },
+  "6add5c8c-d658-4755-e2c1-384771ab614d": {
+    "categoria": "Saúde",
+    "ignorada": false,
+    "memo": "Drogaria Pacheco"
+  },
+  "6a1622df-1034-4b37-ca84-bba09fea01e6": {
+    "categoria": "Outros",
+    "ignorada": false,
+    "memo": "Kabum Informatica - Parcela 4/10"
+  },
+  "6a68b5dd-a997-42dc-da92-6bacc90388db": {
+    "categoria": "Transporte",
+    "ignorada": false,
+    "memo": "Auto Posto Central"
+  },
+  "6a280bf7-8da4-459f-c338-9454b0893843": {
+    "categoria": "Saúde",
+    "ignorada": false,
+    "memo": "Smart Fit Academia"
+  },
+  "6a02096e-3f4e-48ff-9b55-44d5e667857c": {
+    "categoria": "Alimentação",
+    "ignorada": false,
+    "memo": "Tom Buffet"
+  },
+  "6a444578-052d-465d-ecd8-2a3b7314f87c": {
+    "categoria": "Moradia",
+    "ignorada": false,
+    "memo": "Conta Vivo"
+  },
+  "6a51af03-dcab-4ef6-fcfb-9ec721e644a2": {
+    "categoria": "Saúde",
+    "ignorada": false,
+    "memo": "Farmacia Bem Estar"
+  },
+  "6a6b19b3-2a71-4225-9ac4-cab4d1d3315f": {
+    "categoria": "Transporte",
+    "ignorada": false,
+    "memo": "Uber *Trip"
+  },
+  "6ad6e4cc-391f-4993-458c-127453384118": {
+    "categoria": "Outros",
+    "ignorada": false,
+    "memo": "Dargham Importacao - Parcela 2/5"
+  },
+  "6a0ffbca-ba7c-4edd-fd44-8851afe338d9": {
+    "categoria": "Transporte",
+    "ignorada": false,
+    "memo": "Uber *Trip"
+  },
+  "6aa274bf-b1bd-47eb-adbb-7d598e8a3f2f": {
+    "categoria": "Alimentação",
+    "ignorada": false,
+    "memo": "Ifd*Pizzaria Napoli"
+  },
+  "6ac07edc-1dd6-4c70-74af-a0ea5e40b386": {
+    "categoria": "Alimentação",
+    "ignorada": false,
+    "memo": "Ifd*Pizzaria Napoli"
+  },
+  "6ae5f2c7-d307-4997-fcb1-32805362787d": {
+    "categoria": "Transporte",
+    "ignorada": false,
+    "memo": "Posto Ipiranga Sul"
+  },
+  "6a714adb-ad04-413b-3093-4f28a6788539": {
+    "categoria": "Outros",
+    "ignorada": false,
+    "memo": "Amazon Marketplace"
+  },
+  "6afc2c39-97a6-4cf7-d016-3cbd713a0cfe": {
+    "categoria": "Transporte",
+    "ignorada": false,
+    "memo": "Uber *Trip"
+  },
+  "6a4dadf9-e1a5-43ad-5208-16a563efd87e": {
+    "categoria": "Transporte",
+    "ignorada": false,
+    "memo": "Uber *Trip"
+  },
+  "6adbcfe0-227f-4909-81c0-fc4ac9523604": {
+    "categoria": "Alimentação",
+    "ignorada": false,
+    "memo": "Hortifruti Verde Vida"
+  },
+  "6a1a912e-3542-4adb-787a-1b07729f5908": {
+    "categoria": "Alimentação",
+    "ignorada": false,
+    "memo": "Mercado Bom Preco"
+  },
+  "6a75a410-1678-4673-0f14-c8b99695632b": {
+    "categoria": "Moradia",
+    "ignorada": false,
+    "memo": "Leroy Merlin Casa"
+  },
+  "6a111b14-0865-455b-3cd2-aceffefeaf02": {
+    "categoria": "Transporte",
+    "ignorada": false,
+    "memo": "Auto Posto Central"
+  },
+  "6a669229-cd52-454e-29b2-d5d9126afc2f": {
+    "categoria": "Transporte",
+    "ignorada": false,
+    "memo": "Entry Park Estacioname"
+  },
+  "6a2b1689-b340-4cab-bc89-0c27c2bfdcd7": {
+    "categoria": "Outros",
+    "ignorada": false,
+    "memo": "Anthropic* Claude Sub"
+  },
+  "6aa8ac92-b9c0-467e-f485-375e714cf7b8": {
+    "categoria": "Lazer",
+    "ignorada": false,
+    "memo": "Netflix Entretenimento"
+  },
+  "6ad46d53-0fdd-4300-bbd5-a888ec8fc6ab": {
+    "categoria": "Outros",
+    "ignorada": false,
+    "memo": "Amazon Marketplace"
+  },
+  "6abdcdcb-69f3-4f3e-64b1-9b6fca7e9c36": {
+    "categoria": "Transporte",
+    "ignorada": false,
+    "memo": "Uber *Trip"
+  },
+  "6adcae8a-5a50-43f9-c60f-315122aec0a1": {
+    "categoria": "Educação",
+    "ignorada": false,
+    "memo": "Udemy*Curso Online"
+  },
+  "6a6bbe9d-c52a-4b13-5def-f855d707d166": {
+    "categoria": "Alimentação",
+    "ignorada": false,
+    "memo": "Hortifruti Verde Vida"
+  },
+  "6acfbc68-2847-41fe-ffd8-fcc0578340b0": {
+    "categoria": "Alimentação",
+    "ignorada": false,
+    "memo": "Tom Buffet"
+  },
+  "6a74ba5d-255a-4923-e96b-72bac833ce8a": {
+    "categoria": "Alimentação",
+    "ignorada": false,
+    "memo": "Hortifruti Verde Vida"
+  },
+  "6a153e2d-6ec4-4bfc-7d67-21076e4abfa4": {
+    "categoria": "Alimentação",
+    "ignorada": false,
+    "memo": "Toshe Pasteis"
+  },
+  "6aee7af2-6d18-4d48-e8d7-39c027873001": {
+    "categoria": "Transporte",
+    "ignorada": false,
+    "memo": "99*Pop"
+  },
+  "6ad44049-0d14-4caa-9949-90263d8d83ea": {
+    "categoria": "Outros",
+    "ignorada": false,
+    "memo": "Estorno - Mercadolivre*Mercadol"
+  },
+  "6a7620f4-8b7b-4123-2c3b-fccbee0c4de4": {
+    "categoria": "Alimentação",
+    "ignorada": false,
+    "memo": "Ebanossorvete"
+  },
+  "6a11c0ed-b481-4ab7-3a6e-366510a74647": {
+    "categoria": "Outros",
+    "ignorada": false,
+    "memo": "Mercadolivre*Mercadol"
+  },
+  "6a88c8cc-448a-4cf1-5bda-9450994edc96": {
+    "categoria": "Alimentação",
+    "ignorada": false,
+    "memo": "Ebanossorvete"
+  },
+  "6a6a4413-3509-449e-16d8-34eb2568f1e0": {
+    "categoria": "Lazer",
+    "ignorada": false,
+    "memo": "Ebn *Spotify"
+  },
+  "6ad92937-ca5d-414e-cbe5-75ed4ce84027": {
+    "categoria": "Transporte",
+    "ignorada": false,
+    "memo": "Uber *Trip"
+  },
+  "6ac817eb-031a-4d13-4c86-b39a1b4f6b8e": {
+    "categoria": "Lazer",
+    "ignorada": false,
+    "memo": "Cinemark Ingressos"
+  },
+  "6ab47bfe-03ba-4d97-0da7-df2d3f9eb875": {
+    "categoria": "Transporte",
+    "ignorada": false,
+    "memo": "Stoppark Brigadeiro"
+  },
+  "6a223b40-293f-4e59-18e1-d41543a3d000": {
+    "categoria": "Saúde",
+    "ignorada": false,
+    "memo": "Drogaria Pacheco"
+  },
+  "6acff650-b9a7-4215-784c-9b2852cd8a53": {
+    "categoria": "Outros",
+    "ignorada": false,
+    "memo": "Kabum Informatica - Parcela 5/10"
+  },
+  "6af41007-7f65-435c-7a21-6b383847dabc": {
+    "categoria": "Transporte",
+    "ignorada": false,
+    "memo": "Dl*Uberrides"
+  },
+  "6a2ba5a4-2ac0-4c0c-37da-a4d363c1107a": {
+    "categoria": "Outros",
+    "ignorada": false,
+    "memo": "Mercadolivre*Mercadol"
+  },
+  "6a2dac2c-b30d-4e5c-acc1-c2dddeaa3dfc": {
+    "categoria": "Saúde",
+    "ignorada": false,
+    "memo": "Smart Fit Academia"
+  },
+  "6a742b8f-a693-4e81-ba2e-3f77a93d3168": {
+    "categoria": "Alimentação",
+    "ignorada": false,
+    "memo": "Ifd*Nara Obento"
+  },
+  "6a9e6da2-3adf-45d1-0afa-2488d8711153": {
+    "categoria": "Alimentação",
+    "ignorada": false,
+    "memo": "Toshe Pasteis"
+  },
+  "6adef229-78d9-445f-5a5e-9cf0aed36ac4": {
+    "categoria": "Alimentação",
+    "ignorada": false,
+    "memo": "Padaria Pao Quente"
+  },
+  "6ae05a9f-45d3-48d1-3f43-14ddf894ab04": {
+    "categoria": "Alimentação",
+    "ignorada": false,
+    "memo": "Atacadao Casa Nova"
+  },
+  "6acbfc96-806f-46a4-6af2-1f40682670fe": {
+    "categoria": "Alimentação",
+    "ignorada": false,
+    "memo": "Gran Sapore"
+  },
+  "6aec8a44-4e89-4903-97f6-776d712cb0a1": {
+    "categoria": "Transporte",
+    "ignorada": false,
+    "memo": "Posto Ipiranga Sul"
+  },
+  "6a415a6f-734d-45fc-6bcc-b0a883e95cb6": {
+    "categoria": "Moradia",
+    "ignorada": false,
+    "memo": "Conta Vivo"
+  },
+  "6a852a11-f700-4d48-5a6a-6b6df1492b51": {
+    "categoria": "Alimentação",
+    "ignorada": false,
+    "memo": "Ebanossorvete"
+  },
+  "6a5743d4-2092-46a2-693d-ebd63f0128b9": {
+    "categoria": "Alimentação",
+    "ignorada": false,
+    "memo": "Ifd*Restaurante Sabor"
+  },
+  "6a363ea8-a6f1-4dfb-2d7c-ed64a3c9fb0e": {
+    "categoria": "Transporte",
+    "ignorada": false,
+    "memo": "Dl*Uberrides"
+  },
+  "6a6925c8-dea5-40d1-e8fb-d56deb51efff": {
+    "categoria": "Transporte",
+    "ignorada": false,
+    "memo": "Entry Park Estacioname"
+  },
+  "6a5de507-95d8-47ca-d3d3-308cecf57cd2": {
+    "categoria": "Alimentação",
+    "ignorada": false,
+    "memo": "Kee*Restaurante New"
+  },
+  "6ad6006d-d4d7-43c1-854b-196179cb9299": {
+    "categoria": "Outros",
+    "ignorada": false,
+    "memo": "Dargham Importacao - Parcela 3/5"
+  },
+  "6a13e479-c491-45d4-c2a2-de1fe4e026db": {
+    "categoria": "Alimentação",
+    "ignorada": false,
+    "memo": "Mercado Bom Preco"
+  },
+  "6a5a5af9-fcfb-48b5-34f3-bfa651b2ecfc": {
+    "categoria": "Transporte",
+    "ignorada": false,
+    "memo": "99*Pop"
+  },
+  "6a865e4f-7b50-4e19-966d-7f03a11ee068": {
+    "categoria": "Transporte",
+    "ignorada": false,
+    "memo": "Dl*Uberrides"
+  },
+  "6a450416-5d0f-41d2-b38a-5f219fb030b7": {
+    "categoria": "Outros",
+    "ignorada": false,
+    "memo": "Anthropic* Claude Sub"
+  },
+  "6ae4a375-fb0c-4ace-47b7-e72e24a48830": {
+    "categoria": "Alimentação",
+    "ignorada": false,
+    "memo": "Supermercado Estrela"
+  },
+  "6aaa1db2-0426-4e99-b60a-a415d5c48a9a": {
+    "categoria": "Transporte",
+    "ignorada": false,
+    "memo": "Entry Park Estacioname"
+  },
+  "6a49a9fc-1dd4-4581-b265-4c19fe51df34": {
+    "categoria": "Lazer",
+    "ignorada": false,
+    "memo": "Netflix Entretenimento"
+  },
+  "6a5dad7f-6695-4991-4474-93cf150b5964": {
+    "categoria": "Alimentação",
+    "ignorada": false,
+    "memo": "Toshe Pasteis"
+  },
+  "6a63bdb4-a9cf-4ec6-3b92-55b7b958ac57": {
+    "categoria": "Alimentação",
+    "ignorada": false,
+    "memo": "Ifd*Pizzaria Napoli"
+  },
+  "6aa33c05-38e2-4f3d-94a8-88e6cd228362": {
+    "categoria": "Transporte",
+    "ignorada": false,
+    "memo": "Stoppark Brigadeiro"
+  },
+  "6a6c2fc7-8492-473c-db4d-6c04a9e45635": {
+    "categoria": "Alimentação",
+    "ignorada": false,
+    "memo": "Tom Buffet"
+  },
+  "6aa3cfdd-76b8-4fea-a91d-cc79dd7a5899": {
+    "categoria": "Transporte",
+    "ignorada": false,
+    "memo": "Auto Posto Central"
+  },
+  "6a8fd913-a7a9-44e2-6bd5-6f0ef646f030": {
+    "categoria": "Alimentação",
+    "ignorada": false,
+    "memo": "Padaria Pao Quente"
+  },
+  "6af86e58-c872-4213-dede-15ba4fd82d08": {
+    "categoria": "Alimentação",
+    "ignorada": false,
+    "memo": "Ebanossorvete"
+  },
+  "6a24bea3-687b-4e4c-0cde-2c88e292950d": {
+    "categoria": "Transporte",
+    "ignorada": false,
+    "memo": "Dl*Uberrides"
+  },
+  "6aba1fdc-3f01-47bf-d013-56b226a5a3e8": {
+    "categoria": "Alimentação",
+    "ignorada": false,
+    "memo": "Ifd*Nara Obento"
+  },
+  "6aa599d8-1bf0-4daf-a036-c15ddf1302cf": {
+    "categoria": "Transporte",
+    "ignorada": false,
+    "memo": "99*Pop"
+  },
+  "6aa6a3e4-bc75-4934-dfff-809e27c30d2f": {
+    "categoria": "Transporte",
+    "ignorada": false,
+    "memo": "Dl*Uberrides"
+  },
+  "6aa7e717-fec5-419e-6dc9-00d005947ecd": {
+    "categoria": "Saúde",
+    "ignorada": false,
+    "memo": "Drogaria Pacheco"
+  },
+  "6a407077-13db-495d-305d-337dbc918a81": {
+    "categoria": "Lazer",
+    "ignorada": false,
+    "memo": "Ebn *Spotify"
+  },
+  "6a5e5460-16de-4d61-aa71-68ec4eca4abc": {
+    "categoria": "Transporte",
+    "ignorada": false,
+    "memo": "Uber *Trip"
+  },
+  "6aef061f-1473-4e75-b92f-3c402ac6e356": {
+    "categoria": "Alimentação",
+    "ignorada": false,
+    "memo": "Mercado Bom Preco"
+  },
+  "6a498ae1-8c41-4018-f638-5ef4ae8e75c9": {
+    "categoria": "Alimentação",
+    "ignorada": false,
+    "memo": "Padaria Pao Quente"
+  },
+  "6a86ac82-a44e-4670-c989-6a77f4bc7dea": {
+    "categoria": "Alimentação",
+    "ignorada": false,
+    "memo": "Supermercado Estrela"
+  },
+  "6adb7846-f618-47ce-1276-6fceae569925": {
+    "categoria": "Outros",
+    "ignorada": false,
+    "memo": "Kabum Informatica - Parcela 6/10"
+  },
+  "6a7cb9a5-2ebc-44c9-09f3-adfc3feffea6": {
+    "categoria": "Saúde",
+    "ignorada": false,
+    "memo": "Smart Fit Academia"
+  },
+  "6ab18c26-8d2e-4fd4-b536-985652b719b4": {
+    "categoria": "Alimentação",
+    "ignorada": false,
+    "memo": "Ifd*Nara Obento"
+  },
+  "6aeeffad-3848-4039-d818-21398c333ee9": {
+    "categoria": "Lazer",
+    "ignorada": false,
+    "memo": "Latam*Passagem Aerea"
+  },
+  "6a5b0cc3-0538-49b0-bf54-4bfb05e77590": {
+    "categoria": "Transporte",
+    "ignorada": false,
+    "memo": "Auto Posto Central"
+  },
+  "6ab903c6-a656-4ce4-281b-a7c1550d525c": {
+    "categoria": "Moradia",
+    "ignorada": false,
+    "memo": "Conta Vivo"
+  },
+  "6a3054cb-0ea1-4b63-469a-5c59bba24eed": {
+    "categoria": "Alimentação",
+    "ignorada": false,
+    "memo": "Mercado Bom Preco"
+  },
+  "6aba3e97-e50e-4a25-887a-d7cdfa6b6766": {
+    "categoria": "Saúde",
+    "ignorada": false,
+    "memo": "Drogaria Sao Paulo"
+  },
+  "6a96bc02-7b3f-491b-95fd-42d793ea85af": {
+    "categoria": "Alimentação",
+    "ignorada": false,
+    "memo": "Mercado Bom Preco"
+  },
+  "6a5ba470-5474-41ed-e8cb-986327e6ceec": {
+    "categoria": "Outros",
+    "ignorada": false,
+    "memo": "Mercadolivre*Mercadol"
+  },
+  "6a8cc73b-e041-4398-5450-4067be3629f6": {
+    "categoria": "Outros",
+    "ignorada": false,
+    "memo": "Dargham Importacao - Parcela 4/5"
+  },
+  "6a318c7c-c937-4ba8-7329-f68126a40d65": {
+    "categoria": "Alimentação",
+    "ignorada": false,
+    "memo": "Tom Buffet"
+  },
+  "6a426799-9cd6-4d20-06c7-64bebc5639a4": {
+    "categoria": "Alimentação",
+    "ignorada": false,
+    "memo": "Kee*Restaurante New"
+  },
+  "6afb5392-4fc7-419e-0cd7-8fe882488363": {
+    "categoria": "Alimentação",
+    "ignorada": false,
+    "memo": "Keetabr*Churrascaria e"
+  },
+  "6a6cb3c0-3966-458a-aef1-d75a1fbbc930": {
+    "categoria": "Outros",
+    "ignorada": false,
+    "memo": "Anthropic* Claude Sub"
+  },
+  "6a0a73f1-0cf1-4a45-8d1a-bcb1443bb967": {
+    "categoria": "Lazer",
+    "ignorada": false,
+    "memo": "Netflix Entretenimento"
+  },
+  "6aca4197-8c6c-474d-0604-2fbb6e605b4e": {
+    "categoria": "Saúde",
+    "ignorada": false,
+    "memo": "Drogaria Pacheco"
+  },
+  "6aac7a69-1e60-4d0b-a037-c2628eddad61": {
+    "categoria": "Alimentação",
+    "ignorada": false,
+    "memo": "Atacadao Casa Nova"
+  },
+  "6af3aa4b-ee8d-4460-1864-9e2c74627d58": {
+    "categoria": "Alimentação",
+    "ignorada": false,
+    "memo": "Kee*Restaurante New"
+  },
+  "6a5b473e-fcdd-44d7-1e32-1beee583873f": {
+    "categoria": "Saúde",
+    "ignorada": false,
+    "memo": "Drogaria Sao Paulo"
+  },
+  "6a42b419-0073-46e2-c02d-761d208a6636": {
+    "categoria": "Transporte",
+    "ignorada": false,
+    "memo": "Dl*Uberrides"
+  },
+  "6a2d0f71-85ec-4a06-4abd-2f456ce69715": {
+    "categoria": "Transporte",
+    "ignorada": false,
+    "memo": "Dl*Uberrides"
+  },
+  "6a81d2a7-f7ab-49d4-5712-b56170e87c67": {
+    "categoria": "Alimentação",
+    "ignorada": false,
+    "memo": "Mercado Bom Preco"
+  },
+  "6a698cce-4af5-41de-6894-7d4e8c659e35": {
+    "categoria": "Alimentação",
+    "ignorada": false,
+    "memo": "Supermercado Estrela"
+  },
+  "6a9c8eed-6469-462c-da95-1d1f962b61b3": {
+    "categoria": "Alimentação",
+    "ignorada": false,
+    "memo": "Ifd*Nara Obento"
+  },
+  "6a20b23f-3007-46ed-0f53-b0be6eb4d903": {
+    "categoria": "Lazer",
+    "ignorada": false,
+    "memo": "Ebn *Spotify"
+  },
+  "6a8c78c6-8757-443f-48f1-dd9ee9719df1": {
+    "categoria": "Alimentação",
+    "ignorada": false,
+    "memo": "Keetabr*Churrascaria e"
+  },
+  "6a76b49d-4893-41f4-aa1a-c57d2ddaa376": {
+    "categoria": "Alimentação",
+    "ignorada": false,
+    "memo": "Keetabr*Churrascaria e"
+  },
+  "6a4579fe-cbaa-47d1-f52f-e0b9ae06aac6": {
+    "categoria": "Alimentação",
+    "ignorada": false,
+    "memo": "Cafe e Letras"
+  },
+  "6a69823b-ae82-42b2-b0ad-2c714daa5949": {
+    "categoria": "Transporte",
+    "ignorada": false,
+    "memo": "99*Pop"
+  },
+  "6adb9eeb-86a3-4c8c-f985-666f5e14b0b5": {
+    "categoria": "Alimentação",
+    "ignorada": false,
+    "memo": "Ifd*Pizzaria Napoli"
+  },
+  "6ae6f65a-255a-47e7-7fd1-aea173c75161": {
+    "categoria": "Outros",
+    "ignorada": false,
+    "memo": "Kabum Informatica - Parcela 7/10"
+  },
+  "6afff0d7-336e-46d6-2800-493075af06e7": {
+    "categoria": "Saúde",
+    "ignorada": false,
+    "memo": "Smart Fit Academia"
+  },
+  "6a4a8263-dbcb-4421-74d9-53b66f3dd9a5": {
+    "categoria": "Lazer",
+    "ignorada": false,
+    "memo": "Cinemark Ingressos"
+  },
+  "6a9e67db-f20f-45f5-a82c-2a3bf8d02b1f": {
+    "categoria": "Transporte",
+    "ignorada": false,
+    "memo": "Dl*Uberrides"
+  },
+  "6a6c332a-ca24-4dcb-b110-8a6a79b0d7ec": {
+    "categoria": "Moradia",
+    "ignorada": false,
+    "memo": "Conta Vivo"
+  },
+  "6a72067d-c6f7-464a-faec-1cb5f0aabbef": {
+    "categoria": "Alimentação",
+    "ignorada": false,
+    "memo": "Bh Lanches"
+  },
+  "6ad6e6d1-676c-432f-7eab-33afa9852552": {
+    "categoria": "Transporte",
+    "ignorada": false,
+    "memo": "Posto Ipiranga Sul"
+  },
+  "6af5dbac-0a80-40d7-1baa-bac6d734495e": {
+    "categoria": "Alimentação",
+    "ignorada": false,
+    "memo": "Atacadao Casa Nova"
+  },
+  "6a9be98d-fc66-4320-d2a1-8a0ca438a582": {
+    "categoria": "Alimentação",
+    "ignorada": false,
+    "memo": "Ebanossorvete"
+  },
+  "6ad28dc2-34d8-4f3a-ab5d-bef9d9315ab2": {
+    "categoria": "Transporte",
+    "ignorada": false,
+    "memo": "Entry Park Estacioname"
+  },
+  "6ab3e171-7c04-4395-62c4-1430216053e6": {
+    "categoria": "Transporte",
+    "ignorada": false,
+    "memo": "Dl*Uberrides"
+  },
+  "6ad79999-272a-45c0-a92d-c89e821f3f3d": {
+    "categoria": "Transporte",
+    "ignorada": false,
+    "memo": "Stoppark Brigadeiro"
+  },
+  "6aedd455-c7f4-40db-a6c3-cdfdd1f5c67a": {
+    "categoria": "Outros",
+    "ignorada": false,
+    "memo": "Dargham Importacao - Parcela 5/5"
+  },
+  "6ad265a9-dc38-4047-3e49-394a094c51fc": {
+    "categoria": "Alimentação",
+    "ignorada": false,
+    "memo": "Ifd*Nara Obento"
+  },
+  "6ae81416-6ed7-49c0-c09f-7dc765ee101a": {
+    "categoria": "Outros",
+    "ignorada": false,
+    "memo": "Amazon Marketplace"
+  },
+  "6af15f89-1d46-4a14-4dae-eddd815bf499": {
+    "categoria": "Saúde",
+    "ignorada": false,
+    "memo": "Clinica Odonto Sorriso"
+  },
+  "6aaff584-3f23-44f5-499d-210d0d34267d": {
+    "categoria": "Alimentação",
+    "ignorada": false,
+    "memo": "Cafe e Letras"
+  },
+  "6a7e8be0-996a-4a28-921a-33d242eb9b2a": {
+    "categoria": "Alimentação",
+    "ignorada": false,
+    "memo": "Ifd*Pizzaria Napoli"
+  },
+  "6af7266e-47a2-442b-3b15-e0ca9c392372": {
+    "categoria": "Alimentação",
+    "ignorada": false,
+    "memo": "Bh Lanches"
+  },
+  "6a9957e3-d1fd-49e2-7557-f3cd4f2360ff": {
+    "categoria": "Transporte",
+    "ignorada": false,
+    "memo": "Uber *Trip"
+  },
+  "6a632884-b428-4024-700f-5d32b2c69492": {
+    "categoria": "Transporte",
+    "ignorada": false,
+    "memo": "Dl*Uberrides"
+  },
+  "6a62cc03-20ba-4149-9c90-acc08eb4e680": {
+    "categoria": "Transporte",
+    "ignorada": false,
+    "memo": "Auto Posto Central"
+  },
+  "6a6d585a-bfa8-4ac8-a810-4015b46d7235": {
+    "categoria": "Outros",
+    "ignorada": false,
+    "memo": "Enjoei *Vendedor"
+  },
+  "6aca9d2a-b01e-4b71-5440-ea3a3dadc74f": {
+    "categoria": "Outros",
+    "ignorada": false,
+    "memo": "Anthropic* Claude Sub"
+  },
+  "6a837c55-503e-4899-25a7-2a2d1d738923": {
+    "categoria": "Alimentação",
+    "ignorada": false,
+    "memo": "Kee*Restaurante New"
+  },
+  "6a3fa8f3-98d8-45ab-e39c-f25e23951b18": {
+    "categoria": "Alimentação",
+    "ignorada": false,
+    "memo": "Ebanossorvete"
+  },
+  "6aefc9a6-b7f4-44c5-251f-90c2556a6254": {
+    "categoria": "Lazer",
+    "ignorada": false,
+    "memo": "Netflix Entretenimento"
+  },
+  "6ac53f03-20d1-4454-ae8d-1a5fe2fbe480": {
+    "categoria": "Transporte",
+    "ignorada": false,
+    "memo": "Stoppark Brigadeiro"
+  },
+  "6a1e6e37-355b-4dbe-dcdf-f130cc56e5d7": {
+    "categoria": "Saúde",
+    "ignorada": false,
+    "memo": "Farmacia Bem Estar"
+  },
+  "6a4283cf-17af-4ccb-e06f-1f16aab9f2b9": {
+    "categoria": "Alimentação",
+    "ignorada": false,
+    "memo": "Mercado Bom Preco"
+  },
+  "6af1c5e3-d757-4310-9728-7390ba2d2d13": {
+    "categoria": "Transporte",
+    "ignorada": false,
+    "memo": "99*Pop"
+  },
+  "6a91a696-abff-43b3-6106-7445f4753d6b": {
+    "categoria": "Outros",
+    "ignorada": false,
+    "memo": "Amazon Marketplace"
+  },
+  "6a4acd68-b155-44e6-9917-f05cb466b0f4": {
+    "categoria": "Alimentação",
+    "ignorada": false,
+    "memo": "Ifd*Pizzaria Napoli"
+  },
+  "6aa03cab-6b0f-4a3b-0660-3f48cca2c95c": {
+    "categoria": "Alimentação",
+    "ignorada": false,
+    "memo": "Yakitori"
+  },
+  "6a5d38c2-605f-4b86-d552-127086d302f6": {
+    "categoria": "Alimentação",
+    "ignorada": false,
+    "memo": "Yakitori"
+  },
+  "6a3c75bf-b0f2-4936-d919-1a8e11661719": {
+    "categoria": "Educação",
+    "ignorada": false,
+    "memo": "Udemy*Curso Online"
+  },
+  "6ae8e98d-130f-48d6-7d9a-5adde806e5ed": {
+    "categoria": "Alimentação",
+    "ignorada": false,
+    "memo": "Bh Lanches"
+  },
+  "6a10e19f-e1c4-4162-b171-fcde213a22b5": {
+    "categoria": "Saúde",
+    "ignorada": false,
+    "memo": "Drogaria Sao Paulo"
+  },
+  "6a0ad918-44ba-404f-54bd-0922f6f0a11d": {
+    "categoria": "Transporte",
+    "ignorada": false,
+    "memo": "Posto Ipiranga Sul"
+  },
+  "6a8b65ea-9c04-4e44-51ad-9473059f0eef": {
+    "categoria": "Lazer",
+    "ignorada": false,
+    "memo": "Ebn *Spotify"
+  },
+  "6a29db8f-2906-4da5-35f2-be6becf39cd0": {
+    "categoria": "Alimentação",
+    "ignorada": false,
+    "memo": "Tom Buffet"
+  },
+  "6ac83d6f-8965-4e3b-f5be-49e99026fe9a": {
+    "categoria": "Outros",
+    "ignorada": false,
+    "memo": "Kabum Informatica - Parcela 8/10"
+  },
+  "6ad75598-1ecd-4256-0003-9bd2b23b055b": {
+    "categoria": "Alimentação",
+    "ignorada": false,
+    "memo": "Hortifruti Verde Vida"
+  },
+  "6a83c538-6ec9-44b1-fd56-2bbfab71574b": {
+    "categoria": "Alimentação",
+    "ignorada": false,
+    "memo": "Ifd*Pizzaria Napoli"
+  },
+  "6a81277c-0331-49d2-4e4d-32b0a923946c": {
+    "categoria": "Transporte",
+    "ignorada": false,
+    "memo": "Dl*Uberrides"
+  },
+  "6a1cc344-17ea-4541-e1e0-6f5ae8d3a440": {
+    "categoria": "Saúde",
+    "ignorada": false,
+    "memo": "Smart Fit Academia"
+  },
+  "6a64f54c-100a-4a0c-54c8-5576b9c0da71": {
+    "categoria": "Transporte",
+    "ignorada": false,
+    "memo": "99*Pop"
+  },
+  "6afe8523-32eb-49bc-6102-faaa1130c9df": {
+    "categoria": "Transporte",
+    "ignorada": false,
+    "memo": "Uber *Trip"
+  },
+  "6a009744-9d0c-42c1-256e-57f34b5e1911": {
+    "categoria": "Alimentação",
+    "ignorada": false,
+    "memo": "Atacadao Casa Nova"
+  },
+  "6a2192dc-d6f9-49b4-8294-6735592139be": {
+    "categoria": "Alimentação",
+    "ignorada": false,
+    "memo": "Ifd*Nara Obento"
+  },
+  "6af10001-eb12-4149-c876-991f1a1bd2f2": {
+    "categoria": "Alimentação",
+    "ignorada": false,
+    "memo": "Gran Sapore"
+  },
+  "6a5986df-2938-4f6a-2800-0828ac107827": {
+    "categoria": "Moradia",
+    "ignorada": false,
+    "memo": "Conta Vivo"
+  },
+  "6ae8a209-ed5e-4523-aa35-ddfffaa1cbc4": {
+    "categoria": "Alimentação",
+    "ignorada": false,
+    "memo": "Kee*Restaurante New"
+  },
+  "6ae48fa5-e0a2-4de6-9600-356739f05eb9": {
+    "categoria": "Alimentação",
+    "ignorada": false,
+    "memo": "Bh Lanches"
+  },
+  "6a97b92a-677e-4d93-301d-f1b644855568": {
+    "categoria": "Transporte",
+    "ignorada": false,
+    "memo": "Auto Posto Central"
+  },
+  "6a10bc33-5868-4c63-40f2-3782cfec2fa0": {
+    "categoria": "Alimentação",
+    "ignorada": false,
+    "memo": "Mercado Bom Preco"
+  },
+  "6ae57b86-fb07-4ac9-b22a-14242004e1ec": {
+    "categoria": "Transporte",
+    "ignorada": false,
+    "memo": "Stoppark Brigadeiro"
+  },
+  "6aeafc84-f245-4695-6d49-161dad947493": {
+    "categoria": "Alimentação",
+    "ignorada": false,
+    "memo": "Keetabr*Churrascaria e"
+  },
+  "6ad8a9fe-1ef6-4ea6-0626-66d9a1e3fdd4": {
+    "categoria": "Alimentação",
+    "ignorada": false,
+    "memo": "Padaria Pao Quente"
+  },
+  "6a6b914a-c833-44d9-873e-14f5e6323785": {
+    "categoria": "Transporte",
+    "ignorada": false,
+    "memo": "Uber *Trip"
+  }
+}

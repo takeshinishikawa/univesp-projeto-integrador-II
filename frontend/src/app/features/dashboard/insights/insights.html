@@ -1,0 +1,38 @@
+@if (mes() !== null) {
+  <section class="painel" aria-labelledby="titulo-insights" [attr.aria-busy]="carregando()">
+    <h2 id="titulo-insights">
+      O que chamou atenção <span class="periodo">— {{ periodo() }}</span>
+    </h2>
+
+    @if (erro()) {
+      <p class="aviso-erro" role="alert">
+        Não foi possível gerar os destaques agora. O resto do resumo continua valendo.
+      </p>
+    } @else if (insights(); as lista) {
+      @if (lista.length === 0) {
+        <p>Ainda não há o que destacar neste mês.</p>
+      } @else {
+        <ul class="insights">
+          @for (insight of lista; track insight.id) {
+            <li class="insight" [attr.data-severidade]="insight.severidade">
+              <span class="insight__icone" aria-hidden="true">{{ severidade(insight).icone }}</span>
+              <p class="insight__texto">
+                <span class="sr-only">{{ severidade(insight).texto }}: </span>{{ insight.texto }}
+                @if (insight.link; as link) {
+                  <a
+                    routerLink="/transacoes"
+                    [queryParams]="params(link)"
+                    [attr.aria-label]="'Ver transações: ' + insight.titulo"
+                    >Ver transações</a
+                  >
+                }
+              </p>
+            </li>
+          }
+        </ul>
+      }
+    } @else {
+      <p>Analisando o mês…</p>
+    }
+  </section>
+}

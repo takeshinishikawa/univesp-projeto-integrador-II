@@ -1,0 +1,129 @@
+<h1 class="sr-only">Gastos recorrentes</h1>
+
+<p class="intro">
+  Encontramos automaticamente as despesas que se repetem todo mês (assinaturas, mensalidades, contas
+  fixas), a partir do seu histórico. Isso é uma estimativa: nada é lançado antecipadamente.
+</p>
+
+<!-- Anuncia o resultado de "Não é recorrente" e "Desfazer" para leitores de tela. -->
+<div role="status">
+  @if (aviso()) {
+    <p class="aviso-sucesso">
+      {{ aviso() }}
+      @if (ignoradaAgora(); as ignorada) {
+        <button type="button" class="link-botao" (click)="desfazer(ignorada)">Desfazer</button>
+      }
+    </p>
+  }
+</div>
+
+@if (erroAcao(); as mensagem) {
+  <p class="aviso-erro" role="alert">{{ mensagem }}</p>
+}
+
+@if (erro(); as mensagem) {
+  <p class="aviso-erro" role="alert">{{ mensagem }}</p>
+} @else if (carregando() && !resumo()) {
+  <p>Carregando…</p>
+} @else if (resumo(); as r) {
+  <div class="cards" [attr.aria-busy]="carregando()">
+    <app-card titulo="Custo fixo por mês">
+      <p class="valor">{{ r.custoMensal | currency: 'BRL' }}</p>
+    </app-card>
+    <app-card titulo="Custo fixo por ano">
+      <p class="valor">{{ r.custoAnual | currency: 'BRL' }}</p>
+    </app-card>
+    <app-card titulo="Ainda a cobrar neste mês">
+      <p class="valor">{{ r.comprometidoNoMes.valor | currency: 'BRL' }}</p>
+      <p class="detalhe">
+        {{ r.comprometidoNoMes.quantidade }}
+        {{ r.comprometidoNoMes.quantidade === 1 ? 'cobrança prevista' : 'cobranças previstas' }}
+      </p>
+    </app-card>
+  </div>
+
+  <label class="mostrar-ignoradas">
+    <input type="checkbox" [checked]="mostrarIgnoradas()" (change)="alternarIgnoradas($event)" />
+    Mostrar também as que marquei como "não é recorrente"
+  </label>
+
+  @if (r.recorrencias.length === 0) {
+    <p class="vazio">
+      Ainda não encontramos gastos que se repetem. Importe mais meses de extrato: precisamos de pelo
+      menos três meses seguidos com a mesma descrição.
+    </p>
+  } @else {
+    <app-table legenda="Gastos que se repetem todo mês, do maior valor para o menor">
+      <thead>
+        <tr>
+          <th scope="col">Descrição</th>
+          <th scope="col">Categoria</th>
+          <th scope="col" class="col-numerica">Valor típico</th>
+          <th scope="col">Cobranças</th>
+          <th scope="col">Situação</th>
+          <th scope="col">Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (rec of r.recorrencias; track rec.chave) {
+          <tr [class.ignorada]="rec.ignorada">
+            <th scope="row">{{ rec.descricao }}</th>
+            <td>{{ nomesDasCategorias().get(rec.categoriaId) ?? '—' }}</td>
+            <td class="col-numerica">
+              {{ rec.valorTipico | currency: 'BRL' }}
+              @if (rec.valorVariavel) {
+                <span class="detalhe">(média)</span>
+              }
+            </td>
+            <td class="cobrancas">
+              <span>Última: {{ rec.ultimaData | date: 'dd/MM/yyyy' }}</span>
+              @if (rec.situacao === 'ATIVA') {
+                <span>Próxima: {{ rec.proximaData | date: 'dd/MM/yyyy' }}</span>
+              }
+            </td>
+            <td>
+              <div class="selos">
+                @if (rec.ignorada) {
+                  <span class="selo" data-tom="neutro">não é recorrente</span>
+                } @else if (rec.situacao === 'ATIVA') {
+                  <span class="selo" data-tom="bom">✓ ativa</span>
+                } @else {
+                  <span class="selo" data-tom="neutro">possivelmente encerrada</span>
+                }
+                @if (rec.valorVariavel) {
+                  <span class="selo" data-tom="atencao">valor variável</span>
+                }
+                @if (reajusteTexto(rec); as texto) {
+                  <span class="reajuste">
+                    ⚠ {{ texto }}: de {{ rec.valorAnterior | currency: 'BRL' }} para
+                    {{ rec.valorAtual | currency: 'BRL' }}
+                  </span>
+                }
+              </div>
+            </td>
+            <td>
+              <div class="acoes-linha">
+                <a
+                  class="ver-transacoes"
+                  routerLink="/transacoes"
+                  [queryParams]="paramsTransacoes(rec)"
+                  [attr.aria-label]="'Ver transações de ' + rec.descricao"
+                  >Ver transações</a
+                >
+                @if (rec.ignorada) {
+                  <button type="button" class="link-botao" (click)="desfazer(rec)">
+                    Voltar a considerar<span class="sr-only"> {{ rec.descricao }}</span>
+                  </button>
+                } @else {
+                  <button type="button" class="link-botao" (click)="ignorar(rec)">
+                    Não é recorrente<span class="sr-only">: {{ rec.descricao }}</span>
+                  </button>
+                }
+              </div>
+            </td>
+          </tr>
+        }
+      </tbody>
+    </app-table>
+  }
+}

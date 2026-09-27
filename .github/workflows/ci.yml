@@ -1,0 +1,104 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+# Cancela execuções antigas do mesmo PR/branch quando chega um push novo.
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+env:
+  NODE_VERSION: 24
+
+jobs:
+  backend:
+    name: Backend (lint, build, testes)
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: backend
+    # MySQL efêmero: existe só durante o job, para os testes de integração usarem um banco real.
+    services:
+      mysql:
+        image: mysql:8
+        env:
+          MYSQL_ROOT_PASSWORD: ci-root-only
+          MYSQL_DATABASE: financas_test
+          MYSQL_USER: app
+          MYSQL_PASSWORD: ci-app-only
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping -h 127.0.0.1 -uroot -pci-root-only --silent"
+          --health-interval=5s
+          --health-timeout=5s
+          --health-retries=20
+    env:
+      DATABASE_URL: mysql://root:ci-root-only@127.0.0.1:3306/financas_test
+      DATABASE_URL_TEST: mysql://root:ci-root-only@127.0.0.1:3306/financas_test
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+          cache-dependency-path: backend/package-lock.json
+      - run: npm ci
+      - run: npx prisma generate
+      - run: npm run lint
+      - run: npm run build
+      - name: Aplicar migrations no MySQL efêmero
+        run: npx prisma migrate deploy
+      - name: Testes (unitários + integração)
+        run: npm test -- --ci
+
+  frontend:
+    name: Frontend (lint, testes, build)
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: frontend
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+      - run: npm ci
+      - run: npm run lint
+      - run: npm test -- --watch=false
+      - run: npm run build
+
+  # Sobe a aplicação inteira (MySQL + API + Nginx com o Angular) e exercita o fluxo principal.
+  smoke:
+    name: Aplicação completa (Docker Compose)
+    runs-on: ubuntu-latest
+    needs: [backend, frontend]
+    steps:
+      - uses: actions/checkout@v4
+      - name: Criar .env.local com segredos descartáveis
+        run: |
+          {
+            echo "MYSQL_ROOT_PASSWORD=$(openssl rand -hex 12)"
+            echo "MYSQL_USER=app"
+            echo "MYSQL_PASSWORD=$(openssl rand -hex 12)"
+            echo "JWT_SECRET=$(openssl rand -hex 32)"
+          } > .env.local
+      - name: Subir a stack
+        run: docker compose --env-file .env.local up --build -d --wait --wait-timeout 300
+      - name: Fluxo principal pela API (via Nginx)
+        run: bash .github/scripts/smoke.sh http://localhost:4200
+      - name: Logs em caso de falha
+        if: failure()
+        run: docker compose --env-file .env.local logs --no-color --tail=200
+      - name: Derrubar a stack
+        if: always()
+        run: docker compose --env-file .env.local down -v

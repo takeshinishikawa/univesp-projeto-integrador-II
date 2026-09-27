@@ -1,0 +1,47 @@
+@if (erro()) {
+  <section class="painel" aria-labelledby="titulo-objetivos">
+    <h2 id="titulo-objetivos">Objetivos</h2>
+    <p class="aviso-erro" role="alert">Não foi possível carregar os objetivos agora.</p>
+  </section>
+} @else if (objetivos(); as lista) {
+  <section class="painel" aria-labelledby="titulo-objetivos">
+    <h2 id="titulo-objetivos">Objetivos</h2>
+
+    @if (lista.length === 0) {
+      <p>
+        Guardar dinheiro para algo também conta.
+        <a routerLink="/objetivos">Crie seu primeiro objetivo</a>.
+      </p>
+    } @else {
+      <ul class="objetivos">
+        @for (o of lista; track o.id) {
+          <li class="objetivo">
+            <div class="objetivo__topo">
+              <strong>{{ o.nome }}</strong>
+              <span class="selo" [attr.data-tom]="rotulo(o).tom">
+                <span aria-hidden="true">{{ rotulo(o).icone }}</span> {{ rotulo(o).texto }}
+              </span>
+            </div>
+            <progress
+              max="100"
+              [value]="o.percentual > 100 ? 100 : o.percentual"
+              [attr.aria-label]="'Progresso de ' + o.nome + ': ' + percentualTexto(o)"
+            ></progress>
+            <p class="objetivo__texto">
+              {{ o.acumulado | currency: 'BRL' }} de {{ o.valorAlvo | currency: 'BRL' }} —
+              {{ percentualTexto(o) }}
+            </p>
+            <p class="objetivo__detalhe">
+              @if (o.guardarEsteMes > 0) {
+                Falta guardar este mês: <strong>{{ o.guardarEsteMes | currency: 'BRL' }}</strong>
+              } @else {
+                Você já guardou o necessário para este mês.
+              }
+            </p>
+          </li>
+        }
+      </ul>
+      <a routerLink="/objetivos">Ver objetivos</a>
+    }
+  </section>
+}

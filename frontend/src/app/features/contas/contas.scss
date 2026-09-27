@@ -1,0 +1,81 @@
+.intro {
+  margin-top: 0;
+}
+
+.painel {
+  margin-bottom: var(--espaco-4);
+}
+
+.contas {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 17rem), 1fr));
+  gap: var(--espaco-3);
+  padding: 0;
+  margin: 0 0 var(--espaco-3);
+  list-style: none;
+}
+
+.conta {
+  display: flex;
+  flex-direction: column;
+  gap: var(--espaco-2);
+  padding: var(--espaco-3);
+  background: var(--cor-fundo);
+  border: 1px solid var(--cor-borda);
+  border-radius: var(--raio);
+}
+
+.conta__topo {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--espaco-2);
+  overflow-wrap: anywhere;
+}
+
+.conta__saldo {
+  margin: 0;
+  font-size: 1.375rem;
+  font-weight: 700;
+
+  &--negativo {
+    color: var(--cor-despesa);
+  }
+}
+
+.conta__detalhe {
+  margin: 0;
+  color: var(--cor-texto-suave);
+  font-size: 0.9375rem;
+}
+
+.conta__acoes {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--espaco-2);
+  margin-top: auto;
+}
+
+.conta__link {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.75rem;
+  padding: 0 var(--espaco-1);
+}
+
+.total {
+  font-size: 1.125rem;
+}
+
+.formularios {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 20rem), 1fr));
+  gap: var(--espaco-4);
+  align-items: start;
+}
+
+.dica {
+  color: var(--cor-texto-suave);
+}

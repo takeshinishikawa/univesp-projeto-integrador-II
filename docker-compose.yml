@@ -1,0 +1,75 @@
+# Stack local: MySQL + backend (Express/Prisma) + frontend (Angular servido pelo Nginx).
+#
+#   docker compose --env-file .env.local up --build -d
+#
+# Variáveis vêm de .env.local (veja .env.example).
+name: financas
+
+services:
+  mysql:
+    image: mysql:8
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:?defina MYSQL_ROOT_PASSWORD em .env.local}
+      MYSQL_DATABASE: ${MYSQL_DATABASE:-financas}
+      MYSQL_USER: ${MYSQL_USER:?defina MYSQL_USER em .env.local}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD:?defina MYSQL_PASSWORD em .env.local}
+    ports:
+      # Exposta só para debug local (Workbench/DBeaver); use 3306 se estiver livre.
+      - '${MYSQL_HOST_PORT:-3306}:3306'
+    volumes:
+      - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ['CMD-SHELL', 'mysqladmin ping -h 127.0.0.1 -uroot -p"$$MYSQL_ROOT_PASSWORD" --silent']
+      interval: 5s
+      timeout: 5s
+      retries: 20
+      start_period: 20s
+
+  backend:
+    build:
+      context: ./backend
+      secrets: [extra_ca]
+    restart: unless-stopped
+    depends_on:
+      mysql:
+        condition: service_healthy
+    environment:
+      NODE_ENV: production
+      PORT: 3000
+      DATABASE_URL: mysql://${MYSQL_USER}:${MYSQL_PASSWORD}@mysql:3306/${MYSQL_DATABASE:-financas}
+      JWT_SECRET: ${JWT_SECRET:?defina JWT_SECRET em .env.local}
+      JWT_EXPIRES_IN: ${JWT_EXPIRES_IN:-1h}
+      CORS_ORIGIN: ${CORS_ORIGIN:-http://localhost:4200}
+    ports:
+      - '3000:3000'
+    healthcheck:
+      # /api/health é público e consulta o banco: serve de readiness da API.
+      test:
+        - CMD
+        - node
+        - -e
+        - "fetch('http://127.0.0.1:3000/api/health').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
+
+  frontend:
+    build:
+      context: ./frontend
+      secrets: [extra_ca]
+    restart: unless-stopped
+    depends_on:
+      backend:
+        condition: service_healthy
+    ports:
+      - '4200:80'
+
+volumes:
+  mysql_data:
+
+# CA extra só para o build (npm/prisma) em redes com inspeção de TLS. Padrão: arquivo vazio.
+secrets:
+  extra_ca:
+    file: ${EXTRA_CA_FILE:-./docker/no-extra-ca.pem}

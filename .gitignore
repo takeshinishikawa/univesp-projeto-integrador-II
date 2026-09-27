@@ -1,0 +1,15 @@
+node_modules/
+dist/
+.env
+.env.local
+*.log
+
+# Exportacoes reais do banco (dados pessoais): so os fixtures ficticios em backend/tests/fixtures/ sao versionados
+backend/tests/*.ofx
+
+# Fora do repositorio: projetos antigos sem relacao, planejamento interno e instrucoes do assistente
+/1fsdt-projeto-final-fiap-main/
+/aplicacao/
+/.projects/
+CLAUDE.md
+.claude/

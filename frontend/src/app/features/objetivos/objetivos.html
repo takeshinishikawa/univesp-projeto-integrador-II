@@ -1,0 +1,298 @@
+<h1 class="sr-only">Objetivos</h1>
+
+<p class="intro">
+  Guardar dinheiro para algo também é gestão financeira. Crie um objetivo com valor e prazo (viagem,
+  reserva de emergência), registre quanto já guardou e veja quanto precisa guardar por mês. Os
+  aportes são manuais: o dinheiro pode estar em qualquer lugar.
+</p>
+
+<div role="status">
+  @if (aviso()) {
+    <p class="aviso-sucesso">{{ aviso() }}</p>
+  }
+</div>
+@if (erroAcao(); as mensagem) {
+  @if (!emEdicao() && !guardandoEm() && !excluindo()) {
+    <p class="aviso-erro" role="alert">{{ mensagem }}</p>
+  }
+}
+
+<section class="painel novo" aria-labelledby="titulo-novo">
+  <h2 id="titulo-novo">Novo objetivo</h2>
+  <form [formGroup]="novoForm" (ngSubmit)="criar()" novalidate>
+    <div class="novo__campos">
+      <app-form-field label="Nome" inputId="objetivo-nome" [control]="novoForm.controls.nome">
+        <input id="objetivo-nome" type="text" maxlength="60" formControlName="nome" />
+      </app-form-field>
+      <app-form-field
+        label="Valor a juntar (R$)"
+        inputId="objetivo-valor"
+        [control]="novoForm.controls.valorAlvo"
+      >
+        <input
+          id="objetivo-valor"
+          type="number"
+          appMoeda
+          inputmode="decimal"
+          step="0.01"
+          min="0.01"
+          formControlName="valorAlvo"
+        />
+      </app-form-field>
+      <app-form-field
+        label="Prazo: mês"
+        inputId="objetivo-mes"
+        [control]="novoForm.controls.prazoMes"
+      >
+        <select id="objetivo-mes" formControlName="prazoMes">
+          @for (mes of meses; track mes.valor) {
+            <option [ngValue]="mes.valor">{{ mes.rotulo }}</option>
+          }
+        </select>
+      </app-form-field>
+      <app-form-field
+        label="Prazo: ano"
+        inputId="objetivo-ano"
+        [control]="novoForm.controls.prazoAno"
+      >
+        <select id="objetivo-ano" formControlName="prazoAno">
+          @for (ano of anos; track ano) {
+            <option [ngValue]="ano">{{ ano }}</option>
+          }
+        </select>
+      </app-form-field>
+      <app-form-field
+        label="Já guardado (R$)"
+        inputId="objetivo-inicial"
+        [opcional]="true"
+        dica="Se você já tem algum valor separado para isso."
+        [control]="novoForm.controls.valorInicial"
+      >
+        <input
+          id="objetivo-inicial"
+          type="number"
+          appMoeda
+          inputmode="decimal"
+          step="0.01"
+          min="0"
+          formControlName="valorInicial"
+        />
+      </app-form-field>
+    </div>
+    <app-button type="submit" [disabled]="salvando()">Criar objetivo</app-button>
+  </form>
+</section>
+
+@if (erro(); as mensagem) {
+  <p class="aviso-erro" role="alert">{{ mensagem }}</p>
+} @else if (carregando()) {
+  <p>Carregando os objetivos…</p>
+} @else if (objetivos().length === 0) {
+  <p class="vazio">Você ainda não tem objetivos. Crie o primeiro acima.</p>
+} @else {
+  <section aria-labelledby="titulo-ativos">
+    <h2 id="titulo-ativos">Em andamento</h2>
+    @if (ativos().length === 0) {
+      <p>Nenhum objetivo em andamento.</p>
+    }
+    <ul class="cartoes">
+      @for (o of ativos(); track o.id) {
+        <ng-container *ngTemplateOutlet="cartaoObjetivo; context: { $implicit: o }" />
+      }
+    </ul>
+  </section>
+
+  @if (concluidos().length > 0) {
+    <section aria-labelledby="titulo-concluidos">
+      <h2 id="titulo-concluidos">Concluídos</h2>
+      <ul class="cartoes">
+        @for (o of concluidos(); track o.id) {
+          <ng-container *ngTemplateOutlet="cartaoObjetivo; context: { $implicit: o }" />
+        }
+      </ul>
+    </section>
+  }
+}
+
+<ng-template #cartaoObjetivo let-o>
+  <li class="cartao objetivo">
+    <div class="objetivo__topo">
+      <h3 class="objetivo__nome">{{ o.nome }}</h3>
+      <span class="selo" [attr.data-tom]="rotulo(o.situacao).tom">
+        <span aria-hidden="true">{{ rotulo(o.situacao).icone }}</span>
+        {{ rotulo(o.situacao).texto }}
+      </span>
+    </div>
+
+    <progress
+      max="100"
+      [value]="valorDaBarra(o)"
+      [attr.aria-label]="'Progresso de ' + o.nome + ': ' + percentualTexto(o)"
+    ></progress>
+    <p class="objetivo__texto">
+      {{ o.acumulado | currency: 'BRL' }} de {{ o.valorAlvo | currency: 'BRL' }} —
+      {{ percentualTexto(o) }}
+    </p>
+    <p class="objetivo__detalhe">Prazo: {{ prazoTexto(o) }}</p>
+    @if (o.situacao !== 'CONCLUIDO') {
+      <p class="objetivo__detalhe">
+        Guardar por mês: <strong>{{ o.valorMensalNecessario | currency: 'BRL' }}</strong> ({{
+          o.mesesRestantes
+        }}
+        {{ o.mesesRestantes === 1 ? 'mês' : 'meses' }})
+      </p>
+    }
+
+    <div class="acoes-linha">
+      <app-button [ariaLabel]="'Guardar em ' + o.nome" (click)="abrirAporte(o)">Guardar</app-button>
+      <app-button variant="secondary" [ariaLabel]="'Editar ' + o.nome" (click)="abrirEdicao(o)">
+        Editar
+      </app-button>
+      <app-button variant="danger" [ariaLabel]="'Excluir ' + o.nome" (click)="pedirExclusao(o)">
+        Excluir
+      </app-button>
+    </div>
+
+    @if (o.aportes.length > 0) {
+      <details class="historico">
+        <summary>Histórico de aportes ({{ o.aportes.length }})</summary>
+        <ul>
+          @for (a of o.aportes; track a.id) {
+            <li>
+              <span>
+                {{ a.data | date: 'dd/MM/yyyy' }}: {{ a.valor | currency: 'BRL' }}
+                @if (a.observacao) {
+                  <span class="objetivo__detalhe">— {{ a.observacao }}</span>
+                }
+              </span>
+              <button
+                type="button"
+                class="link-botao"
+                [attr.aria-label]="'Desfazer o aporte de ' + a.valor + ' em ' + a.data"
+                (click)="desfazerAporte(o, a.id)"
+              >
+                Desfazer
+              </button>
+            </li>
+          }
+        </ul>
+      </details>
+    }
+  </li>
+</ng-template>
+
+@if (guardandoEm(); as objetivo) {
+  <app-modal [titulo]="'Guardar em ' + objetivo.nome" (fechar)="guardandoEm.set(null)">
+    @if (erroAcao(); as mensagem) {
+      <p class="aviso-erro" role="alert">{{ mensagem }}</p>
+    }
+    <form [formGroup]="aporteForm" (ngSubmit)="salvarAporte()" novalidate>
+      <app-form-field
+        label="Valor guardado (R$)"
+        inputId="aporte-valor"
+        [control]="aporteForm.controls.valor"
+      >
+        <input
+          id="aporte-valor"
+          type="number"
+          appMoeda
+          inputmode="decimal"
+          step="0.01"
+          min="0.01"
+          formControlName="valor"
+        />
+      </app-form-field>
+      <app-form-field label="Data" inputId="aporte-data" [control]="aporteForm.controls.data">
+        <input id="aporte-data" type="date" formControlName="data" />
+      </app-form-field>
+      <app-form-field
+        label="Observação"
+        inputId="aporte-obs"
+        [opcional]="true"
+        [control]="aporteForm.controls.observacao"
+      >
+        <input id="aporte-obs" type="text" maxlength="150" formControlName="observacao" />
+      </app-form-field>
+      <div class="acoes-modal">
+        <app-button variant="secondary" (click)="guardandoEm.set(null)">Cancelar</app-button>
+        <app-button type="submit" [disabled]="salvando()">{{
+          salvando() ? 'Salvando…' : 'Guardar'
+        }}</app-button>
+      </div>
+    </form>
+  </app-modal>
+}
+
+@if (emEdicao(); as objetivo) {
+  <app-modal [titulo]="'Editar ' + objetivo.nome" (fechar)="emEdicao.set(null)">
+    @if (erroAcao(); as mensagem) {
+      <p class="aviso-erro" role="alert">{{ mensagem }}</p>
+    }
+    <form [formGroup]="edicaoForm" (ngSubmit)="salvarEdicao()" novalidate>
+      <app-form-field label="Nome" inputId="edicao-nome" [control]="edicaoForm.controls.nome">
+        <input id="edicao-nome" type="text" maxlength="60" formControlName="nome" />
+      </app-form-field>
+      <app-form-field
+        label="Valor a juntar (R$)"
+        inputId="edicao-valor"
+        [control]="edicaoForm.controls.valorAlvo"
+      >
+        <input
+          id="edicao-valor"
+          type="number"
+          appMoeda
+          inputmode="decimal"
+          step="0.01"
+          min="0.01"
+          formControlName="valorAlvo"
+        />
+      </app-form-field>
+      <app-form-field
+        label="Prazo: mês"
+        inputId="edicao-mes"
+        [control]="edicaoForm.controls.prazoMes"
+      >
+        <select id="edicao-mes" formControlName="prazoMes">
+          @for (mes of meses; track mes.valor) {
+            <option [ngValue]="mes.valor">{{ mes.rotulo }}</option>
+          }
+        </select>
+      </app-form-field>
+      <app-form-field
+        label="Prazo: ano"
+        inputId="edicao-ano"
+        [control]="edicaoForm.controls.prazoAno"
+      >
+        <select id="edicao-ano" formControlName="prazoAno">
+          @for (ano of anos; track ano) {
+            <option [ngValue]="ano">{{ ano }}</option>
+          }
+        </select>
+      </app-form-field>
+      <div class="acoes-modal">
+        <app-button variant="secondary" (click)="emEdicao.set(null)">Cancelar</app-button>
+        <app-button type="submit" [disabled]="salvando()">{{
+          salvando() ? 'Salvando…' : 'Salvar'
+        }}</app-button>
+      </div>
+    </form>
+  </app-modal>
+}
+
+@if (excluindo(); as objetivo) {
+  <app-modal titulo="Excluir objetivo" (fechar)="excluindo.set(null)">
+    @if (erroAcao(); as mensagem) {
+      <p class="aviso-erro" role="alert">{{ mensagem }}</p>
+    }
+    <p>
+      Excluir <strong>{{ objetivo.nome }}</strong> e os {{ objetivo.aportes.length }} aportes
+      registrados nele? Essa ação não pode ser desfeita.
+    </p>
+    <div class="acoes-modal">
+      <app-button variant="secondary" (click)="excluindo.set(null)">Cancelar</app-button>
+      <app-button variant="danger" [disabled]="salvando()" (click)="confirmarExclusao()">
+        {{ salvando() ? 'Excluindo…' : 'Excluir' }}
+      </app-button>
+    </div>
+  </app-modal>
+}

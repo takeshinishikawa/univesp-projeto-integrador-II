@@ -1,0 +1,79 @@
+<section class="painel" aria-labelledby="titulo-evolucao" [attr.aria-busy]="carregando()">
+  <h2 id="titulo-evolucao">Evolução mensal em {{ ano() }}</h2>
+
+  @if (erro(); as mensagem) {
+    <p class="aviso-erro" role="alert">{{ mensagem }}</p>
+  } @else if (carregando() && !dados()) {
+    <p>Carregando a evolução…</p>
+  } @else if (dados()) {
+    @if (!temMovimento()) {
+      <p>
+        Sem lançamentos em {{ ano() }}. <a routerLink="/transacoes">Adicione uma transação</a> ou
+        <a routerLink="/importar">importe um extrato</a>.
+      </p>
+    } @else {
+      <p class="resumo-grafico" aria-live="polite">{{ resumoTexto() }}</p>
+
+      @if (configuracao(); as config) {
+        <app-grafico [configuracao]="config" [descricao]="descricao()" altura="22rem">
+          <table class="tabela-dados">
+            <caption class="sr-only">
+              Receitas, despesas e saldo por mês em
+              {{
+                ano()
+              }}
+            </caption>
+            <thead>
+              <tr>
+                <th scope="col">Mês</th>
+                <th scope="col" class="col-numerica">Receitas</th>
+                <th scope="col" class="col-numerica">Despesas</th>
+                <th scope="col" class="col-numerica">Saldo</th>
+                @if (temMetas()) {
+                  <th scope="col" class="col-numerica">Meta de gastos</th>
+                }
+              </tr>
+            </thead>
+            <tbody>
+              @for (m of dados()?.meses; track m.mes) {
+                <tr [class.linha-destaque]="m.mes === mes()">
+                  <th scope="row">
+                    <button
+                      type="button"
+                      class="mes-botao"
+                      [attr.aria-pressed]="m.mes === mes()"
+                      (click)="mesEscolhido.emit(m.mes)"
+                    >
+                      {{ nomeCapitalizado(m.mes) }}
+                    </button>
+                  </th>
+                  <td class="col-numerica">{{ m.totalReceitas | currency: 'BRL' }}</td>
+                  <td class="col-numerica">{{ m.totalDespesas | currency: 'BRL' }}</td>
+                  <td class="col-numerica" [class.negativo]="m.saldo < 0">
+                    {{ m.saldo | currency: 'BRL' }}
+                    @if (m.saldo < 0) {
+                      <span class="sr-only">(negativo)</span>
+                    }
+                  </td>
+                  @if (temMetas()) {
+                    <td class="col-numerica">
+                      {{ m.orcamentoLimite === null ? '—' : (m.orcamentoLimite | currency: 'BRL') }}
+                      @if (m.orcamentoLimite === null) {
+                        <span class="sr-only">(sem meta)</span>
+                      }
+                    </td>
+                  }
+                </tr>
+              }
+            </tbody>
+          </table>
+        </app-grafico>
+      }
+
+      <p class="dica">
+        Clique em um mês do gráfico, ou no nome do mês na tabela, para ver os valores e as
+        categorias daquele mês.
+      </p>
+    }
+  }
+</section>

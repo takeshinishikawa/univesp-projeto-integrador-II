@@ -1,0 +1,286 @@
+<h1 class="sr-only">Importar extrato ou fatura</h1>
+
+<!-- Anuncia para leitores de tela o que aconteceu em cada etapa. -->
+<p class="sr-only" role="status">
+  @switch (etapa()) {
+    @case ('lendo') {
+      Lendo o arquivo…
+    }
+    @case ('revisao') {
+      Arquivo lido: {{ linhas().length }} lançamentos encontrados. Revise antes de importar.
+    }
+    @case ('importando') {
+      Importando as transações…
+    }
+    @case ('concluido') {
+      {{ resultado()?.importadas }} transações importadas.
+    }
+  }
+</p>
+
+@if (erro(); as mensagem) {
+  <p class="aviso-erro" role="alert">{{ mensagem }}</p>
+}
+
+@switch (etapa()) {
+  @case ('concluido') {
+    <section class="sucesso" aria-labelledby="titulo-sucesso">
+      <h2 id="titulo-sucesso">Importação concluída</h2>
+      <p class="aviso-sucesso">
+        {{ resultado()?.importadas }}
+        {{ resultado()?.importadas === 1 ? 'transação importada' : 'transações importadas' }}
+        com sucesso.
+      </p>
+      @if (resultado()?.ignoradasPorDuplicidade) {
+        <p>
+          {{ resultado()?.ignoradasPorDuplicidade }}
+          {{
+            resultado()?.ignoradasPorDuplicidade === 1
+              ? 'lançamento já existia e foi ignorado'
+              : 'lançamentos já existiam e foram ignorados'
+          }}.
+        </p>
+      }
+      <p class="acoes">
+        <a routerLink="/transacoes">Ver transações</a>
+        <a routerLink="/dashboard">Ver resumo</a>
+      </p>
+      <app-button variant="secondary" (click)="recomecar()">Importar outro arquivo</app-button>
+    </section>
+  }
+
+  @case ('envio') {
+    <p>
+      Envie o arquivo <strong>OFX</strong> do extrato da conta ou da fatura do cartão. Você poderá
+      revisar tudo antes de importar.
+    </p>
+    <div
+      class="envio"
+      [class.envio--ativo]="arrastando()"
+      (dragover)="aoArrastar($event)"
+      (dragleave)="arrastando.set(false)"
+      (drop)="aoSoltar($event)"
+    >
+      <p class="envio__texto" aria-hidden="true">Arraste o arquivo .ofx até aqui ou</p>
+      <label class="envio__rotulo" for="arquivo-ofx">Escolher arquivo OFX</label>
+      <input id="arquivo-ofx" type="file" accept=".ofx" (change)="aoEscolherArquivo($event)" />
+    </div>
+
+    <details class="ajuda">
+      <summary>Como exportar o arquivo OFX</summary>
+      <p>
+        No aplicativo ou no site do seu banco, procure a opção de exportar ou baixar o
+        <strong>extrato</strong> da conta ou a <strong>fatura</strong> do cartão em formato
+        <strong>OFX</strong>. No Nubank, ela fica nas telas de extrato e de fatura (o caminho exato
+        pode mudar conforme a versão do aplicativo). Um arquivo por vez, com até 2 MB.
+      </p>
+    </details>
+
+    <p class="privacidade">
+      <strong>Privacidade:</strong> o arquivo é apenas lido para mostrar a revisão; ele não fica
+      armazenado. Só as transações que você confirmar são gravadas, e CPF, banco, agência e conta
+      que aparecem nas descrições de Pix são removidos.
+    </p>
+  }
+
+  @case ('lendo') {
+    <p aria-hidden="true">Lendo {{ nomeArquivo() }}…</p>
+  }
+
+  @default {
+    <section aria-labelledby="titulo-revisao">
+      <div class="cabecalho">
+        <h2 id="titulo-revisao">Revise as transações</h2>
+        <app-button variant="secondary" [disabled]="etapa() === 'importando'" (click)="recomecar()">
+          Escolher outro arquivo
+        </app-button>
+      </div>
+
+      <p>
+        <strong>{{ nomeArquivo() }}</strong> ({{ descricaoOrigem() }}):
+        {{ linhas().length }} lançamentos.
+        @if (quantidadeDuplicadas() > 0) {
+          {{ quantidadeDuplicadas() }} já importados.
+        }
+        @if (quantidadeDesmarcadas() > 0) {
+          {{ quantidadeDesmarcadas() }} vieram desmarcados por não serem receita ou despesa reais
+          (pagamento de fatura e transferências entre suas contas); marque se quiser importá-los.
+        }
+        @if (quantidadePorRegraDoUsuario() > 0) {
+          {{ quantidadePorRegraDoUsuario() }}
+          {{
+            quantidadePorRegraDoUsuario() === 1
+              ? 'categoria veio da sua regra'
+              : 'categorias vieram das suas regras'
+          }}.
+        }
+        Confira as categorias sugeridas e troque o que estiver errado.
+      </p>
+
+      @if (contasAtivas().length > 0) {
+        <section class="conta-destino" aria-labelledby="titulo-conta-destino">
+          <h3 id="titulo-conta-destino">Conta de destino</h3>
+          @if (contaReconhecida()) {
+            <p>Conta reconhecida pelo arquivo. Você pode escolher outra, se preferir.</p>
+          } @else if (identificadorExterno()) {
+            <p>
+              Este arquivo ainda não está ligado a nenhuma conta. Escolha uma existente (ela passa a
+              ser reconhecida nas próximas importações) ou crie uma nova.
+            </p>
+          }
+          @if (erroConta(); as mensagem) {
+            <p class="aviso-erro" role="alert">{{ mensagem }}</p>
+          }
+          <div class="conta-destino__campos">
+            <div>
+              <label for="importacao-conta">Importar para a conta</label>
+              <select
+                id="importacao-conta"
+                [disabled]="etapa() === 'importando'"
+                (change)="aoEscolherConta($event)"
+              >
+                @for (conta of contasAtivas(); track conta.id) {
+                  <option [value]="conta.id" [selected]="conta.id === contaId()">
+                    {{ conta.nome }}
+                  </option>
+                }
+              </select>
+            </div>
+            @if (!contaReconhecida() && identificadorExterno()) {
+              <div>
+                <label for="importacao-nova-conta">Ou criar a conta</label>
+                <input
+                  id="importacao-nova-conta"
+                  type="text"
+                  maxlength="60"
+                  [formControl]="nomeNovaConta"
+                />
+                <app-button
+                  variant="secondary"
+                  [disabled]="criandoConta() || etapa() === 'importando'"
+                  (click)="criarContaNova()"
+                >
+                  {{ criandoConta() ? 'Criando…' : 'Criar conta e usar nela' }}
+                </app-button>
+              </div>
+            }
+          </div>
+        </section>
+      }
+
+      <label class="marcar-todas">
+        <input type="checkbox" [checked]="todasMarcadas()" (change)="aoMarcarTodas($event)" />
+        Marcar todas as linhas selecionáveis
+      </label>
+
+      <app-table legenda="Transações do arquivo, para revisão antes de importar">
+        <thead>
+          <tr>
+            <th scope="col"><span class="sr-only">Importar</span></th>
+            <th scope="col">Data</th>
+            <th scope="col">Descrição</th>
+            <th scope="col">Categoria</th>
+            <th scope="col">Tipo</th>
+            <th scope="col" class="col-numerica">Valor</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (linha of linhas(); track linha.idExterno) {
+            <tr [class.linha-desabilitada]="linha.duplicada">
+              <td>
+                <input
+                  type="checkbox"
+                  [checked]="linha.selecionada"
+                  [disabled]="linha.duplicada || etapa() === 'importando'"
+                  [attr.aria-label]="'Importar: ' + linha.descricao"
+                  (change)="aoMarcarLinha(linha.idExterno, $event)"
+                />
+              </td>
+              <th scope="row">{{ linha.dataTransacao | date: 'dd/MM/yyyy' }}</th>
+              <td>
+                {{ linha.descricao }}
+                @if (linha.duplicada) {
+                  <span class="rotulo">já importada</span>
+                } @else if (linha.ignoradaSugerida) {
+                  <span class="rotulo rotulo--aviso">{{ linha.motivoIgnorada }}</span>
+                }
+                @if (
+                  linha.pagamentoDeFatura &&
+                  !linha.duplicada &&
+                  contasParaTransferencia().length > 0
+                ) {
+                  <div class="transferencia-linha">
+                    <label [for]="'destino-' + linha.idExterno">
+                      Registrar como transferência para
+                    </label>
+                    <select
+                      [id]="'destino-' + linha.idExterno"
+                      [disabled]="etapa() === 'importando'"
+                      (change)="aoEscolherDestinoDaFatura(linha.idExterno, $event)"
+                    >
+                      <option value="0" [selected]="linha.contaDestinoId === null">
+                        Não (tratar como {{ linha.tipo === 'RECEITA' ? 'receita' : 'despesa' }})
+                      </option>
+                      @for (conta of contasParaTransferencia(); track conta.id) {
+                        <option [value]="conta.id" [selected]="conta.id === linha.contaDestinoId">
+                          {{ conta.nome }}
+                        </option>
+                      }
+                    </select>
+                  </div>
+                }
+              </td>
+              <td>
+                <select
+                  [attr.aria-label]="'Categoria de: ' + linha.descricao"
+                  [disabled]="linha.duplicada || etapa() === 'importando'"
+                  (change)="aoMudarCategoria(linha.idExterno, $event)"
+                >
+                  @for (categoria of categoriasPorTipo()[linha.tipo]; track categoria.id) {
+                    <option [value]="categoria.id" [selected]="categoria.id === linha.categoriaId">
+                      {{ categoria.nome }}
+                    </option>
+                  }
+                </select>
+                @if (
+                  linha.origemSugestao === 'REGRA_USUARIO' &&
+                  linha.categoriaId === linha.categoriaSugeridaId &&
+                  !linha.duplicada
+                ) {
+                  <span class="rotulo rotulo--regra">regra sua: {{ linha.termoSugestao }}</span>
+                }
+              </td>
+              <td>{{ linha.tipo === 'RECEITA' ? 'Receita' : 'Despesa' }}</td>
+              <td
+                class="col-numerica"
+                [class.receita]="linha.tipo === 'RECEITA'"
+                [class.despesa]="linha.tipo === 'DESPESA'"
+              >
+                {{ linha.valor | currency: 'BRL' }}
+              </td>
+            </tr>
+          }
+        </tbody>
+      </app-table>
+
+      <div class="rodape" aria-live="polite">
+        <p class="resumo-selecao">
+          <strong>{{ selecionadas().length }}</strong>
+          {{ selecionadas().length === 1 ? 'transação selecionada' : 'transações selecionadas' }}:
+          <span class="receita">{{ totais().receitas | currency: 'BRL' }} em receitas</span>
+          e
+          <span class="despesa">{{ totais().despesas | currency: 'BRL' }} em despesas</span>.
+        </p>
+        <app-button [disabled]="!algumaMarcada() || etapa() === 'importando'" (click)="confirmar()">
+          {{
+            etapa() === 'importando'
+              ? 'Importando…'
+              : 'Importar ' +
+                selecionadas().length +
+                (selecionadas().length === 1 ? ' transação' : ' transações')
+          }}
+        </app-button>
+      </div>
+    </section>
+  }
+}

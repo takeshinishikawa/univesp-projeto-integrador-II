@@ -1,0 +1,256 @@
+<h1 class="sr-only">Metas</h1>
+
+<p class="intro">
+  Defina quanto você quer gastar em cada categoria, mês a mês. A <strong>meta do mês</strong> é a
+  soma das metas das categorias, então não há um valor total para preencher. No
+  <strong>Resumo</strong>, avisamos quando o gasto chegar a 80% de uma meta e quando passar dela.
+</p>
+
+<section class="painel resumo-mes" aria-labelledby="titulo-meta">
+  <div class="resumo-mes__periodo">
+    <app-seletor-periodo prefixo="metas" [permitirTodos]="false" [(mes)]="mes" [(ano)]="ano" />
+  </div>
+
+  <div class="resumo-mes__conteudo">
+    <h2 id="titulo-meta" class="sr-only">Meta de {{ periodoTexto() }}</h2>
+
+    @if (erroCarga(); as mensagem) {
+      <p class="aviso-erro" role="alert">{{ mensagem }}</p>
+    } @else if (carregando() && !metasDoAno()) {
+      <p>Carregando as metas…</p>
+    } @else {
+      <dl class="resumo-mes__numeros">
+        <div>
+          <dt>Meta do mês</dt>
+          <dd class="resumo-mes__valor">
+            @if (metaDoMes()?.orcamentoLimite; as meta) {
+              {{ meta | currency: 'BRL' }}
+            } @else {
+              <span aria-hidden="true">—</span>
+              <span class="sr-only">sem meta</span>
+            }
+          </dd>
+        </div>
+        @if (gastoDoMes() !== null) {
+          <div>
+            <dt>Gasto no mês</dt>
+            <dd class="resumo-mes__valor">{{ gastoDoMes() | currency: 'BRL' }}</dd>
+          </div>
+        }
+      </dl>
+
+      <p class="resumo-mes__origem" aria-live="polite">
+        @switch (metaDoMes()?.origem) {
+          @case ('CATEGORIAS') {
+            {{ textoDaSoma() }}
+          }
+          @case ('ANTIGA') {
+            Este valor foi definido antes das metas por categoria. Assim que você preencher a meta
+            de uma categoria abaixo, a meta do mês passa a ser a soma delas.
+          }
+          @default {
+            Você ainda não definiu metas para este mês. Preencha o valor de cada categoria abaixo: a
+            meta do mês será a soma delas.
+          }
+        }
+      </p>
+
+      @if (erro(); as mensagem) {
+        <p class="aviso-erro" role="alert">{{ mensagem }}</p>
+      }
+      @if (aviso(); as mensagem) {
+        <p class="aviso-sucesso" role="status">{{ mensagem }}</p>
+      }
+      @if (metaDoMes()?.origem === 'ANTIGA') {
+        <app-button
+          variant="secondary"
+          [disabled]="removendoAntiga()"
+          (click)="removerMetaAntiga()"
+        >
+          {{ removendoAntiga() ? 'Removendo…' : 'Remover esta meta' }}
+        </app-button>
+      }
+    }
+  </div>
+</section>
+
+<div class="metas">
+  <section
+    class="painel"
+    aria-labelledby="titulo-categorias"
+    [attr.aria-busy]="carregandoCategorias()"
+  >
+    <h2 id="titulo-categorias">Metas por categoria em {{ periodoTexto() }}</h2>
+    <p>
+      Preencha quanto quer gastar em cada categoria neste mês; o gasto do mês aparece ao lado como
+      referência. Deixe sem meta as categorias que não quiser acompanhar.
+    </p>
+
+    @if (erroCategorias(); as mensagem) {
+      <p class="aviso-erro" role="alert">{{ mensagem }}</p>
+    } @else if (carregandoCategorias() && !categoriasDoMes()) {
+      <p>Carregando as categorias…</p>
+    } @else {
+      @if (erroCategoria(); as mensagem) {
+        <p class="aviso-erro" role="alert">{{ mensagem }}</p>
+      }
+      @if (avisoCategoria(); as mensagem) {
+        <p class="aviso-sucesso" role="status">{{ mensagem }}</p>
+      }
+
+      <ul class="categorias">
+        @for (linha of linhasCategoria(); track linha.categoriaId) {
+          <li class="categoria">
+            <form
+              class="categoria__form"
+              (submit)="$event.preventDefault(); salvarCategoria(linha)"
+              novalidate
+            >
+              <div class="categoria__nome">
+                <strong>{{ linha.categoria }}</strong>
+                <span class="categoria__gasto">
+                  <span>Gasto no mês: {{ linha.gasto | currency: 'BRL' }}</span>
+                  @if (linha.percentual !== null && linha.situacao !== null) {
+                    <span class="selo-situacao" [attr.data-situacao]="linha.situacao">
+                      {{ percentualTexto(linha.percentual) }} da meta ·
+                      {{ rotuloSituacao(linha.situacao) }}
+                    </span>
+                  }
+                </span>
+              </div>
+
+              <div class="categoria__campo">
+                <input
+                  type="number"
+                  appMoeda
+                  inputmode="decimal"
+                  step="0.01"
+                  min="0.01"
+                  placeholder="Sem meta"
+                  [attr.aria-label]="'Meta de ' + linha.categoria"
+                  [formControl]="controle(linha.categoriaId)"
+                />
+                <app-button
+                  type="submit"
+                  [ariaLabel]="'Salvar meta de ' + linha.categoria"
+                  [disabled]="salvandoCategoriaId() !== null"
+                >
+                  Salvar
+                </app-button>
+                @if (linha.meta !== null) {
+                  <app-button
+                    variant="secondary"
+                    [ariaLabel]="'Remover meta de ' + linha.categoria"
+                    [disabled]="salvandoCategoriaId() !== null"
+                    (click)="removerCategoria(linha)"
+                  >
+                    Remover
+                  </app-button>
+                }
+              </div>
+              @if (controle(linha.categoriaId).touched && controle(linha.categoriaId).invalid) {
+                <p class="categoria__erro" role="alert">
+                  Informe um valor entre R$ 0,01 e R$ 99.999.999,99.
+                </p>
+              }
+            </form>
+          </li>
+        } @empty {
+          <li>Nenhuma categoria de despesa encontrada.</li>
+        }
+      </ul>
+    }
+  </section>
+
+  <div class="metas__lateral">
+    <section class="painel" aria-labelledby="titulo-ano" [attr.aria-busy]="carregando()">
+      <h2 id="titulo-ano">Metas de {{ ano() }}</h2>
+
+      @if (metasDoAno(); as metas) {
+        <table class="tabela-metas">
+          <caption class="sr-only">
+            Meta do mês (soma das metas por categoria) de cada mês de
+            {{
+              ano()
+            }}
+          </caption>
+          <thead>
+            <tr>
+              <th scope="col">Mês</th>
+              <th scope="col" class="col-numerica">Meta do mês</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (m of metas.meses; track m.mes) {
+              <tr [class.linha-destaque]="m.mes === mesAtual()">
+                <th scope="row">
+                  <button
+                    type="button"
+                    class="mes-botao"
+                    [attr.aria-pressed]="m.mes === mesAtual()"
+                    (click)="escolherMes(m.mes)"
+                  >
+                    {{ nomeCapitalizado(m.mes) }}
+                  </button>
+                </th>
+                <td class="col-numerica">
+                  @if (m.orcamentoLimite !== null) {
+                    {{ m.orcamentoLimite | currency: 'BRL' }}
+                    @if (m.origem === 'ANTIGA') {
+                      <span class="tabela-metas__antiga">(antiga)</span>
+                    }
+                  } @else {
+                    <span aria-hidden="true">—</span>
+                    <span class="sr-only">sem meta</span>
+                  }
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+        <p class="dica">Clique no nome de um mês para ver ou alterar as metas dele.</p>
+      }
+    </section>
+
+    <section class="painel" aria-labelledby="titulo-copiar">
+      <h2 id="titulo-copiar">Copiar para os próximos meses</h2>
+      <p>
+        Repita as metas por categoria de <strong>{{ periodoTexto() }}</strong> nos meses seguintes,
+        sem preencher um a um.
+      </p>
+
+      <form class="copiar" (submit)="$event.preventDefault(); copiar()">
+        <div class="copiar__campo">
+          <label for="copiar-ate">Copiar até</label>
+          <select id="copiar-ate" [value]="ateEfetivo()" (change)="aoEscolherAte($event)">
+            @for (opcao of mesesDeDestino(); track opcao.valor) {
+              <option [value]="opcao.valor" [selected]="opcao.valor === ateEfetivo()">
+                {{ opcao.rotulo }}
+              </option>
+            }
+          </select>
+        </div>
+
+        <label class="copiar__opcao">
+          <input
+            type="checkbox"
+            [checked]="sobrescrever()"
+            (change)="alternarSobrescrever($event)"
+          />
+          Substituir metas que já existem nos meses de destino
+        </label>
+
+        @if (erroCopia(); as mensagem) {
+          <p class="aviso-erro" role="alert">{{ mensagem }}</p>
+        }
+        @if (resultadoCopia(); as mensagem) {
+          <p class="aviso-sucesso" role="status">{{ mensagem }}</p>
+        }
+
+        <app-button type="submit" [disabled]="copiando()">
+          {{ copiando() ? 'Copiando…' : 'Copiar metas' }}
+        </app-button>
+      </form>
+    </section>
+  </div>
+</div>

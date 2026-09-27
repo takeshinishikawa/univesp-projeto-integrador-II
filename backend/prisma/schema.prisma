@@ -1,0 +1,192 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+enum TipoTransacao {
+  RECEITA
+  DESPESA
+}
+
+model Usuario {
+  id                    Int                   @id @default(autoincrement())
+  nome                  String                @db.VarChar(100)
+  email                 String                @unique @db.VarChar(100)
+  senhaHash             String                @map("senha_hash") @db.VarChar(255)
+  createdAt             DateTime              @default(now()) @map("created_at")
+  transacoes            Transacao[]
+  categorias            Categoria[]
+  metas                 MetaMensal[]
+  metasCategoria        MetaCategoria[]
+  regras                RegraCategoria[]
+  contas                Conta[]
+  recorrenciasIgnoradas RecorrenciaIgnorada[]
+  objetivos             Objetivo[]
+
+  @@map("usuarios")
+}
+
+// usuarioId nulo = categoria padrão (semeada, de todos); preenchido = criada pelo usuário.
+model Categoria {
+  id         Int              @id @default(autoincrement())
+  nome       String           @db.VarChar(50)
+  tipo       TipoTransacao
+  usuarioId  Int?             @map("usuario_id")
+  transacoes Transacao[]
+  metas      MetaCategoria[]
+  regras     RegraCategoria[]
+
+  usuario Usuario? @relation(fields: [usuarioId], references: [id], onDelete: Cascade)
+
+  @@unique([usuarioId, tipo, nome])
+  @@map("categorias")
+}
+
+// Meta de gastos de um mês específico (uma por usuário/ano/mês).
+model MetaMensal {
+  id              Int      @id @default(autoincrement())
+  usuarioId       Int      @map("usuario_id")
+  ano             Int
+  mes             Int
+  orcamentoLimite Decimal  @map("orcamento_limite") @db.Decimal(10, 2)
+  createdAt       DateTime @default(now()) @map("created_at")
+
+  usuario Usuario @relation(fields: [usuarioId], references: [id], onDelete: Cascade)
+
+  @@unique([usuarioId, ano, mes])
+  @@map("metas_mensais")
+}
+
+// Meta de gastos de uma categoria de despesa em um mês (uma por usuário/categoria/ano/mês).
+model MetaCategoria {
+  id          Int      @id @default(autoincrement())
+  usuarioId   Int      @map("usuario_id")
+  categoriaId Int      @map("categoria_id")
+  ano         Int
+  mes         Int
+  valor       Decimal  @db.Decimal(10, 2)
+  createdAt   DateTime @default(now()) @map("created_at")
+
+  usuario   Usuario   @relation(fields: [usuarioId], references: [id], onDelete: Cascade)
+  categoria Categoria @relation(fields: [categoriaId], references: [id], onDelete: Cascade)
+
+  @@unique([usuarioId, categoriaId, ano, mes])
+  @@index([categoriaId])
+  @@map("metas_categoria")
+}
+
+// Regra aprendida do usuário: descrição que contém `termo` (normalizado) vai para a categoria.
+model RegraCategoria {
+  id          Int      @id @default(autoincrement())
+  usuarioId   Int      @map("usuario_id")
+  categoriaId Int      @map("categoria_id")
+  termo       String   @db.VarChar(100)
+  createdAt   DateTime @default(now()) @map("created_at")
+
+  usuario   Usuario   @relation(fields: [usuarioId], references: [id], onDelete: Cascade)
+  categoria Categoria @relation(fields: [categoriaId], references: [id], onDelete: Cascade)
+
+  @@unique([usuarioId, termo])
+  @@index([categoriaId])
+  @@map("regras_categoria")
+}
+
+model Transacao {
+  id              Int           @id @default(autoincrement())
+  usuarioId       Int           @map("usuario_id")
+  categoriaId     Int           @map("categoria_id")
+  descricao       String        @db.VarChar(150)
+  valor           Decimal       @db.Decimal(10, 2)
+  tipo            TipoTransacao
+  dataTransacao   DateTime      @map("data_transacao") @db.Date
+  idExterno       String?       @map("id_externo") @db.VarChar(100)
+  contaId         Int           @map("conta_id")
+  // Preenchido nas duas pontas de uma transferência entre contas (nulo = transação comum).
+  transferenciaId String?       @map("transferencia_id") @db.VarChar(36)
+  createdAt       DateTime      @default(now()) @map("created_at")
+
+  usuario   Usuario   @relation(fields: [usuarioId], references: [id])
+  categoria Categoria @relation(fields: [categoriaId], references: [id])
+  conta     Conta     @relation(fields: [contaId], references: [id])
+
+  @@unique([usuarioId, contaId, idExterno])
+  @@index([usuarioId, dataTransacao])
+  @@index([categoriaId])
+  @@index([contaId])
+  @@index([transferenciaId])
+  @@map("transacoes")
+}
+
+enum TipoConta {
+  CONTA_CORRENTE
+  CARTAO_CREDITO
+  DINHEIRO
+  OUTRA
+}
+
+model Conta {
+  id                   Int       @id @default(autoincrement())
+  usuarioId            Int       @map("usuario_id")
+  nome                 String    @db.VarChar(60)
+  tipo                 TipoConta
+  saldoInicial         Decimal   @default(0) @map("saldo_inicial") @db.Decimal(12, 2)
+  // Banco + conta como vêm no OFX; serve para reconhecer a conta nas próximas importações.
+  identificadorExterno String?   @map("identificador_externo") @db.VarChar(100)
+  arquivada            Boolean   @default(false)
+  createdAt            DateTime  @default(now()) @map("created_at")
+
+  usuario    Usuario     @relation(fields: [usuarioId], references: [id], onDelete: Cascade)
+  transacoes Transacao[]
+
+  @@unique([usuarioId, nome])
+  @@unique([usuarioId, identificadorExterno])
+  @@map("contas")
+}
+
+// Recorrência que o usuário marcou como "isso não é recorrente" (chave = descrição normalizada).
+model RecorrenciaIgnorada {
+  id        Int      @id @default(autoincrement())
+  usuarioId Int      @map("usuario_id")
+  chave     String   @db.VarChar(150)
+  createdAt DateTime @default(now()) @map("created_at")
+
+  usuario Usuario @relation(fields: [usuarioId], references: [id], onDelete: Cascade)
+
+  @@unique([usuarioId, chave])
+  @@map("recorrencias_ignoradas")
+}
+
+model Objetivo {
+  id          Int       @id @default(autoincrement())
+  usuarioId   Int       @map("usuario_id")
+  nome        String    @db.VarChar(60)
+  valorAlvo   Decimal   @map("valor_alvo") @db.Decimal(12, 2)
+  prazoAno    Int       @map("prazo_ano")
+  prazoMes    Int       @map("prazo_mes")
+  createdAt   DateTime  @default(now()) @map("created_at")
+  concluidoEm DateTime? @map("concluido_em")
+
+  usuario Usuario  @relation(fields: [usuarioId], references: [id], onDelete: Cascade)
+  aportes Aporte[]
+
+  @@index([usuarioId])
+  @@map("objetivos")
+}
+
+model Aporte {
+  id         Int      @id @default(autoincrement())
+  objetivoId Int      @map("objetivo_id")
+  valor      Decimal  @db.Decimal(12, 2)
+  data       DateTime @db.Date
+  observacao String?  @db.VarChar(150)
+  createdAt  DateTime @default(now()) @map("created_at")
+
+  objetivo Objetivo @relation(fields: [objetivoId], references: [id], onDelete: Cascade)
+
+  @@index([objetivoId])
+  @@map("aportes")
+}
