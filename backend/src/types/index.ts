@@ -205,10 +205,13 @@ export interface ResultadoCopiaMetas {
 export const TERMO_MINIMO = 3;
 export const TERMO_MAXIMO = 100;
 
+// O mínimo de caracteres não é validado aqui: a contagem bruta não bate com a normalizada
+// (pontuação vira espaço, ex. "a.b" tem 3 chars brutos mas só 2 úteis). Quem valida o mínimo,
+// sobre o termo já normalizado, é RegraService.normalizarTermo — mensagem única, sem divergir.
 const termoSchema = z
   .string()
   .trim()
-  .min(TERMO_MINIMO, `O termo precisa ter ao menos ${TERMO_MINIMO} caracteres`)
+  .min(1, 'Informe um termo')
   .max(TERMO_MAXIMO, `Use no máximo ${TERMO_MAXIMO} caracteres`);
 
 export const criarRegraSchema = z.object({
@@ -362,6 +365,8 @@ export interface PreviewImportacao {
   nomeContaSugerido: string;
   tipoContaSugerido: TipoConta;
   linhas: LinhaPreview[];
+  /** Linhas de valor R$ 0,00 no arquivo (não são receita nem despesa), ignoradas automaticamente. */
+  linhasIgnoradas: number;
 }
 
 export interface ResultadoImportacao {

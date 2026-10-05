@@ -85,6 +85,28 @@ describe('RegraService', () => {
       expect(regras.criar).not.toHaveBeenCalled();
     });
 
+    it('rejeita termo cuja pontuação normaliza para espaço, mesmo "parecendo" ter 3 caracteres', async () => {
+      // "a.b" normaliza para "a b": 3 caracteres contando o espaço, mas só 2 letras de verdade —
+      // se fosse aceito, viraria uma regra "a OU b" que casa com qualquer descrição.
+      const { service, regras } = montar();
+
+      for (const termo of ['a.b', 'a b', 'a-b']) {
+        await expect(service.criar(7, { termo, categoriaId: 1 })).rejects.toMatchObject({
+          statusCode: 400,
+        });
+      }
+      expect(regras.criar).not.toHaveBeenCalled();
+    });
+
+    it('aceita termo com exatamente 3 letras/números úteis, mesmo com pontuação extra', async () => {
+      const { service, regras } = montar();
+
+      await expect(service.criar(7, { termo: 'a.b.c', categoriaId: 1 })).resolves.toMatchObject({
+        termo: 'a b c',
+      });
+      expect(regras.criar).toHaveBeenCalledWith(7, { termo: 'a b c', categoriaId: 1 });
+    });
+
     it('rejeita categoria inexistente ou de outro usuário (400)', async () => {
       const { service, regras } = montar();
 

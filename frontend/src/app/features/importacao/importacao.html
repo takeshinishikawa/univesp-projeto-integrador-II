@@ -114,11 +114,20 @@
               : 'categorias vieram das suas regras'
           }}.
         }
+        @if (linhasIgnoradas() > 0) {
+          {{ linhasIgnoradas() }}
+          {{
+            linhasIgnoradas() === 1
+              ? 'lançamento de valor zero foi ignorado'
+              : 'lançamentos de valor zero foram ignorados'
+          }}
+          (não são receita nem despesa).
+        }
         Confira as categorias sugeridas e troque o que estiver errado.
       </p>
 
       @if (contasAtivas().length > 0) {
-        <section class="conta-destino" aria-labelledby="titulo-conta-destino">
+        <section class="painel conta-destino" aria-labelledby="titulo-conta-destino">
           <h3 id="titulo-conta-destino">Conta de destino</h3>
           @if (contaReconhecida()) {
             <p>Conta reconhecida pelo arquivo. Você pode escolher outra, se preferir.</p>
@@ -263,7 +272,7 @@
         </tbody>
       </app-table>
 
-      <div class="rodape" aria-live="polite">
+      <div class="painel rodape" aria-live="polite">
         <p class="resumo-selecao">
           <strong>{{ selecionadas().length }}</strong>
           {{ selecionadas().length === 1 ? 'transação selecionada' : 'transações selecionadas' }}:

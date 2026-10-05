@@ -24,7 +24,7 @@
   border-radius: var(--raio);
 
   &--ativo {
-    background: #eff4ff;
+    background: var(--cor-primaria-fundo);
     border-color: var(--cor-primaria);
     border-style: solid;
   }
@@ -84,15 +84,6 @@ td select {
 }
 
 .rotulo {
-  display: inline-block;
-  padding: 0 var(--espaco-2);
-  margin-left: var(--espaco-1);
-  font-size: 0.8125rem;
-  font-weight: 600;
-  color: var(--cor-texto-suave);
-  border: 1px solid var(--cor-borda-campo);
-  border-radius: var(--raio);
-
   &--regra {
     margin: var(--espaco-1) 0 0;
     color: var(--cor-primaria);
@@ -122,21 +113,11 @@ td select {
   align-items: center;
   justify-content: space-between;
   gap: var(--espaco-3);
-  padding: var(--espaco-3);
   margin-top: var(--espaco-3);
-  background: var(--cor-superficie);
-  border: 1px solid var(--cor-borda);
-  border-radius: var(--raio);
-  box-shadow: var(--sombra);
 
   p {
     margin: 0;
   }
-}
-
-.aviso-sucesso {
-  color: var(--cor-receita);
-  font-weight: 600;
 }
 
 .acoes {
@@ -146,11 +127,7 @@ td select {
 }
 
 .conta-destino {
-  padding: var(--espaco-3);
   margin: var(--espaco-3) 0;
-  background: var(--cor-superficie);
-  border: 1px solid var(--cor-borda);
-  border-radius: var(--raio);
 
   h3 {
     margin-top: 0;

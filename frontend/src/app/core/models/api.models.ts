@@ -235,6 +235,8 @@ export interface PreviewImportacao {
   nomeContaSugerido: string;
   tipoContaSugerido: TipoConta;
   linhas: LinhaPreview[];
+  /** Linhas de valor R$ 0,00 no arquivo (não são receita nem despesa), ignoradas automaticamente. */
+  linhasIgnoradas: number;
 }
 
 export interface LinhaImportacaoRequest extends TransacaoRequest {

@@ -8,6 +8,7 @@
   --cor-texto-suave: #4a5568; // 7.5:1 sobre --cor-superficie
   --cor-primaria: #1d4ed8; // 6.7:1 com texto branco
   --cor-primaria-hover: #1e40af;
+  --cor-primaria-fundo: #eff4ff; // hover/destaque sutil sobre fundo branco (botões secundários, linha selecionada)
   --cor-receita: #166534; // 7.1:1 sobre branco
   --cor-receita-fundo: #dcfce7;
   --cor-despesa: #991b1b; // 8.3:1 sobre branco
@@ -199,6 +200,36 @@ select {
     color: var(--cor-texto-suave);
     background: var(--cor-fundo);
   }
+}
+
+// Selo pequeno ao lado de um texto (ex.: "transferência", "regra aplicada").
+.rotulo {
+  display: inline-block;
+  padding: 0 var(--espaco-2);
+  margin-left: var(--espaco-1);
+  color: var(--cor-texto-suave);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  background: var(--cor-fundo);
+  border: 1px solid var(--cor-borda-campo);
+  border-radius: var(--raio);
+}
+
+// Botão sem fundo, com aparência de link (ex.: "Desfazer", "Ver transações"); usar <button> para manter foco e teclado.
+.link-botao {
+  min-height: 2.75rem;
+  padding: 0 var(--espaco-1);
+  color: var(--cor-primaria);
+  font: inherit;
+  // Fixos depois do `font: inherit`: sem isso, o peso e o sublinhado variam com o elemento pai
+  // (ex.: negrito dentro de um <th>, ou sem o espaçamento padrão dos links em `<a>`).
+  font-weight: 400;
+  text-decoration: underline;
+  text-underline-offset: 0.15em;
+  white-space: nowrap;
+  background: none;
+  border: 0;
+  cursor: pointer;
 }
 
 // Lista de cartões (contas, objetivos): uma coluna no celular, várias em telas largas.

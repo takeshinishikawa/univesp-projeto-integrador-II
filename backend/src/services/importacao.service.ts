@@ -34,7 +34,7 @@ export class ImportacaoService {
     arquivo: Buffer,
     contaIdEscolhida?: number,
   ): Promise<PreviewImportacao> {
-    const { origem, identificadorExterno, transacoes } = lerOfx(arquivo);
+    const { origem, identificadorExterno, transacoes, linhasIgnoradas } = lerOfx(arquivo);
     if (transacoes.length > LIMITE_LINHAS_IMPORTACAO) {
       throw new AppError(
         422,
@@ -105,6 +105,7 @@ export class ImportacaoService {
       nomeContaSugerido: origem === 'CARTAO' ? 'Cartão de crédito' : 'Conta corrente',
       tipoContaSugerido: origem === 'CARTAO' ? 'CARTAO_CREDITO' : 'CONTA_CORRENTE',
       linhas,
+      linhasIgnoradas,
     };
   }
 

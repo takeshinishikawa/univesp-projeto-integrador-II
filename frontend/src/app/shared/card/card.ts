@@ -6,7 +6,8 @@ export type VarianteCard = 'neutra' | 'receita' | 'despesa' | 'alerta';
   selector: 'app-card',
   template: `
     <article [class]="classe()">
-      <h3 class="card__titulo">{{ titulo() }}</h3>
+      <!-- h2: primeiro nível de seção da página (Resumo/Recorrentes só têm um h1, oculto). -->
+      <h2 class="card__titulo">{{ titulo() }}</h2>
       <div class="card__corpo"><ng-content /></div>
     </article>
   `,

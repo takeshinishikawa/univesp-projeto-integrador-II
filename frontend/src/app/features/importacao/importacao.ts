@@ -73,6 +73,7 @@ export class Importacao {
   protected readonly nomeArquivo = signal('');
   protected readonly origem = signal<OrigemImportacao | null>(null);
   protected readonly linhas = signal<LinhaRevisao[]>([]);
+  protected readonly linhasIgnoradas = signal(0);
   protected readonly resultado = signal<ResultadoImportacao | null>(null);
 
   protected readonly categoriasPorTipo = computed(() => ({
@@ -163,6 +164,7 @@ export class Importacao {
             contaDestinoId: linha.pagamentoDeFatura && cartao ? cartao.id : null,
           })),
         );
+        this.linhasIgnoradas.set(preview.linhasIgnoradas);
         this.etapa.set('revisao');
       },
       error: (e: unknown) => {
@@ -314,6 +316,7 @@ export class Importacao {
 
   protected recomecar(): void {
     this.linhas.set([]);
+    this.linhasIgnoradas.set(0);
     this.resultado.set(null);
     this.origem.set(null);
     this.nomeArquivo.set('');

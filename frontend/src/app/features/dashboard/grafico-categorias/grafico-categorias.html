@@ -17,7 +17,7 @@
       <p class="resumo-grafico" aria-live="polite">{{ resumoTexto() }}</p>
 
       @if (configuracao(); as config) {
-        <app-grafico [configuracao]="config" [descricao]="descricao()" altura="20rem">
+        <app-grafico [configuracao]="config" [descricao]="descricao()" altura="14rem" [expandido]="true">
           <table class="tabela-dados">
             <caption class="sr-only">
               Despesas por categoria em
@@ -29,7 +29,9 @@
               <tr>
                 <th scope="col">Categoria</th>
                 <th scope="col" class="col-numerica">Total</th>
-                <th scope="col" class="col-numerica">Percentual</th>
+                <th scope="col" class="col-numerica">
+                  <span aria-hidden="true">%</span><span class="sr-only">Percentual</span>
+                </th>
               </tr>
             </thead>
             <tbody>
