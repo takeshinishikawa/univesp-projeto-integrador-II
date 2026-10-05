@@ -1115,7 +1115,7 @@ descrever('API (integração, MySQL real)', () => {
     const lista = (await request(app).get('/api/recorrentes').set(ana)).body;
     const zeta = lista.recorrencias.find((r: { chave: string }) => r.chave === 'streaming zeta');
     expect(zeta).toMatchObject({
-      valorTipico: 40,
+      valorTipico: 45, // valor ATUAL, não a mediana pré-reajuste (ver BUG-1 em 19-tasks-bugs-regras-negocio.md)
       valorAtual: 45,
       valorAnterior: 40,
       ultimaData: '2032-04-05',
