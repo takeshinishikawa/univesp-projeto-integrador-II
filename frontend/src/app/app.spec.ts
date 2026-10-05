@@ -3,6 +3,7 @@ import { TestBed } from '@angular/core/testing';
 import { provideRouter } from '@angular/router';
 import { App } from './app';
 import { AuthService } from './core/services/auth.service';
+import { violacoesDeAcessibilidade } from './testing/a11y';
 
 describe('App', () => {
   beforeEach(async () => {
@@ -24,6 +25,7 @@ describe('App', () => {
     const el = fixture.nativeElement as HTMLElement;
     expect(el.querySelector('nav')).toBeNull();
     expect(el.querySelector('main#conteudo')).not.toBeNull();
+    expect(await violacoesDeAcessibilidade(el)).toBe('');
   });
 
   it('mostra menu e botão Sair quando autenticado', async () => {
@@ -36,5 +38,6 @@ describe('App', () => {
     expect(el.querySelector('nav[aria-label="Principal"]')).not.toBeNull();
     expect(el.textContent).toContain('Sair');
     expect(el.querySelector('nav a[href="/metas"]')?.textContent).toContain('Metas');
+    expect(await violacoesDeAcessibilidade(el)).toBe('');
   });
 });

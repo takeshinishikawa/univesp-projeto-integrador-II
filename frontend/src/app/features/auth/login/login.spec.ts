@@ -3,6 +3,7 @@ import { provideRouter, Router } from '@angular/router';
 import { of, throwError } from 'rxjs';
 import { ApiError } from '../../../core/models/api-error';
 import { AuthService } from '../../../core/services/auth.service';
+import { violacoesDeAcessibilidade } from '../../../testing/a11y';
 import { digitar, enviarFormulario, mensagensDeErro } from '../../../testing/dom';
 import { Login } from './login';
 
@@ -32,6 +33,13 @@ describe('Login', () => {
     expect(mensagensDeErro(el)).toEqual(['Campo obrigatório.', 'Campo obrigatório.']);
     expect(el.querySelector('#login-email')?.getAttribute('aria-invalid')).toBe('true');
     expect(login).not.toHaveBeenCalled();
+    expect(await violacoesDeAcessibilidade(el)).toBe('');
+  });
+
+  it('sem violações de acessibilidade (axe-core) no estado inicial', async () => {
+    const { el } = await criar();
+
+    expect(await violacoesDeAcessibilidade(el)).toBe('');
   });
 
   it('rejeita e-mail em formato inválido', async () => {

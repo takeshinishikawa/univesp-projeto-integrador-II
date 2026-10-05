@@ -6,6 +6,7 @@ import { provideRouter } from '@angular/router';
 import { of, throwError } from 'rxjs';
 import { ApiError } from '../../core/models/api-error';
 import { Categoria, LinhaPreview, PreviewImportacao } from '../../core/models/api.models';
+import { violacoesDeAcessibilidade } from '../../testing/a11y';
 import { escolher } from '../../testing/dom';
 import { CategoriaService } from '../categorias/categoria.service';
 import { ContaService } from '../contas/conta.service';
@@ -44,6 +45,7 @@ const preview: PreviewImportacao = {
   contaReconhecida: false,
   nomeContaSugerido: 'Conta corrente',
   tipoContaSugerido: 'CONTA_CORRENTE',
+  linhasIgnoradas: 0,
   linhas: [
     linha({ idExterno: 'a', descricao: 'Padaria Pao Quente', valor: 20 }),
     linha({
@@ -118,6 +120,7 @@ describe('Importacao', () => {
     expect(el.querySelector('label[for="arquivo-ofx"]')?.textContent).toContain('Escolher arquivo');
     expect(el.querySelector('details summary')?.textContent).toContain('Como exportar');
     expect(el.textContent).toContain('não fica armazenado');
+    expect(await violacoesDeAcessibilidade(el)).toBe('');
   });
 
   it('rejeita arquivo sem extensão .ofx sem chamar a API', async () => {
@@ -153,6 +156,7 @@ describe('Importacao', () => {
     expect(el.textContent).toContain('extrato da conta');
     expect(el.textContent).toContain('10/03/2026');
     expect(el.textContent).toMatch(/R\$\s?5\.000,00/);
+    expect(await violacoesDeAcessibilidade(el)).toBe('');
   });
 
   it('desabilita a linha já importada e desmarca a de pagamento de fatura', async () => {

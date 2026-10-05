@@ -6,7 +6,8 @@ import { provideRouter } from '@angular/router';
 import { Observable, of, throwError } from 'rxjs';
 import { ApiError } from '../../core/models/api-error';
 import { EvolucaoMensal, ResumoFinanceiro, TotaisPorCategoria } from '../../core/models/api.models';
-import { CRIAR_GRAFICO } from '../../shared/grafico/grafico';
+import { CRIAR_GRAFICO, CRIAR_RESIZE_OBSERVER } from '../../shared/grafico/grafico';
+import { violacoesDeAcessibilidade } from '../../testing/a11y';
 import { escolher } from '../../testing/dom';
 import { ContaService } from '../contas/conta.service';
 import { MetasService } from '../metas/metas.service';
@@ -56,8 +57,10 @@ describe('Dashboard', () => {
     data: {},
     options: {},
     update: () => undefined,
+    resize: () => undefined,
     destroy: () => undefined,
   }));
+  const criarResizeObserver = () => ({ observe: () => undefined, disconnect: () => undefined });
 
   async function criar(resposta: Observable<ResumoFinanceiro>) {
     obterResumo.mockReturnValue(resposta);
@@ -84,6 +87,7 @@ describe('Dashboard', () => {
         },
         { provide: ObjetivoService, useValue: { resumo: () => of([]) } },
         { provide: CRIAR_GRAFICO, useValue: criarGrafico },
+        { provide: CRIAR_RESIZE_OBSERVER, useValue: criarResizeObserver },
         { provide: MetasService, useValue: { obterCategoriasDoMes } },
       ],
     });
@@ -112,6 +116,14 @@ describe('Dashboard', () => {
       'Despesas por categoria',
     );
     expect(criarGrafico).toHaveBeenCalledTimes(2);
+  });
+
+  it('sem violações de acessibilidade (axe-core) com o resumo carregado', async () => {
+    const el = await criar(
+      of({ ...resumoOk, orcamentoLimite: 1000, alertaOrcamentoEstourado: true }),
+    );
+
+    expect(await violacoesDeAcessibilidade(el)).toBe('');
   });
 
   it('clicar em um mês na tabela do gráfico muda o período dos cards e das categorias', async () => {
@@ -319,6 +331,7 @@ describe('Dashboard', () => {
         },
         { provide: ObjetivoService, useValue: { resumo: () => of([]) } },
         { provide: CRIAR_GRAFICO, useValue: criarGrafico },
+        { provide: CRIAR_RESIZE_OBSERVER, useValue: criarResizeObserver },
         { provide: MetasService, useValue: { obterCategoriasDoMes } },
       ],
     });

@@ -9,6 +9,7 @@ import { Categoria, Conta, Transacao } from '../../core/models/api.models';
 import { CategoriaService } from '../categorias/categoria.service';
 import { ContaService } from '../contas/conta.service';
 import { RegraService } from '../regras/regra.service';
+import { violacoesDeAcessibilidade } from '../../testing/a11y';
 import { Transacoes } from './transacoes';
 import { TransacaoService } from './transacao.service';
 
@@ -123,6 +124,12 @@ describe('Transacoes', () => {
     const { el } = await criar();
     expect(el.querySelector('button[aria-label="Editar Mercado"]')).not.toBeNull();
     expect(el.querySelector('button[aria-label="Excluir Mercado"]')).not.toBeNull();
+  });
+
+  it('sem violações de acessibilidade (axe-core) com a lista carregada', async () => {
+    const { el } = await criar();
+
+    expect(await violacoesDeAcessibilidade(el)).toBe('');
   });
 
   it('"Nova transação" abre o modal com o formulário', async () => {
