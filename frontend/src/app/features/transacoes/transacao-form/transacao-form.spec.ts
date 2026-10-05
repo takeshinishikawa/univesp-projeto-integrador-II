@@ -1,5 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { Categoria, Transacao, TransacaoRequest } from '../../../core/models/api.models';
+import { violacoesDeAcessibilidade } from '../../../testing/a11y';
 import { digitar, enviarFormulario, escolher, mensagensDeErro } from '../../../testing/dom';
 import { TransacaoForm } from './transacao-form';
 
@@ -44,6 +45,13 @@ describe('TransacaoForm', () => {
     // categoria, descrição e valor (data já vem preenchida com hoje)
     expect(mensagensDeErro(el)).toHaveLength(3);
     expect(salvar).not.toHaveBeenCalled();
+    expect(await violacoesDeAcessibilidade(el)).toBe('');
+  });
+
+  it('sem violações de acessibilidade (axe-core) no estado inicial', async () => {
+    const { el } = await criar();
+
+    expect(await violacoesDeAcessibilidade(el)).toBe('');
   });
 
   it('rejeita descrição só com espaços e valor não positivo', async () => {
