@@ -19,12 +19,6 @@ export function chaveDaDescricao(descricao: string): string {
   return normalizar(descricao).replace(/\d+/g, ' ').replace(/\s+/g, ' ').trim().slice(0, 150);
 }
 
-function mediana(valores: number[]): number {
-  const ordenados = [...valores].sort((a, b) => a - b);
-  const meio = Math.floor(ordenados.length / 2);
-  return ordenados.length % 2 === 1 ? ordenados[meio] : (ordenados[meio - 1] + ordenados[meio]) / 2;
-}
-
 function ehRecorrente(datas: string[]): boolean {
   if (new Set(datas.map((d) => d.slice(0, 7))).size < MINIMO_DE_MESES) return false;
   const intervalos = datas.slice(1).map((data, i) => diasEntre(datas[i], data));
@@ -37,8 +31,11 @@ function ehRecorrente(datas: string[]): boolean {
 
 /**
  * Acha os gastos que se repetem todo mês: mesma descrição (sem números) em 3 ou mais meses, com
- * intervalos de 25 a 35 dias. Valores dentro de ±15% da mediana são um valor fixo (tolera reajuste);
- * fora disso, "valor variável" (conta de luz), com o valor médio. `hoje` é YYYY-MM-DD.
+ * intervalos de 25 a 35 dias. Valor fixo: o histórico (tudo menos a cobrança mais recente) varia
+ * no máximo ±15% entre o maior e o menor — nesse caso o valor típico é sempre o mais recente
+ * (tolera reajuste, inclusive acima de 15%, que é o caso que mais importa sinalizar). Histórico
+ * que já oscila mais que isso (ex.: conta de luz) vira "valor variável", com o valor médio.
+ * `hoje` é YYYY-MM-DD.
  */
 export function detectarRecorrencias(
   despesas: ReadonlyArray<Transacao>,
@@ -63,17 +60,31 @@ export function detectarRecorrencias(
     const valores = ordenados.map((t) => t.valor);
     const ultima = ordenados[ordenados.length - 1];
     const anterior = ordenados.length > 1 ? ordenados[ordenados.length - 2] : null;
-    const central = mediana(valores);
-    const valorVariavel = valores.some(
-      (v) => Math.abs(v - central) / central > TOLERANCIA_DO_VALOR,
-    );
     const media = valores.reduce((soma, v) => soma + v, 0) / valores.length;
+
+    // O histórico (tudo menos o valor mais recente) decide se é "valor fixo": um reajuste de
+    // 20% na última cobrança não pode virar "valor variável" só por isso — ele é, na verdade, o
+    // caso que o insight de reajuste mais precisa pegar. Só é "variável" de verdade quando os
+    // valores JÁ oscilavam antes da última cobrança (ex.: conta de luz).
+    // Estabilidade por AMPLITUDE (maior − menor, sobre o menor), não por desvio da mediana: com
+    // só 2 valores no histórico (mínimo de 3 cobranças no total), a mediana de 2 é a própria
+    // média dos dois, que por construção fica sempre a metade da distância de cada um — então
+    // nunca passaria dos 15%, mesmo com os dois valores bem diferentes entre si.
+    const historico = valores.slice(0, -1);
+    const historicoEstavel =
+      historico.length === 0 ||
+      (Math.max(...historico) - Math.min(...historico)) / Math.min(...historico) <=
+        TOLERANCIA_DO_VALOR;
+    const valorVariavel = !historicoEstavel;
 
     recorrencias.push({
       chave,
       descricao: ultima.descricao,
       categoriaId: ultima.categoriaId,
-      valorTipico: arredondar(valorVariavel ? media : central),
+      // Histórico estável: o valor típico é sempre o ATUAL (o que será cobrado daqui pra
+      // frente), reajuste "oficial" (>15%) ou não — evita um salto de valorTipico bem no limiar
+      // (ex.: 100/100/115 e 100/100/116 ficando em 100 e 116, em vez de 115 e 116).
+      valorTipico: arredondar(valorVariavel ? media : ultima.valor),
       valorAtual: ultima.valor,
       valorAnterior: anterior?.valor ?? null,
       variacaoPercentual:

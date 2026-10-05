@@ -84,7 +84,10 @@ export class RegraService {
 
   private normalizarTermo(termo: string): string {
     const normalizado = normalizar(termo);
-    if (normalizado.length < TERMO_MINIMO) {
+    // Conta só letras/números: "a.b" normaliza para "a b" (3 chars com o espaço), mas tem só
+    // 2 caracteres que realmente identificam algo — sem isso, vira uma regra "a OU b" perigosa.
+    const caracteresUteis = normalizado.replace(/[^a-z0-9]/g, '').length;
+    if (caracteresUteis < TERMO_MINIMO) {
       throw new AppError(
         400,
         `O termo precisa ter ao menos ${TERMO_MINIMO} letras ou números (pontuação e acentos são ignorados)`,

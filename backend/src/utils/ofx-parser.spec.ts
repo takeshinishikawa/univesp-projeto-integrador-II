@@ -172,13 +172,34 @@ describe('lerOfx com casos sintéticos', () => {
   it.each([
     ['data inválida', '<DTPOSTED>20261340\n<TRNAMT>-1\n<FITID>x1\n<MEMO>A', /data inválida/],
     ['valor inválido', '<DTPOSTED>20260101\n<TRNAMT>abc\n<FITID>x1\n<MEMO>A', /valor inválido/],
-    ['valor zero', '<DTPOSTED>20260101\n<TRNAMT>0.00\n<FITID>x1\n<MEMO>A', /valor inválido/],
     ['FITID ausente', '<DTPOSTED>20260101\n<TRNAMT>-1\n<MEMO>A', /FITID/],
   ])('rejeita transação com %s (422)', (_nome, conteudo, mensagem) => {
     const erro = capturarErro(() => lerOfx(ofxSgml(bloco(conteudo))));
 
     expect(erro.statusCode).toBe(422);
     expect(erro.message).toMatch(mensagem);
+  });
+
+  it('ignora linha de valor zero (não é receita nem despesa) sem recusar o arquivo inteiro', () => {
+    const buffer = ofxSgml(
+      bloco('<DTPOSTED>20260101\n<TRNAMT>-50\n<FITID>x1\n<MEMO>Normal') +
+        bloco('<DTPOSTED>20260102\n<TRNAMT>0.00\n<FITID>x2\n<MEMO>Zero'),
+    );
+
+    const resultado = lerOfx(buffer);
+
+    expect(resultado.transacoes).toHaveLength(1);
+    expect(resultado.transacoes[0].idExterno).toBe('x1');
+    expect(resultado.linhasIgnoradas).toBe(1);
+  });
+
+  it('arquivo só com linhas de valor zero: "nenhuma transação" (422), não "valor inválido"', () => {
+    const erro = capturarErro(() =>
+      lerOfx(ofxSgml(bloco('<DTPOSTED>20260101\n<TRNAMT>0.00\n<FITID>x1\n<MEMO>Zero'))),
+    );
+
+    expect(erro.statusCode).toBe(422);
+    expect(erro.message).toMatch(/nenhuma transação/);
   });
 });
 
