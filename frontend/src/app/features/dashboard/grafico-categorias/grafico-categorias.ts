@@ -2,7 +2,7 @@ import { CurrencyPipe, DecimalPipe } from '@angular/common';
 import { Component, computed, inject, input, signal } from '@angular/core';
 import { takeUntilDestroyed, toObservable } from '@angular/core/rxjs-interop';
 import { RouterLink } from '@angular/router';
-import { ChartConfiguration } from 'chart.js';
+import { ChartConfiguration, Plugin } from 'chart.js';
 import { catchError, EMPTY, switchMap, tap } from 'rxjs';
 import { descreverErro } from '../../../core/models/api-error';
 import { TotaisPorCategoria } from '../../../core/models/api.models';
@@ -10,7 +10,8 @@ import { formatarMoeda, formatarPercentual, nomeDoMes } from '../../../core/util
 import { Grafico } from '../../../shared/grafico/grafico';
 import { DashboardService } from '../dashboard.service';
 
-// Paleta de Okabe-Ito (distinguível por daltônicos); a legenda e a tabela trazem nome e percentual.
+// Paleta de Okabe-Ito (distinguível por daltônicos); a tabela ao lado traz nome e percentual
+// (a legenda do Chart.js fica desligada para não duplicar a mesma informação).
 const PALETA = [
   '#0072b2',
   '#e69f00',
@@ -21,6 +22,30 @@ const PALETA = [
   '#7a6f00',
   '#4a5568',
 ];
+
+// Escreve o total no centro da rosca (igual ao protótipo de alta fidelidade); usa o `total` do
+// próprio dataset, então funciona com qualquer gráfico de rosca que receba esse plugin.
+function criarPluginTotalCentral(textoTotal: () => string): Plugin<'doughnut'> {
+  return {
+    id: 'totalCentral',
+    afterDraw(chart) {
+      const { ctx, chartArea } = chart;
+      const x = (chartArea.left + chartArea.right) / 2;
+      const y = (chartArea.top + chartArea.bottom) / 2;
+
+      ctx.save();
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillStyle = '#1a2433';
+      ctx.font = "700 15px system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif";
+      ctx.fillText(textoTotal(), x, y - 8);
+      ctx.fillStyle = '#4a5568';
+      ctx.font = "11px system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif";
+      ctx.fillText('total', x, y + 10);
+      ctx.restore();
+    },
+  };
+}
 
 @Component({
   selector: 'app-grafico-categorias',
@@ -66,7 +91,7 @@ export class GraficoCategorias {
       .join('; ');
     return (
       `Gráfico de rosca com as despesas por categoria em ${this.periodo()}. ${lista}. ` +
-      'Os mesmos valores estão na tabela logo abaixo.'
+      'Os mesmos valores estão na tabela ao lado.'
     );
   });
 
@@ -86,9 +111,11 @@ export class GraficoCategorias {
           },
         ],
       },
+      plugins: [criarPluginTotalCentral(() => formatarMoeda(dados.total))],
       options: {
         plugins: {
-          legend: { position: 'bottom' },
+          // A tabela ao lado (sempre visível) já mostra cor, nome e percentual de cada categoria.
+          legend: { display: false },
           tooltip: {
             callbacks: { label: (item) => ` ${formatarMoeda(Number(item.parsed))}` },
           },

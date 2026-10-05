@@ -7,7 +7,7 @@ import { ChartConfiguration } from 'chart.js';
 import { of, throwError } from 'rxjs';
 import { ApiError } from '../../../core/models/api-error';
 import { TotaisPorCategoria } from '../../../core/models/api.models';
-import { CRIAR_GRAFICO } from '../../../shared/grafico/grafico';
+import { CRIAR_GRAFICO, CRIAR_RESIZE_OBSERVER } from '../../../shared/grafico/grafico';
 import { DashboardService } from '../dashboard.service';
 import { GraficoCategorias } from './grafico-categorias';
 
@@ -50,6 +50,7 @@ describe('GraficoCategorias', () => {
       data: config.data,
       options: config.options,
       update: () => undefined,
+      resize: () => undefined,
       destroy: () => undefined,
     }));
     TestBed.configureTestingModule({
@@ -58,6 +59,10 @@ describe('GraficoCategorias', () => {
         { provide: LOCALE_ID, useValue: 'pt-BR' },
         { provide: DashboardService, useValue: { obterCategorias } },
         { provide: CRIAR_GRAFICO, useValue: criarGrafico },
+        {
+          provide: CRIAR_RESIZE_OBSERVER,
+          useValue: () => ({ observe: () => undefined, disconnect: () => undefined }),
+        },
       ],
     });
   });
@@ -101,7 +106,8 @@ describe('GraficoCategorias', () => {
     expect(el.querySelector('canvas')?.getAttribute('aria-label')).toContain(
       'Alimentação, 38,2%; Moradia, 30,0%; Outros, 31,8%',
     );
-    const linhas = el.querySelectorAll('details tbody tr');
+    expect(el.querySelector('details')?.open).toBe(true);
+    const linhas = el.querySelectorAll('tbody tr');
     expect(linhas).toHaveLength(3);
     expect(linhas[0].textContent).toContain('Alimentação');
     expect(linhas[0].textContent).toMatch(/R\$\s?382,00/);

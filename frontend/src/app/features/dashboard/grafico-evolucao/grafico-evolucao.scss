@@ -1,3 +1,17 @@
+// Permite que o painel estique até a altura do painel vizinho (grid de .graficos no dashboard).
+// `min-width: 0`: sem isso, a coluna do grid não encolhe abaixo da largura que o Chart.js grava
+// no <canvas>, travando o layout ao redimensionar a janela (BUG-1 do teste visual).
+:host {
+  display: block;
+  min-width: 0;
+  height: 100%;
+}
+
+.painel {
+  height: 100%;
+  box-sizing: border-box;
+}
+
 .resumo-grafico {
   font-weight: 600;
 }
@@ -31,7 +45,7 @@
 }
 
 .linha-destaque {
-  background: #eff4ff;
+  background: var(--cor-primaria-fundo);
 }
 
 .mes-botao {

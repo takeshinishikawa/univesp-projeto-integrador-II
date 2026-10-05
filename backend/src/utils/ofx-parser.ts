@@ -16,6 +16,8 @@ export interface ArquivoOfx {
   /** Banco + conta (ou cartão) do arquivo, para reconhecer a conta nas próximas importações. */
   identificadorExterno: string | null;
   transacoes: TransacaoOfx[];
+  /** Linhas de valor R$ 0,00 (não são receita nem despesa), ignoradas em vez de recusar o arquivo. */
+  linhasIgnoradas: number;
 }
 
 const TAMANHO_MAX_DESCRICAO = 150;
@@ -94,7 +96,9 @@ export function higienizarDescricao(memo: string): string {
   return texto.slice(0, TAMANHO_MAX_DESCRICAO);
 }
 
-function converterBloco(bloco: string, posicao: number): TransacaoOfx {
+// `null`: linha de valor R$ 0,00, que não é receita nem despesa — ignorada, não invalida o
+// arquivo inteiro (diferente de um valor ilegível, que indica arquivo corrompido de verdade).
+function converterBloco(bloco: string, posicao: number): TransacaoOfx | null {
   const referencia = `transação ${posicao}`;
   const fitid = campo(bloco, 'FITID');
   if (!fitid || fitid.length > TAMANHO_MAX_FITID) {
@@ -107,9 +111,10 @@ function converterBloco(bloco: string, posicao: number): TransacaoOfx {
   }
 
   const valor = converterValor(campo(bloco, 'TRNAMT') ?? '');
-  if (valor === null || valor === 0) {
+  if (valor === null) {
     throw new AppError(422, `Arquivo OFX inválido: valor inválido na ${referencia}`);
   }
+  if (valor === 0) return null;
 
   const descricao = higienizarDescricao(campo(bloco, 'MEMO') || campo(bloco, 'NAME') || '');
 
@@ -140,12 +145,14 @@ export function lerOfx(buffer: Buffer): ArquivoOfx {
 
   const origem: OrigemOfx = /<CCSTMTRS>/i.test(conteudo) ? 'CARTAO' : 'CONTA';
   const identificadorExterno = identificarConta(conteudo, origem);
-  const transacoes = extrairBlocos(conteudo).map((bloco, indice) =>
+  const convertidas = extrairBlocos(conteudo).map((bloco, indice) =>
     converterBloco(bloco, indice + 1),
   );
+  const transacoes = convertidas.filter((t): t is TransacaoOfx => t !== null);
+  const linhasIgnoradas = convertidas.length - transacoes.length;
 
   if (transacoes.length === 0) {
     throw new AppError(422, 'O arquivo OFX não contém nenhuma transação');
   }
-  return { origem, identificadorExterno, transacoes };
+  return { origem, identificadorExterno, transacoes, linhasIgnoradas };
 }

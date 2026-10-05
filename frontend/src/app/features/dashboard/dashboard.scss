@@ -73,12 +73,17 @@
 
 .graficos {
   display: grid;
+  // Coluna única explícita: sem isso, a coluna implícita vira `auto` e herda a largura que o
+  // Chart.js grava no <canvas>, travando o grid nessa largura mínima ao encolher a janela.
+  grid-template-columns: minmax(0, 1fr);
   gap: var(--espaco-4);
   margin-top: var(--espaco-4);
 
   @media (min-width: 70rem) {
-    grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
-    align-items: start;
+    // Metade para cada painel (não 3fr/2fr): o de categorias precisa de espaço para a rosca
+    // E a tabela lado a lado sem a tabela cair para baixo.
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    // Sem `align-items: start`: os dois painéis esticam para a mesma altura (a do mais alto).
   }
 }
 
