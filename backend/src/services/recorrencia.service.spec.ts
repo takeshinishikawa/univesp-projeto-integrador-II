@@ -82,6 +82,64 @@ describe('detectarRecorrencias', () => {
     expect(r.variacaoPercentual).toBe(12.5);
   });
 
+  it('reajuste acima de 15% não vira "valor variável": histórico estável decide, não o valor mais recente', () => {
+    // Regressão do BUG-1: 34,90 fica 16,7% acima da mediana (29,90) incluindo o próprio valor
+    // atual no cálculo — mas o histórico (29,90 × 3) é estável, então é reajuste, não oscilação.
+    const [r] = detectarRecorrencias(mensal('MusicApp Mensal', [29.9, 29.9, 29.9, 34.9]), hoje);
+
+    expect(r.valorVariavel).toBe(false);
+    expect(r.valorTipico).toBe(34.9); // o valor ATUAL, não a mediana "pré-reajuste"
+    expect(r.valorAnterior).toBe(29.9);
+    expect(r.valorAtual).toBe(34.9);
+    expect(r.variacaoPercentual).toBeCloseTo(16.7, 1);
+  });
+
+  it('reajuste para baixo (ficou mais barata) também não vira "valor variável"', () => {
+    const [r] = detectarRecorrencias(mensal('MusicApp Mensal', [29.9, 29.9, 29.9, 24.9]), hoje);
+
+    expect(r.valorVariavel).toBe(false);
+    expect(r.valorTipico).toBe(24.9);
+    expect(r.variacaoPercentual).toBeLessThan(0);
+  });
+
+  it('histórico com só 2 valores (mínimo de 3 cobranças): 16% de diferença ENTRE ELES é variável', () => {
+    // Regressão do reteste do BUG-1: com só 2 valores no histórico, a mediana de 2 é a média
+    // deles, que por construção fica sempre a metade da distância de cada um — nunca passaria de
+    // 15%, mesmo os dois sendo bem diferentes entre si. Por isso a estabilidade usa amplitude
+    // (maior − menor) sobre o histórico, não desvio da mediana.
+    const [r] = detectarRecorrencias(mensal('Serviço X', [100, 116, 100]), hoje);
+
+    expect(r.valorVariavel).toBe(true);
+    expect(r.variacaoPercentual).toBeNull();
+  });
+
+  it('histórico com 2 valores a exatamente 15% um do outro ainda é estável (borda inclusiva)', () => {
+    const [r] = detectarRecorrencias(mensal('Serviço Y', [100, 115, 100]), hoje);
+
+    expect(r.valorVariavel).toBe(false);
+  });
+
+  it('valorTipico não dá salto no limiar de 15%: é sempre o valor atual quando o histórico é estável', () => {
+    // Regressão do reteste do BUG-1: antes, 100/100/115 (dentro da tolerância) ficava com
+    // valorTipico=100 (a mediana "pré-reajuste"), enquanto 100/100/116 (1 centavo além) pulava
+    // pra 116 — um salto de 16 na virada do limiar. Agora os dois usam o mesmo critério (valor
+    // atual), então o salto é só a diferença real entre 115 e 116.
+    const [dentro] = detectarRecorrencias(mensal('Academia', [100, 100, 115]), hoje);
+    const [fora] = detectarRecorrencias(mensal('Academia', [100, 100, 116]), hoje);
+
+    expect(dentro.valorVariavel).toBe(false);
+    expect(dentro.valorTipico).toBe(115);
+    expect(fora.valorVariavel).toBe(false);
+    expect(fora.valorTipico).toBe(116);
+  });
+
+  it('valor que já oscilava antes da última cobrança continua "valor variável" (não é reajuste)', () => {
+    const [r] = detectarRecorrencias(mensal('Conta de luz', [100, 130, 90, 120]), hoje);
+
+    expect(r.valorVariavel).toBe(true);
+    expect(r.variacaoPercentual).toBeNull();
+  });
+
   it('valor que oscila muito (conta de luz) vira "valor variável", com o valor médio', () => {
     const [r] = detectarRecorrencias(mensal('Conta de luz', [100, 180, 90, 210]), hoje);
 
