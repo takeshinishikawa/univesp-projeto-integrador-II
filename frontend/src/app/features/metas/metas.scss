@@ -214,16 +214,6 @@
   }
 }
 
-.aviso-sucesso {
-  padding: var(--espaco-2) var(--espaco-3);
-  margin: 0 0 var(--espaco-3);
-  color: var(--cor-receita);
-  background: var(--cor-receita-fundo);
-  border: 1px solid var(--cor-receita);
-  border-radius: var(--raio);
-  font-weight: 600;
-}
-
 .tabela-metas {
   width: 100%;
   border-collapse: collapse;
@@ -246,16 +236,10 @@
   font-weight: 700;
 }
 
-.mes-botao {
-  min-height: 2.75rem;
-  padding: 0 var(--espaco-1);
-  color: var(--cor-primaria);
-  font: inherit;
-  font-weight: inherit;
-  text-decoration: underline;
-  background: none;
-  border: 0;
-  cursor: pointer;
+// O `.link-botao` global fixa peso 400 (consistência entre telas); aqui, o mês selecionado
+// continua em negrito — é esse botão, e não o resto da linha, que precisa se destacar.
+.link-botao[aria-pressed='true'] {
+  font-weight: 700;
 }
 
 .dica {

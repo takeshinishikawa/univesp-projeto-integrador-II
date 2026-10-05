@@ -14,8 +14,8 @@ import { DashboardService } from '../dashboard.service';
 const COR_RECEITA = '#166534';
 const COR_DESPESA = '#991b1b';
 const COR_SALDO = '#1d4ed8';
-const COR_LIMITE = '#7c2d12';
-const COR_DESTAQUE = '#1a2433';
+const COR_LIMITE = '#a16207'; // âmbar: a mesma cor do estado "perto do limite" em Metas; distinta do vermelho de Despesas
+const COR_DESTAQUE = '#1d4ed8'; // mesma cor do Saldo: evita um contorno escuro "pesado" competindo com a marca de meta
 
 @Component({
   selector: 'app-grafico-evolucao',
@@ -79,7 +79,7 @@ export class GraficoEvolucao {
     const dados = this.dados();
     if (!dados) return null;
     const destaque = this.mes();
-    const larguraBorda = dados.meses.map((m) => (m.mes === destaque ? 3 : 0));
+    const larguraBorda = dados.meses.map((m) => (m.mes === destaque ? 2 : 0));
 
     const conjuntos: ChartDataset[] = [
       {
@@ -124,8 +124,8 @@ export class GraficoEvolucao {
         backgroundColor: COR_LIMITE,
         showLine: false,
         pointStyle: 'line',
-        pointRadius: 16,
-        pointBorderWidth: 4,
+        pointRadius: 10,
+        pointBorderWidth: 3,
         order: 0,
       });
     }

@@ -50,7 +50,7 @@ export type VarianteBotao = 'primary' | 'secondary' | 'danger';
     }
 
     .btn--secondary:hover:not(:disabled) {
-      background: #eff4ff;
+      background: var(--cor-primaria-fundo);
     }
 
     .btn--danger {

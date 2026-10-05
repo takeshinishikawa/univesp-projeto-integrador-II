@@ -1,7 +1,27 @@
 import { Component, signal } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { ChartConfiguration } from 'chart.js';
-import { CRIAR_GRAFICO, Grafico, InstanciaGrafico } from './grafico';
+import { CRIAR_GRAFICO, CRIAR_RESIZE_OBSERVER, Grafico, InstanciaGrafico } from './grafico';
+
+/** O jsdom não tem ResizeObserver; esse fake deixa o teste disparar o callback manualmente. */
+class ResizeObserverFalso {
+  desconectado = false;
+  readonly observados: Element[] = [];
+
+  constructor(private readonly callback: ResizeObserverCallback) {}
+
+  observe(elemento: Element): void {
+    this.observados.push(elemento);
+  }
+
+  disconnect(): void {
+    this.desconectado = true;
+  }
+
+  disparar(): void {
+    this.callback([], this as unknown as ResizeObserver);
+  }
+}
 
 const configuracao = (valores: number[], type: 'bar' | 'doughnut' = 'bar'): ChartConfiguration => ({
   type,
@@ -28,11 +48,23 @@ class Anfitriao {
 }
 
 describe('Grafico', () => {
-  const instancias: (InstanciaGrafico & { destruido: boolean; atualizacoes: number })[] = [];
+  const instancias: (InstanciaGrafico & {
+    destruido: boolean;
+    atualizacoes: number;
+    redimensionamentos: number;
+  })[] = [];
+  const observadores: ResizeObserverFalso[] = [];
   const criar = vi.fn();
+  const criarResizeObserver = vi.fn((callback: ResizeObserverCallback) => {
+    const observador = new ResizeObserverFalso(callback);
+    observadores.push(observador);
+    return observador as unknown as ResizeObserver;
+  });
 
   beforeEach(() => {
     instancias.length = 0;
+    observadores.length = 0;
+    criarResizeObserver.mockClear();
     criar
       .mockReset()
       .mockImplementation((_canvas: HTMLCanvasElement, config: ChartConfiguration) => {
@@ -41,8 +73,12 @@ describe('Grafico', () => {
           options: config.options,
           destruido: false,
           atualizacoes: 0,
+          redimensionamentos: 0,
           update() {
             this.atualizacoes++;
+          },
+          resize() {
+            this.redimensionamentos++;
           },
           destroy() {
             this.destruido = true;
@@ -51,7 +87,12 @@ describe('Grafico', () => {
         instancias.push(instancia);
         return instancia;
       });
-    TestBed.configureTestingModule({ providers: [{ provide: CRIAR_GRAFICO, useValue: criar }] });
+    TestBed.configureTestingModule({
+      providers: [
+        { provide: CRIAR_GRAFICO, useValue: criar },
+        { provide: CRIAR_RESIZE_OBSERVER, useValue: criarResizeObserver },
+      ],
+    });
   });
 
   async function montar() {
@@ -112,6 +153,19 @@ describe('Grafico', () => {
     fixture.destroy();
 
     expect(instancias[0].destruido).toBe(true);
+    expect(observadores[0].desconectado).toBe(true);
+  });
+
+  it('chama resize() na instância quando a caixa do gráfico muda de tamanho', async () => {
+    const fixture = await montar();
+    const caixa = fixture.nativeElement.querySelector('.grafico');
+
+    expect(observadores).toHaveLength(1);
+    expect(observadores[0].observados).toEqual([caixa]);
+
+    observadores[0].disparar();
+
+    expect(instancias[0].redimensionamentos).toBe(1);
   });
 
   it('desliga as animações quando o usuário prefere menos movimento', async () => {

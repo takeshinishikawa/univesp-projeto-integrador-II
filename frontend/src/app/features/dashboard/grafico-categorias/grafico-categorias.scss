@@ -1,3 +1,17 @@
+// Permite que o painel estique até a altura do painel vizinho (grid de .graficos no dashboard).
+// `min-width: 0`: sem isso, a coluna do grid não encolhe abaixo da largura que o Chart.js grava
+// no <canvas>, travando o layout ao redimensionar a janela (BUG-1 do teste visual).
+:host {
+  display: block;
+  min-width: 0;
+  height: 100%;
+}
+
+.painel {
+  height: 100%;
+  box-sizing: border-box;
+}
+
 .periodo-titulo {
   font-weight: 400;
   color: var(--cor-texto-suave);
@@ -14,9 +28,14 @@
 
   th,
   td {
-    padding: var(--espaco-2);
+    // Horizontal mais justo que o padrão: essa tabela fica espremida ao lado da rosca.
+    padding: var(--espaco-2) var(--espaco-1);
     text-align: left;
     border-bottom: 1px solid var(--cor-borda);
+  }
+
+  th[scope='row'] {
+    white-space: nowrap;
   }
 
   .col-numerica {
