@@ -7,7 +7,7 @@ import { ChartConfiguration } from 'chart.js';
 import { of, throwError } from 'rxjs';
 import { ApiError } from '../../../core/models/api-error';
 import { EvolucaoMensal as Evolucao } from '../../../core/models/api.models';
-import { CRIAR_GRAFICO } from '../../../shared/grafico/grafico';
+import { CRIAR_GRAFICO, CRIAR_RESIZE_OBSERVER } from '../../../shared/grafico/grafico';
 import { DashboardService } from '../dashboard.service';
 import { GraficoEvolucao } from './grafico-evolucao';
 
@@ -63,6 +63,7 @@ describe('GraficoEvolucao', () => {
       data: config.data,
       options: config.options,
       update: () => undefined,
+      resize: () => undefined,
       destroy: () => undefined,
     }));
     TestBed.configureTestingModule({
@@ -71,6 +72,10 @@ describe('GraficoEvolucao', () => {
         { provide: LOCALE_ID, useValue: 'pt-BR' },
         { provide: DashboardService, useValue: { obterEvolucao } },
         { provide: CRIAR_GRAFICO, useValue: criarGrafico },
+        {
+          provide: CRIAR_RESIZE_OBSERVER,
+          useValue: () => ({ observe: () => undefined, disconnect: () => undefined }),
+        },
       ],
     });
   });
@@ -130,6 +135,10 @@ describe('GraficoEvolucao', () => {
         { provide: LOCALE_ID, useValue: 'pt-BR' },
         { provide: DashboardService, useValue: { obterEvolucao } },
         { provide: CRIAR_GRAFICO, useValue: criarGrafico },
+        {
+          provide: CRIAR_RESIZE_OBSERVER,
+          useValue: () => ({ observe: () => undefined, disconnect: () => undefined }),
+        },
       ],
     });
     const { el } = await criar();
@@ -184,7 +193,7 @@ describe('GraficoEvolucao', () => {
 
     const config = criarGrafico.mock.results[0].value as ChartConfiguration; // a mesma instância é atualizada
     expect((config.data.datasets[0] as unknown as { borderWidth: number[] }).borderWidth).toEqual([
-      0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+      0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     ]);
     expect(el.querySelectorAll('tbody tr')[2].classList).toContain('linha-destaque');
     expect(el.querySelectorAll('.mes-botao')[2].getAttribute('aria-pressed')).toBe('true');

@@ -57,18 +57,6 @@
   color: var(--cor-texto-suave);
 }
 
-.link-botao,
-.ver-transacoes {
-  min-height: 2.75rem;
-  padding: 0 var(--espaco-1);
-  color: var(--cor-primaria);
-  font: inherit;
-  text-decoration: underline;
-  background: none;
-  border: 0;
-  cursor: pointer;
-}
-
 .ver-transacoes {
   display: inline-flex;
   align-items: center;
@@ -106,7 +94,3 @@ app-table {
   display: block;
 }
 
-.ver-transacoes,
-.link-botao {
-  white-space: nowrap;
-}

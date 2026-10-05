@@ -156,19 +156,7 @@
 }
 
 tr.selecionada > * {
-  background: #eff4ff;
-}
-
-.rotulo {
-  display: inline-block;
-  padding: 0 var(--espaco-2);
-  margin-left: var(--espaco-1);
-  color: var(--cor-texto-suave);
-  font-size: 0.8125rem;
-  font-weight: 600;
-  background: var(--cor-fundo);
-  border: 1px solid var(--cor-borda-campo);
-  border-radius: var(--raio);
+  background: var(--cor-primaria-fundo);
 }
 
 // Ações da linha lado a lado (Editar | Transferência | Excluir), sem quebrar a célula da tabela.
