@@ -1,0 +1,52 @@
+:host {
+  display: grid;
+  gap: var(--espaco-4);
+  max-width: 40rem;
+}
+
+h1,
+h2 {
+  margin-top: 0;
+}
+
+.dados {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: var(--espaco-1) var(--espaco-3);
+  margin: 0;
+
+  dt {
+    font-weight: 600;
+  }
+
+  dd {
+    margin: 0;
+    overflow-wrap: anywhere;
+  }
+}
+
+.excluir {
+  border-left: 6px solid var(--cor-despesa);
+}
+
+.ciente {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--espaco-2);
+  margin-bottom: var(--espaco-1);
+
+  input {
+    margin-top: 0.25rem;
+  }
+}
+
+.campo__erro {
+  margin: 0 0 var(--espaco-3);
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--cor-despesa);
+}
+
+form > app-form-field {
+  margin-top: var(--espaco-3);
+}

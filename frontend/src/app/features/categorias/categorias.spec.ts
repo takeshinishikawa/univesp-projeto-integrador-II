@@ -6,6 +6,7 @@ import { digitar, enviarFormulario, escolher, mensagensDeErro } from '../../test
 import { RegraService } from '../regras/regra.service';
 import { CategoriaService } from './categoria.service';
 import { Categorias } from './categorias';
+import { violacoesDeAcessibilidade } from '../../testing/a11y';
 
 const LISTA: Categoria[] = [
   { id: 4, nome: 'Salário', tipo: 'RECEITA', padrao: true },
@@ -47,6 +48,12 @@ describe('Categorias', () => {
     criar.mockReset();
     renomear.mockReset();
     excluir.mockReset();
+  });
+
+  it('sem violações de acessibilidade (axe-core) com os dados carregados', async () => {
+    const { el } = await montar();
+
+    expect(await violacoesDeAcessibilidade(el)).toBe('');
   });
 
   it('separa receitas e despesas; as padrão têm o selo e só as do usuário têm ações', async () => {

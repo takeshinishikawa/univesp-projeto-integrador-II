@@ -5,6 +5,7 @@ import { ApiError } from '../../../core/models/api-error';
 import { AuthService } from '../../../core/services/auth.service';
 import { digitar, enviarFormulario, mensagensDeErro } from '../../../testing/dom';
 import { Registro } from './registro';
+import { violacoesDeAcessibilidade } from '../../../testing/a11y';
 
 describe('Registro', () => {
   const registrar = vi.fn();
@@ -30,6 +31,15 @@ describe('Registro', () => {
       providers: [provideRouter([]), { provide: AuthService, useValue: { registrar, login } }],
     });
     navigate = vi.spyOn(TestBed.inject(Router), 'navigate').mockResolvedValue(true);
+  });
+
+  it('sem violações de acessibilidade (axe-core), também com os erros na tela', async () => {
+    const { fixture, el } = await criar();
+    expect(await violacoesDeAcessibilidade(el)).toBe('');
+
+    enviarFormulario(el);
+    await fixture.whenStable();
+    expect(await violacoesDeAcessibilidade(el)).toBe('');
   });
 
   it('exige nome, e-mail e senha', async () => {

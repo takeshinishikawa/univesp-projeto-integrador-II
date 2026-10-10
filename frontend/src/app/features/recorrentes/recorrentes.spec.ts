@@ -9,6 +9,7 @@ import { Recorrencia, RecorrentesResumo } from '../../core/models/api.models';
 import { CategoriaService } from '../categorias/categoria.service';
 import { Recorrentes } from './recorrentes';
 import { RecorrenteService } from './recorrente.service';
+import { violacoesDeAcessibilidade } from '../../testing/a11y';
 
 registerLocaleData(localePt);
 
@@ -82,6 +83,12 @@ describe('Recorrentes', () => {
     listar.mockReset().mockReturnValue(of(RESUMO));
     ignorar.mockReset().mockReturnValue(of({ chave: 'netflix' }));
     desfazer.mockReset().mockReturnValue(of(undefined));
+  });
+
+  it('sem violações de acessibilidade (axe-core) com os dados carregados', async () => {
+    const { el } = await montar();
+
+    expect(await violacoesDeAcessibilidade(el)).toBe('');
   });
 
   it('mostra o custo mensal, o anual e o que ainda será cobrado no mês', async () => {

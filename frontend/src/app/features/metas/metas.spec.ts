@@ -9,6 +9,7 @@ import { MetasCategoriaDoMes, MetasDoAno } from '../../core/models/api.models';
 import { digitar, escolher } from '../../testing/dom';
 import { Metas } from './metas';
 import { MetasService } from './metas.service';
+import { violacoesDeAcessibilidade } from '../../testing/a11y';
 
 registerLocaleData(localePt);
 
@@ -95,6 +96,12 @@ describe('Metas', () => {
     obterCategoriasDoMes.mockReset().mockReturnValue(of(CATEGORIAS_DO_MES));
     definirCategoria.mockReset();
     copiar.mockReset();
+  });
+
+  it('sem violações de acessibilidade (axe-core) com os dados carregados', async () => {
+    const { el } = await criar();
+
+    expect(await violacoesDeAcessibilidade(el)).toBe('');
   });
 
   it('abre no mês e no ano do link e mostra a meta desse mês, que é só leitura', async () => {

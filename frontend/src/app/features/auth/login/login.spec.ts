@@ -39,7 +39,21 @@ describe('Login', () => {
   it('sem violações de acessibilidade (axe-core) no estado inicial', async () => {
     const { el } = await criar();
 
+    // Campos obrigatórios anunciados pelo leitor de tela (aria-required vem do form-field).
+    expect(el.querySelector('#login-email')?.getAttribute('aria-required')).toBe('true');
+    expect(el.querySelector('#login-senha')?.getAttribute('aria-required')).toBe('true');
+
     expect(await violacoesDeAcessibilidade(el)).toBe('');
+  });
+
+  it('mostra o aviso trazido na navegação (ex.: conta excluída)', async () => {
+    history.replaceState({ aviso: 'Sua conta foi excluída.' }, '');
+    try {
+      const { el } = await criar();
+      expect(el.querySelector('[role="status"]')?.textContent).toContain('Sua conta foi excluída.');
+    } finally {
+      history.replaceState(null, '');
+    }
   });
 
   it('rejeita e-mail em formato inválido', async () => {
