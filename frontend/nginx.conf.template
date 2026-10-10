@@ -1,0 +1,48 @@
+# Template: na subida do container, a imagem oficial do Nginx troca ${PORT} e ${BACKEND_URL}
+# pelos valores do ambiente (envsubst) e grava o resultado em /etc/nginx/conf.d/default.conf.
+# Padrões (Dockerfile): PORT=80 e BACKEND_URL=http://backend:3000 (Docker Compose).
+# No Railway: PORT vem da plataforma e BACKEND_URL aponta para o endereço interno do backend
+# (ex.: http://backend.railway.internal:3000).
+server {
+  listen ${PORT};
+  server_name _;
+
+  root /usr/share/nginx/html;
+  index index.html;
+
+  gzip on;
+  gzip_types text/css application/javascript application/json image/svg+xml;
+
+  # Proxy reverso: o navegador chama /api (mesma origem, sem CORS) e o Nginx encaminha ao backend.
+  location /api/ {
+    proxy_pass ${BACKEND_URL};
+    proxy_set_header Host $host;
+    proxy_set_header X-Real-IP $remote_addr;
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    proxy_set_header X-Forwarded-Proto $scheme;
+  }
+
+  # Documentação Swagger da API
+  location /api-docs {
+    proxy_pass ${BACKEND_URL};
+    proxy_set_header Host $host;
+  }
+
+  # Os cabeçalhos de segurança (seguranca.conf) vão só nos locations das páginas: a API já manda os
+  # do helmet, e um add_header dentro de um location descartaria os herdados do server de qualquer jeito.
+
+  # Arquivos com hash no nome podem ser cacheados por muito tempo.
+  location ~* \.(?:js|css|woff2?|svg|ico)$ {
+    include /etc/nginx/seguranca.conf;
+    expires 1y;
+    add_header Cache-Control "public, immutable";
+    try_files $uri =404;
+  }
+
+  # SPA: qualquer rota do Angular cai no index.html (sem cache).
+  location / {
+    include /etc/nginx/seguranca.conf;
+    add_header Cache-Control "no-cache";
+    try_files $uri $uri/ /index.html;
+  }
+}

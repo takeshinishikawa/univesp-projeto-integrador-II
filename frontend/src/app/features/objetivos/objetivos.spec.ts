@@ -8,6 +8,7 @@ import { Objetivo } from '../../core/models/api.models';
 import { digitar } from '../../testing/dom';
 import { ObjetivoService } from './objetivo.service';
 import { Objetivos } from './objetivos';
+import { violacoesDeAcessibilidade } from '../../testing/a11y';
 
 registerLocaleData(localePt);
 
@@ -81,6 +82,12 @@ describe('Objetivos', () => {
     excluir.mockReset().mockReturnValue(of(undefined));
     guardar.mockReset().mockReturnValue(of(objetivo({})));
     desfazerAporte.mockReset().mockReturnValue(of(objetivo({})));
+  });
+
+  it('sem violações de acessibilidade (axe-core) com os dados carregados', async () => {
+    const { el } = await montar();
+
+    expect(await violacoesDeAcessibilidade(el)).toBe('');
   });
 
   it('um cartão por objetivo, com progresso acessível, prazo e quanto guardar por mês', async () => {

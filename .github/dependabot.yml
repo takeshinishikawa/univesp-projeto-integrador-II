@@ -1,0 +1,37 @@
+# Abre PRs semanais com atualizações de dependências (o CI roda em cada um).
+version: 2
+updates:
+  - package-ecosystem: npm
+    directory: /backend
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 5
+    groups:
+      dependencias:
+        update-types: [minor, patch]
+  - package-ecosystem: npm
+    directory: /frontend
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 5
+    groups:
+      angular:
+        patterns: ['@angular/*', '@angular-devkit/*', '@schematics/*']
+      dependencias:
+        update-types: [minor, patch]
+  - package-ecosystem: npm
+    directory: /e2e
+    schedule:
+      interval: monthly
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: monthly
+  - package-ecosystem: docker
+    directory: /backend
+    schedule:
+      interval: monthly
+  - package-ecosystem: docker
+    directory: /frontend
+    schedule:
+      interval: monthly

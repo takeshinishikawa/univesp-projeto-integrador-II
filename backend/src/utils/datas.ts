@@ -36,3 +36,13 @@ export function somarUmMes(iso: string): string {
 export function mesesEntre(anoA: number, mesA: number, anoB: number, mesB: number): number {
   return anoB * 12 + mesB - (anoA * 12 + mesA);
 }
+
+/** Mesmo dia `n` meses depois (ou antes, com `n` negativo), limitado ao último dia do mês. */
+export function somarMeses(iso: string, n: number): string {
+  const [ano, mes, dia] = iso.split('-').map(Number);
+  const indice = ano * 12 + (mes - 1) + n;
+  const anoNovo = Math.floor(indice / 12);
+  const mesNovo = (indice % 12) + 1;
+  const diaNovo = Math.min(dia, diasNoMes(anoNovo, mesNovo));
+  return `${anoNovo}-${doisDigitos(mesNovo)}-${doisDigitos(diaNovo)}`;
+}

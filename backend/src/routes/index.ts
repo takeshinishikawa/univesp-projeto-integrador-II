@@ -12,6 +12,7 @@ import { ObjetivoController } from '../controllers/objetivo.controller';
 import { RecorrenciaController } from '../controllers/recorrencia.controller';
 import { TransacaoController } from '../controllers/transacao.controller';
 import { authMiddleware } from '../middlewares/auth.middleware';
+import { limiteCadastro, limiteLogin } from '../middlewares/rate-limit';
 import { uploadOfx } from '../middlewares/upload.middleware';
 import { PrismaCategoriaRepository } from '../repositories/categoria.repository';
 import { PrismaContaRepository } from '../repositories/conta.repository';
@@ -125,8 +126,9 @@ export const routes = Router();
  *             schema: { $ref: '#/components/schemas/UsuarioPublico' }
  *       400: { description: Dados inválidos }
  *       409: { description: E-mail já cadastrado }
+ *       429: { description: Muitos cadastros a partir do mesmo IP }
  */
-routes.post('/auth/register', authController.registrar);
+routes.post('/auth/register', limiteCadastro, authController.registrar);
 
 /**
  * @openapi
@@ -155,8 +157,31 @@ routes.post('/auth/register', authController.registrar);
  *                 token: { type: string }
  *                 usuario: { $ref: '#/components/schemas/UsuarioPublico' }
  *       401: { description: Credenciais inválidas }
+ *       429: { description: Muitas tentativas com erro a partir do mesmo IP }
  */
-routes.post('/auth/login', authController.login);
+routes.post('/auth/login', limiteLogin, authController.login);
+
+/**
+ * @openapi
+ * /auth/conta:
+ *   delete:
+ *     tags: [Autenticação]
+ *     summary: Exclui a conta do usuário autenticado e todos os dados dele (LGPD, art. 18)
+ *     security: [{ bearerAuth: [] }]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required: [senha]
+ *             properties:
+ *               senha: { type: string, description: Senha atual, para confirmar a exclusão }
+ *     responses:
+ *       204: { description: Conta e dados excluídos }
+ *       401: { description: Não autenticado ou senha incorreta }
+ */
+routes.delete('/auth/conta', authMiddleware, limiteLogin, authController.excluirConta);
 
 /**
  * @openapi

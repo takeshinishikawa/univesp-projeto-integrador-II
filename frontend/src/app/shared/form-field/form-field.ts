@@ -1,11 +1,20 @@
 import { afterRenderEffect, Component, computed, ElementRef, inject, input } from '@angular/core';
 import { toObservable, toSignal } from '@angular/core/rxjs-interop';
-import { AbstractControl, ValidationErrors } from '@angular/forms';
+import { AbstractControl, FormControl, ValidationErrors } from '@angular/forms';
 import { scan, startWith, switchMap } from 'rxjs';
 
 // 0.01 -> 0,01 (vírgula decimal do pt-BR; não depende do LOCALE_ID, que não existe fora do DI)
 const formatarNumero = (n: number): string =>
   n.toLocaleString('pt-BR', { maximumFractionDigits: 2 });
+
+/**
+ * O campo é obrigatório se os validadores dele recusam o valor vazio com `required`. Assim entram
+ * tanto `Validators.required` quanto os validadores próprios que devolvem `{ required: true }`
+ * (ex.: o select com 0 = "Selecione…").
+ */
+export function campoObrigatorio(controle: AbstractControl): boolean {
+  return controle.validator?.(new FormControl(null))?.['required'] === true;
+}
 
 export function mensagemDeErro(erros: ValidationErrors | null): string | null {
   if (!erros) return null;
@@ -22,7 +31,7 @@ export function mensagemDeErro(erros: ValidationErrors | null): string | null {
 /**
  * Rótulo + campo (projetado) + dica + mensagem de erro.
  * O `<input>`/`<select>` projetado precisa ter `id` igual a `inputId`; os atributos
- * `aria-invalid` e `aria-describedby` são mantidos aqui.
+ * `aria-invalid`, `aria-describedby` e `aria-required` são mantidos aqui.
  */
 @Component({
   selector: 'app-form-field',
@@ -109,6 +118,9 @@ export class FormField {
         .filter(Boolean)
         .join(' ');
       campo.setAttribute('aria-invalid', this.mensagem() ? 'true' : 'false');
+      // Leitores de tela anunciam "obrigatório" (WCAG 3.3.2), sem ligar a validação nativa do HTML.
+      if (campoObrigatorio(this.control())) campo.setAttribute('aria-required', 'true');
+      else campo.removeAttribute('aria-required');
       if (ids) campo.setAttribute('aria-describedby', ids);
       else campo.removeAttribute('aria-describedby');
     });

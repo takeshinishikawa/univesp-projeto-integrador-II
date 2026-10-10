@@ -1,7 +1,7 @@
 {
   "name": "financas-backend",
   "version": "1.0.0",
-  "description": "API da Plataforma de Educação e Controle Financeiro Pessoal (Projeto Integrador II - Univesp)",
+  "description": "API da plataforma web de controle de finanças pessoais (Projeto Integrador II - Univesp)",
   "main": "dist/index.js",
   "scripts": {
     "dev": "tsx watch src/index.ts",
@@ -14,7 +14,9 @@
     "db:migrate": "prisma migrate dev",
     "db:deploy": "prisma migrate deploy",
     "db:seed": "tsx prisma/seed.ts",
-    "fixtures:ofx": "tsx scripts/gerar-ofx-ficticios.ts"
+    "fixtures:ofx": "tsx scripts/gerar-ofx-ficticios.ts",
+    "demo:criar": "tsx scripts/contas-demo.ts",
+    "demo:limpar": "tsx scripts/limpar-dados-teste.ts"
   },
   "dependencies": {
     "@prisma/client": "^6.19.3",
@@ -22,6 +24,8 @@
     "cors": "^2.8.6",
     "dotenv": "^18.0.4",
     "express": "^5.2.1",
+    "express-rate-limit": "^8.7.1",
+    "helmet": "^8.3.0",
     "jsonwebtoken": "^9.0.3",
     "multer": "^2.4.0",
     "prisma": "^6.19.3",
@@ -53,7 +57,7 @@
   },
   "private": true,
   "engines": {
-    "node": ">=18"
+    "node": ">=24"
   },
   "prisma": {
     "seed": "tsx prisma/seed.ts"

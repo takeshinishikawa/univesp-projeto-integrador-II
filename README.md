@@ -1,12 +1,23 @@
 # Finanças Pessoais — Projeto Integrador II (Univesp)
 
-Aplicação web de gestão de finanças pessoais: **Angular 22** (frontend) + **Express/Prisma** (backend) + **MySQL 8**.
+Plataforma web de baixo atrito para o controle de finanças pessoais, desenvolvida no Projeto Integrador em Computação II
+(PJI240) da Univesp, 2º semestre de 2026.
+
+- **Polo:** São Paulo – Butantã – UNICEU
+- **Aplicação publicada:** _em preparação (Railway)_
+
+Stack: **Angular 22** (frontend) + **Express/Prisma** (backend) + **MySQL 8**.
 
 ```
 backend/    API REST (Express, TypeScript, Prisma)
-frontend/   SPA Angular (standalone, signals)
+frontend/   SPA Angular (standalone, signals) servida pelo Nginx
+e2e/        testes de ponta a ponta no navegador (Playwright)
 docker-compose.yml   MySQL + backend + frontend (Nginx)
 ```
+
+| Resumo | Transações |
+|---|---|
+| ![Tela Resumo com os gráficos de evolução mensal e de despesas por categoria](docs/telas/resumo.png) | ![Tela Transações com filtros e a lista do mês](docs/telas/transacoes.png) |
 
 Pré-requisitos: Docker Desktop e, para o modo hot-reload, Node 24.
 
@@ -130,6 +141,20 @@ Além das categorias padrão (Alimentação, Moradia, Salário etc.), em **Categ
 Assinaturas) para não jogar tudo em "Outros". Elas aparecem só para você: no cadastro de transações, na importação de extratos e
 nos gráficos. Dá para renomear e excluir as suas; a exclusão é bloqueada enquanto houver transações na categoria.
 
+## Minha conta e dados pessoais (LGPD)
+
+Clicando no nome, no topo, a pessoa vê os próprios dados e pode **excluir a conta**: a confirmação pede a senha de novo e
+apaga a conta com tudo o que ela guarda (transações, contas, categorias próprias, metas, regras, objetivos e aportes).
+É o direito de eliminação da LGPD (Lei 13.709/2018, art. 18). Os extratos OFX são lidos só em memória e nunca gravados em disco.
+
+## Segurança
+
+- Senhas com bcrypt, JWT com expiração e consultas sempre parametrizadas (Prisma).
+- Limite de tentativas por IP: login (só as tentativas com erro contam) e cadastro. Atrás de proxy, `TRUST_PROXY` diz quantos
+  proxies existem na frente da API (Nginx = 1, padrão; Railway = 2), para o limite enxergar o IP real.
+- Cabeçalhos de segurança: `helmet` na API e `nosniff`, `X-Frame-Options`, `Referrer-Policy` e `Permissions-Policy` nas páginas.
+- Dependabot (atualizações semanais) e CodeQL (análise estática) no GitHub.
+
 ## Testes
 
 ```powershell
@@ -139,10 +164,56 @@ $env:DATABASE_URL_TEST = "mysql://app:<MYSQL_PASSWORD>@localhost:3306/financas"
 npm test
 npm run lint
 
-# Frontend
+# Frontend (inclui testes de acessibilidade com axe-core em todas as telas)
 cd frontend
 npm test -- --watch=false
 npm run lint
+
+# Ponta a ponta no navegador, com o modo integração de pé (http://localhost:4200)
+cd e2e
+npm install
+npx playwright install chromium
+npm run test:e2e
 ```
 
 Os testes de integração criam e removem os próprios usuários (e-mails `*@teste.com`), então podem rodar no banco de desenvolvimento.
+Cada teste E2E cria o próprio usuário (`*@example.com`); detalhes em `e2e/README.md`. Para rodá-los contra a aplicação
+publicada: `$env:BASE_URL = "https://<endereço>"`.
+
+No GitHub Actions, cada push roda lint, testes e build do backend e do frontend, sobe o stack inteiro no Docker Compose, faz o
+teste de fumaça pela API e roda os testes E2E no Chromium.
+
+## Teste com a comunidade (contas demo)
+
+Para ninguém precisar digitar dados financeiros reais, há contas de demonstração com os extratos e faturas **fictícios** de
+`backend/tests/fixtures` (janeiro a setembro de 2026, deslocados para terminar no mês atual):
+
+```powershell
+cd backend
+$env:DATABASE_URL = "<URL do MySQL>"          # local ou o do Railway
+$env:DEMO_SENHA = "<senha das contas demo>"   # não vai para o repositório
+npm run demo:criar -- --quantidade 5          # demo1@financas.demo ... demo5@financas.demo
+
+# Ao final do teste
+npm run demo:limpar                           # só lista o que seria apagado
+npm run demo:limpar -- --confirmar            # apaga as contas demo e os dados delas
+npm run demo:limpar -- --confirmar --todos    # apaga TODOS os usuários (banco do teste)
+```
+
+## Deploy no Railway
+
+O projeto já está pronto para a publicação em três serviços no mesmo projeto do Railway:
+
+| Serviço | Origem | Variáveis |
+|---|---|---|
+| MySQL | banco gerenciado do Railway | — |
+| backend | este repositório, pasta `backend` (Dockerfile) | `PORT=3000`; `DATABASE_URL` = a URL interna do MySQL; `JWT_SECRET` (32+ caracteres aleatórios); `TRUST_PROXY=2`; `CORS_ORIGIN` = o domínio público do frontend |
+| frontend | este repositório, pasta `frontend` (Dockerfile) | `BACKEND_URL` = `http://<nome-do-backend>.railway.internal:3000` |
+
+- Só o **frontend** recebe domínio público: o Nginx dele atende o Angular e encaminha `/api` para o backend pela rede privada.
+- No frontend, o Railway define `PORT` sozinho e o Nginx já lê essa variável. No backend, `PORT=3000` fixa a porta que o
+  `BACKEND_URL` usa.
+- Healthcheck do backend: `/api/health` (consulta o banco).
+- Ao subir, o backend aplica as migrations (`prisma migrate deploy`) e o seed das categorias.
+- Depois do primeiro deploy, crie as contas demo apontando `DATABASE_URL` para a URL pública do MySQL do Railway e rode os
+  testes E2E com `BASE_URL` para conferir a publicação.

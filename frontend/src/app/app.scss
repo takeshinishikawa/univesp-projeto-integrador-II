@@ -75,6 +75,13 @@ nav {
 
 .topo__nome {
   color: var(--cor-texto-suave);
+  text-decoration: none;
+
+  &:hover,
+  &.ativo {
+    color: var(--cor-primaria);
+    text-decoration: underline;
+  }
 }
 
 .conteudo {

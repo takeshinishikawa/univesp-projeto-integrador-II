@@ -56,6 +56,20 @@ describe('AuthService', () => {
     expect(sessionStorage.getItem('financas.token')).toBe('jwt');
   });
 
+  it('excluirConta envia a senha no DELETE e encerra a sessão', () => {
+    service.login({ email: 'ana@exemplo.com', senha: '12345678' }).subscribe();
+    http.expectOne(`${environment.apiUrl}/auth/login`).flush({ token: 'jwt', usuario });
+
+    service.excluirConta('12345678').subscribe();
+    const req = http.expectOne(`${environment.apiUrl}/auth/conta`);
+    expect(req.request.method).toBe('DELETE');
+    expect(req.request.body).toEqual({ senha: '12345678' });
+    req.flush(null, { status: 204, statusText: 'No Content' });
+
+    expect(service.autenticado()).toBe(false);
+    expect(sessionStorage.getItem('financas.token')).toBeNull();
+  });
+
   it('logout limpa a sessão', () => {
     service.login({ email: 'a@a.com', senha: 'x' }).subscribe();
     http.expectOne(`${environment.apiUrl}/auth/login`).flush({ token: 'jwt', usuario });

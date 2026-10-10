@@ -49,7 +49,14 @@
       </nav>
       <div class="topo__usuario">
         @if (auth.usuario(); as usuario) {
-          <span class="topo__nome">{{ usuario.nome }}</span>
+          <a
+            class="topo__nome"
+            routerLink="/minha-conta"
+            routerLinkActive="ativo"
+            ariaCurrentWhenActive="page"
+            [attr.aria-label]="'Minha conta: ' + usuario.nome"
+            >{{ usuario.nome }}</a
+          >
         }
         <app-button variant="secondary" (click)="sair()">Sair</app-button>
       </div>

@@ -1,0 +1,68 @@
+<h1>Minha conta</h1>
+
+@if (auth.usuario(); as usuario) {
+  <section class="painel" aria-labelledby="titulo-dados">
+    <h2 id="titulo-dados">Seus dados</h2>
+    <dl class="dados">
+      <dt>Nome</dt>
+      <dd>{{ usuario.nome }}</dd>
+      <dt>E-mail</dt>
+      <dd>{{ usuario.email }}</dd>
+      <dt>Conta criada em</dt>
+      <dd>{{ usuario.createdAt | date: 'dd/MM/yyyy' }}</dd>
+    </dl>
+  </section>
+}
+
+<section class="painel excluir" aria-labelledby="titulo-excluir">
+  <h2 id="titulo-excluir">Excluir conta</h2>
+  <p>
+    A exclusão apaga a sua conta e todos os dados guardados nela: transações, contas e cartões,
+    categorias criadas por você, metas, regras, objetivos e aportes. Não é possível desfazer.
+  </p>
+
+  <form [formGroup]="form" (ngSubmit)="excluir()" novalidate>
+    @if (erro(); as mensagem) {
+      <p class="aviso-erro" role="alert">{{ mensagem }}</p>
+    }
+
+    <div class="ciente">
+      <input
+        id="excluir-ciente"
+        type="checkbox"
+        formControlName="ciente"
+        aria-required="true"
+        [attr.aria-invalid]="form.controls.ciente.touched && form.controls.ciente.invalid"
+        [attr.aria-describedby]="
+          form.controls.ciente.touched && form.controls.ciente.invalid
+            ? 'excluir-ciente-erro'
+            : null
+        "
+      />
+      <label for="excluir-ciente">Entendo que meus dados serão apagados para sempre.</label>
+    </div>
+    @if (form.controls.ciente.touched && form.controls.ciente.invalid) {
+      <p class="campo__erro" id="excluir-ciente-erro" role="alert">
+        Marque a caixa para confirmar.
+      </p>
+    }
+
+    <app-form-field
+      label="Senha"
+      inputId="excluir-senha"
+      dica="Digite a sua senha para confirmar que é você."
+      [control]="form.controls.senha"
+    >
+      <input
+        id="excluir-senha"
+        type="password"
+        formControlName="senha"
+        autocomplete="current-password"
+      />
+    </app-form-field>
+
+    <app-button type="submit" variant="danger" [disabled]="excluindo()">
+      {{ excluindo() ? 'Excluindo…' : 'Excluir minha conta' }}
+    </app-button>
+  </form>
+</section>

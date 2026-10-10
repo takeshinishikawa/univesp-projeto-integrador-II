@@ -83,6 +83,10 @@ export const registrarUsuarioSchema = z.object({
 });
 export type RegistrarUsuarioDTO = z.infer<typeof registrarUsuarioSchema>;
 
+export const excluirContaSchema = z.object({
+  senha: z.string().min(1, 'Informe a senha para confirmar'),
+});
+
 export const criarCategoriaSchema = z.object({
   nome: z.string().trim().min(1, 'Nome é obrigatório').max(50, 'Use no máximo 50 caracteres'),
   tipo: tipoTransacaoSchema,

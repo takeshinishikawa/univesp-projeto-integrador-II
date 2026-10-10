@@ -7,6 +7,9 @@ const envSchema = z.object({
   JWT_SECRET: z.string().min(16, 'JWT_SECRET deve ter no mínimo 16 caracteres'),
   JWT_EXPIRES_IN: z.string().default('1h'),
   CORS_ORIGIN: z.string().default('http://localhost:4200'),
+  // Quantos proxies ficam na frente da API (Nginx = 1; no Railway, borda + Nginx = 2).
+  // Sem isso, o limite de tentativas por IP veria todo mundo com o IP do proxy.
+  TRUST_PROXY: z.coerce.number().int().min(0).default(1),
 });
 
 export type Env = z.infer<typeof envSchema>;

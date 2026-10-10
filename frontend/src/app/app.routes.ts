@@ -65,5 +65,11 @@ export const routes: Routes = [
     title: `Objetivos | ${SUFIXO_TITULO}`,
     loadComponent: () => import('./features/objetivos/objetivos').then((m) => m.Objetivos),
   },
+  {
+    path: 'minha-conta',
+    canActivate: [authGuard],
+    title: `Minha conta | ${SUFIXO_TITULO}`,
+    loadComponent: () => import('./features/minha-conta/minha-conta').then((m) => m.MinhaConta),
+  },
   { path: '**', redirectTo: 'dashboard' },
 ];
