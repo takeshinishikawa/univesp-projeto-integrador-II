@@ -5,6 +5,7 @@ import { Categoria, Regra } from '../../core/models/api.models';
 import { digitar } from '../../testing/dom';
 import { RegraService } from './regra.service';
 import { RegrasCategoria } from './regras-categoria';
+import { violacoesDeAcessibilidade } from '../../testing/a11y';
 
 const CATEGORIAS: Categoria[] = [
   { id: 1, nome: 'Alimentação', tipo: 'DESPESA', padrao: true },
@@ -61,6 +62,12 @@ describe('RegrasCategoria', () => {
     atualizar.mockReset();
     excluir.mockReset();
     aplicar.mockReset();
+  });
+
+  it('sem violações de acessibilidade (axe-core) com os dados carregados', async () => {
+    const { el } = await montar();
+
+    expect(await violacoesDeAcessibilidade(el)).toBe('');
   });
 
   it('lista as regras como "descrição contém X → Categoria"', async () => {

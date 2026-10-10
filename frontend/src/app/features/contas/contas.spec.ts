@@ -9,6 +9,7 @@ import { Conta } from '../../core/models/api.models';
 import { digitar } from '../../testing/dom';
 import { Contas } from './contas';
 import { ContaService } from './conta.service';
+import { violacoesDeAcessibilidade } from '../../testing/a11y';
 
 registerLocaleData(localePt);
 
@@ -69,6 +70,12 @@ describe('Contas', () => {
     atualizar.mockReset().mockReturnValue(of(conta({})));
     excluir.mockReset().mockReturnValue(of(undefined));
     transferir.mockReset().mockReturnValue(of({ transferenciaId: 'abc' }));
+  });
+
+  it('sem violações de acessibilidade (axe-core) com os dados carregados', async () => {
+    const { el } = await montar();
+
+    expect(await violacoesDeAcessibilidade(el)).toBe('');
   });
 
   it('lista as contas ativas com o saldo e, no cartão, o valor "a pagar"', async () => {

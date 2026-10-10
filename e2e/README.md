@@ -32,6 +32,7 @@ Por padrão os testes apontam para `http://localhost:4200`; para outro endereço
 - `fluxo-principal.spec.ts` — cadastro, login, lançar uma transação e ver refletida no Resumo; login com credenciais erradas; rota autenticada bloqueada para visitante.
 - `importacao.spec.ts` — importar um extrato OFX real (um dos arquivos de `backend/tests/fixtures/`) até confirmar; rejeição de arquivo com extensão errada.
 - `metas-e-objetivos.spec.ts` — definir uma meta por categoria; criar um objetivo e registrar um aporte.
-- `acessibilidade.spec.ts` — `AxeBuilder` nas páginas autenticadas principais (Resumo, Transações, Importação, Metas, Objetivos, Contas, Categorias, Recorrentes) e no Login; falha só em violações de impacto `serious`/`critical`.
+- `minha-conta-e-teclado.spec.ts` — link "Pular para o conteúdo" como primeiro foco do teclado; exclusão da conta pela tela Minha conta, que impede o login seguinte.
+- `acessibilidade.spec.ts` — `AxeBuilder` nas páginas autenticadas principais (Resumo, Transações, Importação, Metas, Objetivos, Contas, Categorias, Recorrentes, Minha conta) e no Login; falha só em violações de impacto `serious`/`critical`.
 
 Cada teste cria seu próprio usuário (`tests/suporte/usuario.ts`), com e-mail único por execução — não há necessidade de banco "limpo" entre rodadas nem de fixtures compartilhadas.

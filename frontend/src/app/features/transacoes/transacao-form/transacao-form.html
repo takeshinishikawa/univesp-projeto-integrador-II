@@ -38,7 +38,13 @@
     inputId="transacao-descricao"
     [control]="form.controls.descricao"
   >
-    <input id="transacao-descricao" type="text" formControlName="descricao" maxlength="150" />
+    <input
+      id="transacao-descricao"
+      type="text"
+      formControlName="descricao"
+      maxlength="150"
+      placeholder="Ex.: Mercado, Uber…"
+    />
   </app-form-field>
 
   <app-form-field label="Valor (R$)" inputId="transacao-valor" [control]="form.controls.valor">
