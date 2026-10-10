@@ -13,6 +13,9 @@ RUN npx ng build --configuration production
 
 # ---- 2) Nginx serve os estáticos e faz proxy de /api para o backend ----
 FROM nginx:alpine AS final
-COPY nginx.conf /etc/nginx/conf.d/default.conf
+# A imagem oficial processa /etc/nginx/templates/*.template com envsubst ao iniciar.
+ENV PORT=80 BACKEND_URL=http://backend:3000
+COPY nginx.conf.template /etc/nginx/templates/default.conf.template
+COPY seguranca.conf /etc/nginx/seguranca.conf
 COPY --from=build /app/dist/frontend/browser /usr/share/nginx/html
 EXPOSE 80
