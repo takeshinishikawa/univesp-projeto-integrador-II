@@ -78,6 +78,13 @@ export class AuthService {
     return this.http.post<Usuario>(`${this.baseUrl}/register`, dados);
   }
 
+  /** Exclui a conta e todos os dados no servidor (pede a senha de novo) e encerra a sessão. */
+  excluirConta(senha: string): Observable<void> {
+    return this.http
+      .delete<void>(`${this.baseUrl}/conta`, { body: { senha } })
+      .pipe(tap(() => this.logout()));
+  }
+
   logout(): void {
     escreverStorage(CHAVE_TOKEN, null);
     escreverStorage(CHAVE_USUARIO, null);

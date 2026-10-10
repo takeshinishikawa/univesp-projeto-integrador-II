@@ -6,6 +6,11 @@ import { AuthService } from '../../../core/services/auth.service';
 import { Button } from '../../../shared/button/button';
 import { FormField } from '../../../shared/form-field/form-field';
 
+function lerAviso(): string | null {
+  const aviso: unknown = typeof history === 'undefined' ? null : history.state?.aviso;
+  return typeof aviso === 'string' ? aviso : null;
+}
+
 @Component({
   selector: 'app-login',
   imports: [ReactiveFormsModule, RouterLink, Button, FormField],
@@ -23,6 +28,8 @@ export class Login {
 
   protected readonly enviando = signal(false);
   protected readonly erro = signal<string | null>(null);
+  /** Recado de quem trouxe até aqui (ex.: conta excluída), passado no `state` da navegação. */
+  protected readonly aviso = signal<string | null>(lerAviso());
 
   protected entrar(): void {
     if (this.form.invalid) {

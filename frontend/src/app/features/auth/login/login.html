@@ -1,6 +1,10 @@
 <section class="painel auth">
   <h1>Entrar</h1>
 
+  @if (aviso(); as mensagem) {
+    <p class="aviso-sucesso" role="status">{{ mensagem }}</p>
+  }
+
   <form [formGroup]="form" (ngSubmit)="entrar()" novalidate>
     @if (erro(); as mensagem) {
       <p class="aviso-erro" role="alert">{{ mensagem }}</p>
