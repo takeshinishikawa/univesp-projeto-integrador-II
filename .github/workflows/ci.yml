@@ -96,6 +96,26 @@ jobs:
         run: docker compose --env-file .env.local up --build -d --wait --wait-timeout 300
       - name: Fluxo principal pela API (via Nginx)
         run: bash .github/scripts/smoke.sh http://localhost:4200
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+          cache-dependency-path: e2e/package-lock.json
+      - name: Instalar dependências do Playwright
+        working-directory: e2e
+        run: |
+          npm ci
+          npx playwright install --with-deps chromium
+      - name: Testes E2E (Playwright) + acessibilidade (axe-core)
+        working-directory: e2e
+        run: npx playwright test --workers=2
+      - name: Relatório do Playwright (se falhar)
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report
+          path: e2e/playwright-report/
+          retention-days: 7
       - name: Logs em caso de falha
         if: failure()
         run: docker compose --env-file .env.local logs --no-color --tail=200
