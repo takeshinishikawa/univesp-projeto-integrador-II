@@ -18,6 +18,7 @@ const PAGINAS = [
   { rota: '/contas', nome: 'Contas' },
   { rota: '/categorias', nome: 'Categorias' },
   { rota: '/recorrentes', nome: 'Recorrentes' },
+  { rota: '/minha-conta', nome: 'Minha conta' },
 ];
 
 test.describe('Acessibilidade (axe-core) das páginas autenticadas', () => {
