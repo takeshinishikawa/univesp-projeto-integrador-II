@@ -4,6 +4,11 @@ dist/
 .env.local
 *.log
 
+# Playwright (e2e/)
+e2e/test-results/
+e2e/playwright-report/
+e2e/playwright/.cache/
+
 # Exportacoes reais do banco (dados pessoais): so os fixtures ficticios em backend/tests/fixtures/ sao versionados
 backend/tests/*.ofx
 
