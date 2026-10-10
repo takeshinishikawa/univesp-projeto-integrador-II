@@ -8,12 +8,14 @@ descrever('API (integração, MySQL real)', () => {
   let app: Express;
   let desconectar: () => Promise<void>;
   let limpar: () => Promise<void>;
+  let contarDoUsuario: (email: string) => Promise<number>;
   let categoriaDespesaId: number;
   let categoriaReceitaId: number;
 
   const sufixo = `${Date.now()}`;
   const emailAna = `ana.${sufixo}@teste.com`;
   const emailBia = `bia.${sufixo}@teste.com`;
+  const emailCaio = `caio.${sufixo}@teste.com`;
   let tokenAna: string;
   let tokenBia: string;
 
@@ -37,12 +39,33 @@ descrever('API (integração, MySQL real)', () => {
 
     limpar = async () => {
       const usuarios = await prisma.usuario.findMany({
-        where: { email: { in: [emailAna, emailBia] } },
+        where: { email: { in: [emailAna, emailBia, emailCaio] } },
         select: { id: true },
       });
       const ids = usuarios.map((u) => u.id);
       await prisma.transacao.deleteMany({ where: { usuarioId: { in: ids } } });
       await prisma.usuario.deleteMany({ where: { id: { in: ids } } });
+    };
+    // Quantas linhas, em qualquer tabela com dono, ainda pertencem ao e-mail (0 depois da exclusão).
+    contarDoUsuario = async (email) => {
+      const usuario = await prisma.usuario.findUnique({ where: { email } });
+      if (!usuario) {
+        const orfas = await Promise.all([
+          prisma.transacao.count({ where: { usuario: { email } } }),
+          prisma.conta.count({ where: { usuario: { email } } }),
+          prisma.categoria.count({ where: { usuario: { email } } }),
+          prisma.objetivo.count({ where: { usuario: { email } } }),
+        ]);
+        return orfas.reduce((a, b) => a + b, 0);
+      }
+      const usuarioId = usuario.id;
+      const contagens = await Promise.all([
+        prisma.transacao.count({ where: { usuarioId } }),
+        prisma.conta.count({ where: { usuarioId } }),
+        prisma.categoria.count({ where: { usuarioId } }),
+        prisma.objetivo.count({ where: { usuarioId } }),
+      ]);
+      return 1 + contagens.reduce((a, b) => a + b, 0);
     };
     desconectar = () => prisma.$disconnect();
   });
@@ -1267,5 +1290,59 @@ descrever('API (integração, MySQL real)', () => {
       .set('Content-Type', 'application/json')
       .send('{ não é json');
     expect(malformado.status).toBe(400);
+  });
+
+  it('envia cabeçalhos de segurança (helmet) nas respostas da API', async () => {
+    const resposta = await request(app).get('/api/health');
+    expect(resposta.headers['x-content-type-options']).toBe('nosniff');
+    expect(resposta.headers['x-powered-by']).toBeUndefined();
+  });
+
+  it('exclui a conta e todos os dados do usuário só com a senha certa (LGPD)', async () => {
+    const token = await registrarELogar(emailCaio);
+    const caio = { Authorization: `Bearer ${token}` };
+    const conta = await request(app)
+      .post('/api/contas')
+      .set(caio)
+      .send({ nome: 'Carteira', tipo: 'DINHEIRO', saldoInicial: 0 })
+      .expect(201);
+    const categoria = await request(app)
+      .post('/api/categorias')
+      .set(caio)
+      .send({ nome: 'Pets', tipo: 'DESPESA' })
+      .expect(201);
+    await request(app)
+      .post('/api/transacoes')
+      .set(caio)
+      .send({
+        descricao: 'Ração',
+        valor: 90,
+        tipo: 'DESPESA',
+        dataTransacao: '2026-09-10',
+        categoriaId: categoria.body.id,
+        contaId: conta.body.id,
+      })
+      .expect(201);
+    await request(app)
+      .post('/api/objetivos')
+      .set(caio)
+      .send({ nome: 'Reserva', valorAlvo: 1000, prazoAno: 2027, prazoMes: 6 })
+      .expect(201);
+    expect(await contarDoUsuario(emailCaio)).toBeGreaterThan(4);
+
+    await request(app).delete('/api/auth/conta').send({ senha: 'x' }).expect(401);
+    await request(app).delete('/api/auth/conta').set(caio).send({}).expect(400);
+    await request(app).delete('/api/auth/conta').set(caio).send({ senha: 'errada' }).expect(401);
+    await request(app)
+      .delete('/api/auth/conta')
+      .set(caio)
+      .send({ senha: 'senha-segura-123' })
+      .expect(204);
+
+    expect(await contarDoUsuario(emailCaio)).toBe(0);
+    await request(app)
+      .post('/api/auth/login')
+      .send({ email: emailCaio, senha: 'senha-segura-123' })
+      .expect(401);
   });
 });

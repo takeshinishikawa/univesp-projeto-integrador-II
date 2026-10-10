@@ -34,4 +34,16 @@ export class AuthService {
     }
     return { token: assinarToken(usuario.id), usuario: paraUsuarioPublico(usuario) };
   }
+
+  // Pede a senha de novo: um token esquecido aberto não basta para apagar tudo.
+  async excluirConta(usuarioId: number, senha: string): Promise<void> {
+    const usuario = await this.usuarios.buscarPorId(usuarioId);
+    if (!usuario) {
+      throw new AppError(404, 'Usuário não encontrado');
+    }
+    if (!(await compararSenha(senha, usuario.senhaHash))) {
+      throw new AppError(401, 'Senha incorreta');
+    }
+    await this.usuarios.excluirComDados(usuarioId);
+  }
 }
