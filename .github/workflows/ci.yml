@@ -138,6 +138,19 @@ jobs:
           name: playwright-report
           path: e2e/playwright-report/
           retention-days: 7
+      # Na imagem oficial do Playwright, a mesma usada para gerar as imagens de referência.
+      - name: Regressão visual (Playwright)
+        working-directory: e2e
+        run: >-
+          docker run --rm --network host -v "$PWD:/e2e" -w /e2e
+          mcr.microsoft.com/playwright:v1.63.0-noble npm run test:visual
+      - name: Diferenças da regressão visual (se falhar)
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: regressao-visual
+          path: e2e/test-results/
+          retention-days: 7
       - name: Performance e acessibilidade (Lighthouse)
         working-directory: e2e
         run: npm run lighthouse

@@ -43,3 +43,16 @@ Cada teste cria seu próprio usuário (`tests/suporte/usuario.ts`), com e-mail �
 `npm run lighthouse` mede Login, Resumo, Transações e Metas no perfil desktop, entrando com um usuário novo. O resultado vai
 para `lighthouse-report/` (HTML, JSON e uma tabela em `resultado.md`). Falha só se a acessibilidade de alguma tela ficar
 abaixo de 90; as outras notas variam com a máquina e são apenas registradas.
+
+## Regressão visual
+
+`visual/telas.spec.ts` tira prints de Login, Resumo, Transações e Metas com dados e data fixos (15/09/2026) e compara com
+`visual/referencias/`. Fica fora de `npm run test:e2e` e roda sempre na imagem oficial do Playwright, porque fontes e
+renderização mudam de um sistema para outro:
+
+```bash
+docker run --rm --network host -v "${PWD}:/e2e" -w /e2e mcr.microsoft.com/playwright:v1.63.0-noble npm run test:visual
+```
+
+Quando uma mudança de layout for intencional, rode o mesmo comando com `npm run test:visual -- --update-snapshots` e
+faça o commit das imagens novas junto com a mudança.
