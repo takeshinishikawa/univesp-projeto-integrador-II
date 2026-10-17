@@ -32,7 +32,27 @@ Por padrão os testes apontam para `http://localhost:4200`; para outro endereço
 - `fluxo-principal.spec.ts` — cadastro, login, lançar uma transação e ver refletida no Resumo; login com credenciais erradas; rota autenticada bloqueada para visitante.
 - `importacao.spec.ts` — importar um extrato OFX real (um dos arquivos de `backend/tests/fixtures/`) até confirmar; rejeição de arquivo com extensão errada.
 - `metas-e-objetivos.spec.ts` — definir uma meta por categoria; criar um objetivo e registrar um aporte.
+- `transacoes.spec.ts` — corrigir a categoria e o valor de uma despesa (o Resumo acompanha), recategorizar várias de uma vez pela seleção e excluir com confirmação.
 - `minha-conta-e-teclado.spec.ts` — link "Pular para o conteúdo" como primeiro foco do teclado; exclusão da conta pela tela Minha conta, que impede o login seguinte.
 - `acessibilidade.spec.ts` — `AxeBuilder` nas páginas autenticadas principais (Resumo, Transações, Importação, Metas, Objetivos, Contas, Categorias, Recorrentes, Minha conta) e no Login; falha só em violações de impacto `serious`/`critical`.
 
 Cada teste cria seu próprio usuário (`tests/suporte/usuario.ts`), com e-mail único por execução — não há necessidade de banco "limpo" entre rodadas nem de fixtures compartilhadas.
+
+## Lighthouse (performance e acessibilidade)
+
+`npm run lighthouse` mede Login, Resumo, Transações e Metas no perfil desktop, entrando com um usuário novo. O resultado vai
+para `lighthouse-report/` (HTML, JSON e uma tabela em `resultado.md`). Falha só se a acessibilidade de alguma tela ficar
+abaixo de 90; as outras notas variam com a máquina e são apenas registradas.
+
+## Regressão visual
+
+`visual/telas.spec.ts` tira prints de Login, Resumo, Transações e Metas com dados e data fixos (15/09/2026) e compara com
+`visual/referencias/`. Fica fora de `npm run test:e2e` e roda sempre na imagem oficial do Playwright, porque fontes e
+renderização mudam de um sistema para outro:
+
+```bash
+docker run --rm --network host -v "${PWD}:/e2e" -w /e2e mcr.microsoft.com/playwright:v1.63.0-noble npm run test:visual
+```
+
+Quando uma mudança de layout for intencional, rode o mesmo comando com `npm run test:visual -- --update-snapshots` e
+faça o commit das imagens novas junto com a mudança.

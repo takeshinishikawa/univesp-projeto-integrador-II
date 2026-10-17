@@ -1,0 +1,56 @@
+name: Sanidade em produção
+
+# Roda à mão (Actions > Sanidade em produção > Run workflow) depois de cada deploy: o teste de
+# fumaça pela API e os testes E2E marcados com @sanidade, contra o endereço publicado.
+# Cada execução cria 2 usuários de teste (@example.com); `npm run demo:limpar -- --confirmar --todos`
+# apaga tudo no fim do teste com a comunidade.
+on:
+  workflow_dispatch:
+    inputs:
+      url:
+        description: 'Endereço da aplicação publicada, por exemplo https://financas.up.railway.app'
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+env:
+  NODE_VERSION: 24
+
+jobs:
+  sanidade:
+    name: Sanidade (${{ inputs.url }})
+    runs-on: ubuntu-latest
+    env:
+      BASE_URL: ${{ inputs.url }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+          cache-dependency-path: e2e/package-lock.json
+      - name: Cabeçalhos de segurança da página
+        run: |
+          cabecalhos=$(curl -fsSI "$BASE_URL/")
+          for nome in x-content-type-options x-frame-options referrer-policy content-security-policy cross-origin-opener-policy; do
+            echo "$cabecalhos" | grep -qi "^$nome:" || { echo "FALTA: $nome" >&2; exit 1; }
+          done
+      - name: Fluxo principal pela API
+        run: bash .github/scripts/smoke.sh "$BASE_URL"
+      - name: Instalar dependências do Playwright
+        working-directory: e2e
+        run: |
+          npm ci
+          npx playwright install --with-deps chromium
+      - name: Testes E2E marcados com @sanidade
+        working-directory: e2e
+        run: npx playwright test --grep @sanidade
+      - name: Relatório do Playwright (se falhar)
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: sanidade-playwright-report
+          path: e2e/playwright-report/
+          retention-days: 7

@@ -1,0 +1,5 @@
+#!/bin/sh
+# Lido pela imagem oficial do Nginx antes do envsubst: tira o esquema e o caminho de BACKEND_URL
+# (http://backend:3000 -> backend:3000) para o bloco upstream do nginx.conf.template.
+BACKEND_HOSTPORT="${BACKEND_URL#*://}"
+export BACKEND_HOSTPORT="${BACKEND_HOSTPORT%%/*}"

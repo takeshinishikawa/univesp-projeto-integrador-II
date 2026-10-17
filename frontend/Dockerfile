@@ -16,6 +16,7 @@ FROM nginx:alpine AS final
 # A imagem oficial processa /etc/nginx/templates/*.template com envsubst ao iniciar.
 ENV PORT=80 BACKEND_URL=http://backend:3000
 COPY nginx.conf.template /etc/nginx/templates/default.conf.template
+COPY --chmod=755 16-backend-upstream.envsh /docker-entrypoint.d/16-backend-upstream.envsh
 COPY seguranca.conf /etc/nginx/seguranca.conf
 COPY --from=build /app/dist/frontend/browser /usr/share/nginx/html
 EXPOSE 80

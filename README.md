@@ -152,8 +152,12 @@ apaga a conta com tudo o que ela guarda (transações, contas, categorias própr
 - Senhas com bcrypt, JWT com expiração e consultas sempre parametrizadas (Prisma).
 - Limite de tentativas por IP: login (só as tentativas com erro contam) e cadastro. Atrás de proxy, `TRUST_PROXY` diz quantos
   proxies existem na frente da API (Nginx = 1, padrão; Railway = 2), para o limite enxergar o IP real.
-- Cabeçalhos de segurança: `helmet` na API e `nosniff`, `X-Frame-Options`, `Referrer-Policy` e `Permissions-Policy` nas páginas.
+- Cabeçalhos de segurança: `helmet` na API; nas páginas, `Content-Security-Policy` (scripts só da própria origem),
+  `Cross-Origin-Opener/Resource/Embedder-Policy`, `nosniff`, `X-Frame-Options`, `Referrer-Policy` e `Permissions-Policy`, e o
+  Nginx não mostra a própria versão.
 - Dependabot (atualizações semanais) e CodeQL (análise estática) no GitHub.
+- No CI: `npm audit` nas dependências e varredura passiva do OWASP ZAP contra a aplicação no Docker Compose (relatório no
+  artefato `seguranca-zap` e no resumo da execução).
 
 ## Testes
 
@@ -180,8 +184,26 @@ Os testes de integração criam e removem os próprios usuários (e-mails `*@tes
 Cada teste E2E cria o próprio usuário (`*@example.com`); detalhes em `e2e/README.md`. Para rodá-los contra a aplicação
 publicada: `$env:BASE_URL = "https://<endereço>"`.
 
+Depois de cada deploy, o workflow **Sanidade em produção** (Actions > Sanidade em produção > Run workflow, informando o
+endereço publicado) confere os cabeçalhos de segurança, roda o teste de fumaça pela API e os testes E2E marcados com
+`@sanidade` contra a aplicação no ar.
+
 No GitHub Actions, cada push roda lint, testes e build do backend e do frontend, sobe o stack inteiro no Docker Compose, faz o
 teste de fumaça pela API e roda os testes E2E no Chromium.
+
+A estratégia de testes, os casos de teste funcionais e os resultados de carga, volume, stress e Lighthouse estão em
+`docs/testes.md`.
+
+### Cobertura
+
+`npm test -- --coverage` (backend) e `npm test -- --watch=false --coverage` (frontend) mostram o resumo no terminal e geram o
+relatório em HTML em `coverage/`. No CI, os dois relatórios ficam como artefatos da execução (`cobertura-backend` e
+`cobertura-frontend`).
+
+### Carga, volume e stress
+
+Scripts do k6 em `testes-carga/`, para rodar na máquina contra o Docker Compose; o passo a passo e os critérios estão em
+`testes-carga/README.md`.
 
 ## Teste com a comunidade (contas demo)
 

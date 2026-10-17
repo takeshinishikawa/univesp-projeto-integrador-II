@@ -47,6 +47,11 @@
                 }
               ],
               "outputHashing": "all",
+              "optimization": {
+                "scripts": true,
+                "styles": { "minify": true, "inlineCritical": false },
+                "fonts": true
+              },
               "fileReplacements": [
                 {
                   "replace": "src/environments/environment.ts",
@@ -75,7 +80,11 @@
           "defaultConfiguration": "development"
         },
         "test": {
-          "builder": "@angular/build:unit-test"
+          "builder": "@angular/build:unit-test",
+          "options": {
+            "coverageExclude": ["src/app/testing/**"],
+            "coverageReporters": ["text-summary", "html", "lcov"]
+          }
         },
         "lint": {
           "builder": "@angular-eslint/builder:lint",

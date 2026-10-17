@@ -1,7 +1,8 @@
 import { expect, test } from '@playwright/test';
 import { registrar, usuarioNovo } from './suporte/usuario';
 
-test.describe('Fluxo principal: cadastro, login, lançamento e Resumo', () => {
+// @sanidade: o subconjunto rápido que o workflow "Sanidade em produção" roda contra o endereço publicado.
+test.describe('Fluxo principal: cadastro, login, lançamento e Resumo', { tag: '@sanidade' }, () => {
   test('cadastra, lança uma transação e vê o saldo refletido no Resumo', async ({ page }) => {
     const usuario = usuarioNovo('fluxo');
     await registrar(page, usuario);

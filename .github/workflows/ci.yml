@@ -56,8 +56,20 @@ jobs:
       - run: npm run build
       - name: Aplicar migrations no MySQL efêmero
         run: npx prisma migrate deploy
-      - name: Testes (unitários + integração)
-        run: npm test -- --ci
+      # O Prisma 6 traz um aviso "high" no deepmerge-ts, usado só ao ler a configuração do
+      # próprio Prisma (não recebe dados de usuário); a correção exige o Prisma 7. Por isso o
+      # backend bloqueia só em "critical"; o relatório completo aparece no log deste passo.
+      - name: Auditoria de dependências (npm audit)
+        run: npm audit --omit=dev || npm audit --omit=dev --audit-level=critical
+      - name: Testes (unitários + integração) com cobertura
+        run: npm test -- --ci --coverage
+      - name: Relatório de cobertura do backend
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cobertura-backend
+          path: backend/coverage/
+          retention-days: 14
 
   frontend:
     name: Frontend (lint, testes, build)
@@ -74,7 +86,17 @@ jobs:
           cache-dependency-path: frontend/package-lock.json
       - run: npm ci
       - run: npm run lint
-      - run: npm test -- --watch=false
+      - name: Auditoria de dependências (npm audit)
+        run: npm audit --audit-level=high
+      - name: Testes com cobertura
+        run: npm test -- --watch=false --coverage
+      - name: Relatório de cobertura do frontend
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cobertura-frontend
+          path: frontend/coverage/
+          retention-days: 14
       - run: npm run build
 
   # Sobe a aplicação inteira (MySQL + API + Nginx com o Angular) e exercita o fluxo principal.
@@ -116,6 +138,45 @@ jobs:
           name: playwright-report
           path: e2e/playwright-report/
           retention-days: 7
+      # Na imagem oficial do Playwright, a mesma usada para gerar as imagens de referência.
+      - name: Regressão visual (Playwright)
+        working-directory: e2e
+        run: >-
+          docker run --rm --network host -v "$PWD:/e2e" -w /e2e
+          mcr.microsoft.com/playwright:v1.63.0-noble npm run test:visual
+      - name: Diferenças da regressão visual (se falhar)
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: regressao-visual
+          path: e2e/test-results/
+          retention-days: 7
+      - name: Performance e acessibilidade (Lighthouse)
+        working-directory: e2e
+        run: npm run lighthouse
+      - name: Relatório do Lighthouse
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: performance-lighthouse
+          path: e2e/lighthouse-report/
+          retention-days: 14
+      # Varredura passiva do OWASP ZAP (inclui o spider AJAX, para enxergar as telas do Angular).
+      # Aponta cabeçalhos, cookies e respostas que expõem informação. Os alertas não derrubam o
+      # job (-I); o relatório fica como artefato.
+      - name: Segurança (OWASP ZAP baseline)
+        run: |
+          mkdir -p zap && chmod 777 zap
+          docker run --rm --network host -v "$PWD/zap:/zap/wrk:rw" ghcr.io/zaproxy/zaproxy:stable \
+            zap-baseline.py -t http://localhost:4200 -j -m 2 -I -r zap.html -J zap.json -w zap.md
+          cat zap/zap.md >> "$GITHUB_STEP_SUMMARY"
+      - name: Relatório do OWASP ZAP
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: seguranca-zap
+          path: zap/
+          retention-days: 14
       - name: Logs em caso de falha
         if: failure()
         run: docker compose --env-file .env.local logs --no-color --tail=200
