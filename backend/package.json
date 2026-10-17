@@ -19,7 +19,7 @@
     "demo:limpar": "tsx scripts/limpar-dados-teste.ts"
   },
   "dependencies": {
-    "@prisma/client": "^6.19.3",
+    "@prisma/client": "^7.10.0",
     "bcrypt": "^6.0.0",
     "cors": "^2.8.6",
     "dotenv": "^18.0.6",
