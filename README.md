@@ -191,6 +191,11 @@ teste de fumaça pela API e roda os testes E2E no Chromium.
 relatório em HTML em `coverage/`. No CI, os dois relatórios ficam como artefatos da execução (`cobertura-backend` e
 `cobertura-frontend`).
 
+### Carga, volume e stress
+
+Scripts do k6 em `testes-carga/`, para rodar na máquina contra o Docker Compose; o passo a passo e os critérios estão em
+`testes-carga/README.md`.
+
 ## Teste com a comunidade (contas demo)
 
 Para ninguém precisar digitar dados financeiros reais, há contas de demonstração com os extratos e faturas **fictícios** de

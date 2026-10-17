@@ -16,7 +16,8 @@
     "db:seed": "tsx prisma/seed.ts",
     "fixtures:ofx": "tsx scripts/gerar-ofx-ficticios.ts",
     "demo:criar": "tsx scripts/contas-demo.ts",
-    "demo:limpar": "tsx scripts/limpar-dados-teste.ts"
+    "demo:limpar": "tsx scripts/limpar-dados-teste.ts",
+    "carga:volume": "tsx scripts/popular-volume.ts"
   },
   "dependencies": {
     "@prisma/client": "^6.19.3",
