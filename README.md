@@ -189,6 +189,9 @@ endereço publicado) confere os cabeçalhos de segurança, roda o teste de fuma�
 No GitHub Actions, cada push roda lint, testes e build do backend e do frontend, sobe o stack inteiro no Docker Compose, faz o
 teste de fumaça pela API e roda os testes E2E no Chromium.
 
+A estratégia de testes, os casos de teste funcionais e os resultados de carga, volume, stress e Lighthouse estão em
+`docs/testes.md`.
+
 ### Cobertura
 
 `npm test -- --coverage` (backend) e `npm test -- --watch=false --coverage` (frontend) mostram o resumo no terminal e geram o
