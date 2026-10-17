@@ -183,6 +183,12 @@ publicada: `$env:BASE_URL = "https://<endereço>"`.
 No GitHub Actions, cada push roda lint, testes e build do backend e do frontend, sobe o stack inteiro no Docker Compose, faz o
 teste de fumaça pela API e roda os testes E2E no Chromium.
 
+### Cobertura
+
+`npm test -- --coverage` (backend) e `npm test -- --watch=false --coverage` (frontend) mostram o resumo no terminal e geram o
+relatório em HTML em `coverage/`. No CI, os dois relatórios ficam como artefatos da execução (`cobertura-backend` e
+`cobertura-frontend`).
+
 ## Teste com a comunidade (contas demo)
 
 Para ninguém precisar digitar dados financeiros reais, há contas de demonstração com os extratos e faturas **fictícios** de

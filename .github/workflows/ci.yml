@@ -56,8 +56,15 @@ jobs:
       - run: npm run build
       - name: Aplicar migrations no MySQL efêmero
         run: npx prisma migrate deploy
-      - name: Testes (unitários + integração)
-        run: npm test -- --ci
+      - name: Testes (unitários + integração) com cobertura
+        run: npm test -- --ci --coverage
+      - name: Relatório de cobertura do backend
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cobertura-backend
+          path: backend/coverage/
+          retention-days: 14
 
   frontend:
     name: Frontend (lint, testes, build)
@@ -74,7 +81,15 @@ jobs:
           cache-dependency-path: frontend/package-lock.json
       - run: npm ci
       - run: npm run lint
-      - run: npm test -- --watch=false
+      - name: Testes com cobertura
+        run: npm test -- --watch=false --coverage
+      - name: Relatório de cobertura do frontend
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cobertura-frontend
+          path: frontend/coverage/
+          retention-days: 14
       - run: npm run build
 
   # Sobe a aplicação inteira (MySQL + API + Nginx com o Angular) e exercita o fluxo principal.
