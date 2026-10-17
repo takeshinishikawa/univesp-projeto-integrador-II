@@ -4,6 +4,8 @@ import { prisma } from '../config/database';
 import { CriarTransacaoDTO, LinhaImportacaoDTO, TipoTransacao, Transacao } from '../types';
 import { Periodo } from '../utils/periodo';
 
+const TENTATIVAS_EM_DEADLOCK = 3;
+
 export interface FiltroTransacoes {
   periodo?: Periodo;
   busca?: string;
@@ -209,21 +211,29 @@ export class PrismaTransacaoRepository implements TransacaoRepository {
   }
 
   // skipDuplicates (INSERT IGNORE) pula o que já existe pelo unique (usuário, conta, idExterno),
-  // então reenviar o mesmo arquivo, ou duas importações simultâneas, não duplica nada.
+  // então reenviar o mesmo arquivo, ou duas importações simultâneas, não duplica nada. Duas
+  // gravações simultâneas das mesmas linhas podem esbarrar num deadlock do InnoDB (P2034); como
+  // o INSERT IGNORE é idempotente, basta repetir.
   async criarVarias(
     usuarioId: number,
     contaId: number,
     linhas: LinhaImportacaoDTO[],
   ): Promise<number> {
-    const resultado = await prisma.transacao.createMany({
-      data: linhas.map((linha) => ({
-        usuarioId,
-        idExterno: linha.idExterno,
-        ...paraDados({ ...linha, contaId }),
-      })),
-      skipDuplicates: true,
-    });
-    return resultado.count;
+    const data = linhas.map((linha) => ({
+      usuarioId,
+      idExterno: linha.idExterno,
+      ...paraDados({ ...linha, contaId }),
+    }));
+    for (let tentativa = 1; ; tentativa++) {
+      try {
+        const resultado = await prisma.transacao.createMany({ data, skipDuplicates: true });
+        return resultado.count;
+      } catch (erro) {
+        if (tentativa >= TENTATIVAS_EM_DEADLOCK || (erro as { code?: string }).code !== 'P2034') {
+          throw erro;
+        }
+      }
+    }
   }
 
   async criarPar(usuarioId: number, saida: NovaTransacao, entrada: NovaTransacao): Promise<string> {
