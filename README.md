@@ -154,6 +154,8 @@ apaga a conta com tudo o que ela guarda (transações, contas, categorias própr
   proxies existem na frente da API (Nginx = 1, padrão; Railway = 2), para o limite enxergar o IP real.
 - Cabeçalhos de segurança: `helmet` na API e `nosniff`, `X-Frame-Options`, `Referrer-Policy` e `Permissions-Policy` nas páginas.
 - Dependabot (atualizações semanais) e CodeQL (análise estática) no GitHub.
+- No CI: `npm audit` nas dependências e varredura passiva do OWASP ZAP contra a aplicação no Docker Compose (relatório no
+  artefato `seguranca-zap` e no resumo da execução).
 
 ## Testes
 

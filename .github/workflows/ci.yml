@@ -56,6 +56,11 @@ jobs:
       - run: npm run build
       - name: Aplicar migrations no MySQL efêmero
         run: npx prisma migrate deploy
+      # O Prisma 6 traz um aviso "high" no deepmerge-ts, usado só ao ler a configuração do
+      # próprio Prisma (não recebe dados de usuário); a correção exige o Prisma 7. Por isso o
+      # backend bloqueia só em "critical"; o relatório completo aparece no log deste passo.
+      - name: Auditoria de dependências (npm audit)
+        run: npm audit --omit=dev || npm audit --omit=dev --audit-level=critical
       - name: Testes (unitários + integração) com cobertura
         run: npm test -- --ci --coverage
       - name: Relatório de cobertura do backend
@@ -81,6 +86,8 @@ jobs:
           cache-dependency-path: frontend/package-lock.json
       - run: npm ci
       - run: npm run lint
+      - name: Auditoria de dependências (npm audit)
+        run: npm audit --audit-level=high
       - name: Testes com cobertura
         run: npm test -- --watch=false --coverage
       - name: Relatório de cobertura do frontend
@@ -131,6 +138,22 @@ jobs:
           name: playwright-report
           path: e2e/playwright-report/
           retention-days: 7
+      # Varredura passiva do OWASP ZAP (inclui o spider AJAX, para enxergar as telas do Angular).
+      # Aponta cabeçalhos, cookies e respostas que expõem informação. Os alertas não derrubam o
+      # job (-I); o relatório fica como artefato.
+      - name: Segurança (OWASP ZAP baseline)
+        run: |
+          mkdir -p zap && chmod 777 zap
+          docker run --rm --network host -v "$PWD/zap:/zap/wrk:rw" ghcr.io/zaproxy/zaproxy:stable \
+            zap-baseline.py -t http://localhost:4200 -j -m 2 -I -r zap.html -J zap.json -w zap.md
+          cat zap/zap.md >> "$GITHUB_STEP_SUMMARY"
+      - name: Relatório do OWASP ZAP
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: seguranca-zap
+          path: zap/
+          retention-days: 14
       - name: Logs em caso de falha
         if: failure()
         run: docker compose --env-file .env.local logs --no-color --tail=200
