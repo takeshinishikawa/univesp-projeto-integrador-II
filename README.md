@@ -182,6 +182,10 @@ Os testes de integração criam e removem os próprios usuários (e-mails `*@tes
 Cada teste E2E cria o próprio usuário (`*@example.com`); detalhes em `e2e/README.md`. Para rodá-los contra a aplicação
 publicada: `$env:BASE_URL = "https://<endereço>"`.
 
+Depois de cada deploy, o workflow **Sanidade em produção** (Actions > Sanidade em produção > Run workflow, informando o
+endereço publicado) confere os cabeçalhos de segurança, roda o teste de fumaça pela API e os testes E2E marcados com
+`@sanidade` contra a aplicação no ar.
+
 No GitHub Actions, cada push roda lint, testes e build do backend e do frontend, sobe o stack inteiro no Docker Compose, faz o
 teste de fumaça pela API e roda os testes E2E no Chromium.
 
