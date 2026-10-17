@@ -37,3 +37,9 @@ Por padrão os testes apontam para `http://localhost:4200`; para outro endereço
 - `acessibilidade.spec.ts` — `AxeBuilder` nas páginas autenticadas principais (Resumo, Transações, Importação, Metas, Objetivos, Contas, Categorias, Recorrentes, Minha conta) e no Login; falha só em violações de impacto `serious`/`critical`.
 
 Cada teste cria seu próprio usuário (`tests/suporte/usuario.ts`), com e-mail único por execução — não há necessidade de banco "limpo" entre rodadas nem de fixtures compartilhadas.
+
+## Lighthouse (performance e acessibilidade)
+
+`npm run lighthouse` mede Login, Resumo, Transações e Metas no perfil desktop, entrando com um usuário novo. O resultado vai
+para `lighthouse-report/` (HTML, JSON e uma tabela em `resultado.md`). Falha só se a acessibilidade de alguma tela ficar
+abaixo de 90; as outras notas variam com a máquina e são apenas registradas.

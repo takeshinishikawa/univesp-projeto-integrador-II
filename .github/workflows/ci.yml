@@ -138,6 +138,16 @@ jobs:
           name: playwright-report
           path: e2e/playwright-report/
           retention-days: 7
+      - name: Performance e acessibilidade (Lighthouse)
+        working-directory: e2e
+        run: npm run lighthouse
+      - name: Relatório do Lighthouse
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: performance-lighthouse
+          path: e2e/lighthouse-report/
+          retention-days: 14
       # Varredura passiva do OWASP ZAP (inclui o spider AJAX, para enxergar as telas do Angular).
       # Aponta cabeçalhos, cookies e respostas que expõem informação. Os alertas não derrubam o
       # job (-I); o relatório fica como artefato.
