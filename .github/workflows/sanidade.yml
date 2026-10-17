@@ -34,7 +34,7 @@ jobs:
       - name: Cabeçalhos de segurança da página
         run: |
           cabecalhos=$(curl -fsSI "$BASE_URL/")
-          for nome in x-content-type-options x-frame-options referrer-policy; do
+          for nome in x-content-type-options x-frame-options referrer-policy content-security-policy cross-origin-opener-policy; do
             echo "$cabecalhos" | grep -qi "^$nome:" || { echo "FALTA: $nome" >&2; exit 1; }
           done
       - name: Fluxo principal pela API

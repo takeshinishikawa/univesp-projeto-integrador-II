@@ -14,6 +14,8 @@ upstream backend_api {
 server {
   listen ${PORT};
   server_name _;
+  # Não expõe a versão do Nginx no cabeçalho Server nem nas páginas de erro.
+  server_tokens off;
 
   root /usr/share/nginx/html;
   index index.html;

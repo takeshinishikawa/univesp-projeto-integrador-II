@@ -152,7 +152,9 @@ apaga a conta com tudo o que ela guarda (transações, contas, categorias própr
 - Senhas com bcrypt, JWT com expiração e consultas sempre parametrizadas (Prisma).
 - Limite de tentativas por IP: login (só as tentativas com erro contam) e cadastro. Atrás de proxy, `TRUST_PROXY` diz quantos
   proxies existem na frente da API (Nginx = 1, padrão; Railway = 2), para o limite enxergar o IP real.
-- Cabeçalhos de segurança: `helmet` na API e `nosniff`, `X-Frame-Options`, `Referrer-Policy` e `Permissions-Policy` nas páginas.
+- Cabeçalhos de segurança: `helmet` na API; nas páginas, `Content-Security-Policy` (scripts só da própria origem),
+  `Cross-Origin-Opener/Resource/Embedder-Policy`, `nosniff`, `X-Frame-Options`, `Referrer-Policy` e `Permissions-Policy`, e o
+  Nginx não mostra a própria versão.
 - Dependabot (atualizações semanais) e CodeQL (análise estática) no GitHub.
 - No CI: `npm audit` nas dependências e varredura passiva do OWASP ZAP contra a aplicação no Docker Compose (relatório no
   artefato `seguranca-zap` e no resumo da execução).

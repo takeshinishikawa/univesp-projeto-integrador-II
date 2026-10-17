@@ -56,7 +56,7 @@ atualizou este arquivo.
 | CT-22 | Contas e transferências | transferência entre contas próprias; excluir conta com lançamentos | relatórios ignoram a transferência; exclusão bloqueada | integração | ok |
 | CT-23 | Excluir a própria conta (LGPD) | senha certa e senha errada | com a errada, 401; com a certa, nenhuma linha em nenhuma das 10 tabelas e login impossível | integração, integridade e E2E | ok |
 | CT-24 | Limite de tentativas | logins errados seguidos do mesmo IP, além do limite | 429; logins certos não contam para o limite | unitário | ok |
-| CT-25 | Cabeçalhos de segurança | qualquer resposta da API e das páginas | helmet na API; nosniff, X-Frame-Options e Referrer-Policy nas páginas | integração e sanidade | ok |
+| CT-25 | Cabeçalhos de segurança | qualquer resposta da API e das páginas | helmet na API; CSP, Cross-Origin-Opener-Policy, nosniff, X-Frame-Options e Referrer-Policy nas páginas | integração e sanidade | ok |
 | CT-26 | Teclado | primeira tecla Tab na página | foco no link "Pular para o conteúdo" | E2E | ok |
 | CT-27 | Acessibilidade | todas as telas | nenhuma violação séria ou crítica do axe-core | unitário e E2E | ok |
 
@@ -67,7 +67,12 @@ atualizou este arquivo.
   ao ler a própria configuração (não recebe dados de quem usa a aplicação); a correção exige migrar para o Prisma 7, que fica
   como trabalho futuro. Por isso o backend bloqueia o CI só em alertas "critical".
 - **OWASP ZAP baseline** no CI: varredura passiva contra a aplicação no Docker Compose. O relatório fica no artefato
-  `seguranca-zap` e no resumo de cada execução.
+  `seguranca-zap` e no resumo de cada execução. A primeira execução (17/10/2026) não achou nenhum alerta alto, mas apontou 1
+  médio (páginas sem `Content-Security-Policy`) e 4 baixos (sem os cabeçalhos `Cross-Origin-Embedder-Policy`,
+  `Cross-Origin-Opener-Policy` e `Cross-Origin-Resource-Policy`, e a versão do Nginx exposta no cabeçalho `Server`). Os
+  cinco foram corrigidos no Nginx (`frontend/seguranca.conf` e `server_tokens off`). A CSP é a proteção que mais conta: o
+  navegador só executa scripts da própria origem, o que bloqueia um script injetado por XSS. Ela aceita estilos inline,
+  porque o Angular e o Chart.js dependem deles. Os cabeçalhos Cross-Origin e a versão escondida são um reforço leve.
 - Testes automatizados de autenticação (token ausente, malformado, expirado, de outro segredo), de isolamento entre usuários,
   de limite de tentativas e de cabeçalhos de segurança (casos CT-04, CT-05, CT-24 e CT-25).
 
