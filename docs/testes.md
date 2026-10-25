@@ -17,7 +17,7 @@ volume e stress foram medidos em 17/10/2026 no Docker Compose, numa máquina de 
 | Ponta a ponta (E2E) | Playwright | `e2e/tests/` | CI, contra o Docker Compose | 22 testes |
 | Acessibilidade | axe-core (jsdom e Playwright) e Lighthouse | specs do frontend, `e2e/tests/acessibilidade.spec.ts`, `e2e/lighthouse/` | CI | nenhuma violação séria ou crítica; Lighthouse 100 em acessibilidade nas 4 telas medidas |
 | Regressão | todos os testes automatizados acima | CI | a cada push e em cada PR | um PR só entra com tudo verde |
-| Regressão visual | Playwright `toHaveScreenshot` | `e2e/visual/` | CI, na imagem oficial do Playwright | 4 telas comparadas com as imagens de referência |
+| Regressão visual | Playwright `toHaveScreenshot` | `e2e/visual/` | CI, na imagem oficial do Playwright | 4 telas e o formulário de nova transação comparados com as imagens de referência |
 | Segurança | CodeQL, Dependabot, `npm audit`, OWASP ZAP baseline | `.github/` | CI | ver "Segurança" abaixo |
 | Performance (front) | Lighthouse | `e2e/lighthouse/medir.mjs` | CI | ver "Performance" abaixo |
 | Carga | k6 | `testes-carga/carga.js` | à mão | ver "Carga" abaixo |

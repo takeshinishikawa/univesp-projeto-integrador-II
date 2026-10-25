@@ -46,7 +46,8 @@ abaixo de 90; as outras notas variam com a máquina e são apenas registradas.
 
 ## Regressão visual
 
-`visual/telas.spec.ts` tira prints de Login, Resumo, Transações e Metas com dados e data fixos (15/09/2026) e compara com
+`visual/telas.spec.ts` tira prints de Login, Resumo (com uma meta em cada situação), Transações, Metas e do formulário de nova
+transação, com dados e data fixos (15/09/2026), e compara com
 `visual/referencias/`. Fica fora de `npm run test:e2e` e roda sempre na imagem oficial do Playwright, porque fontes e
 renderização mudam de um sistema para outro:
 
