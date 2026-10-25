@@ -4,7 +4,9 @@ Plataforma web de baixo atrito para o controle de finanças pessoais, desenvolvi
 (PJI240) da Univesp, 2º semestre de 2026.
 
 - **Polo:** São Paulo – Butantã – UNICEU
-- **Aplicação publicada:** _em preparação (Railway)_
+- **Execução:** local, com Docker Compose (ver abaixo). Nesta fase a aplicação não é publicada na internet: o teste com a
+  comunidade roda numa máquina local, com contas demo e dados fictícios, para que nenhum dado dos participantes fique
+  exposto (LGPD). A publicação em nuvem fica como passo futuro (ver [Publicação futura no Railway](#publicação-futura-no-railway)).
 
 Stack: **Angular 22** (frontend) + **Express/Prisma** (backend) + **MySQL 8**.
 
@@ -207,12 +209,13 @@ Scripts do k6 em `testes-carga/`, para rodar na máquina contra o Docker Compose
 
 ## Teste com a comunidade (contas demo)
 
-Para ninguém precisar digitar dados financeiros reais, há contas de demonstração com os extratos e faturas **fictícios** de
+O teste roda com a aplicação local (modo integração, acima), na máquina do grupo ou na do participante. Para ninguém
+precisar digitar dados financeiros reais, há contas de demonstração com os extratos e faturas **fictícios** de
 `backend/tests/fixtures` (janeiro a setembro de 2026, deslocados para terminar no mês atual):
 
 ```powershell
 cd backend
-$env:DATABASE_URL = "<URL do MySQL>"          # local ou o do Railway
+$env:DATABASE_URL = "<URL do MySQL local>"    # mysql://<usuário>:<senha>@localhost:3306/financas
 $env:DEMO_SENHA = "<senha das contas demo>"   # não vai para o repositório
 npm run demo:criar -- --quantidade 5          # demo1@financas.demo ... demo5@financas.demo
 
@@ -222,9 +225,13 @@ npm run demo:limpar -- --confirmar            # apaga as contas demo e os dados 
 npm run demo:limpar -- --confirmar --todos    # apaga TODOS os usuários (banco do teste)
 ```
 
-## Deploy no Railway
+Depois da sessão, `docker compose --env-file .env.local down -v` apaga o banco local inteiro.
 
-O projeto já está pronto para a publicação em três serviços no mesmo projeto do Railway:
+## Publicação futura no Railway
+
+Não é usada nesta fase do projeto (ver o início deste README). A configuração fica pronta para quando a aplicação for
+publicada; antes disso, a publicação precisaria de política de privacidade e de um canal para os titulares dos dados
+exercerem seus direitos (LGPD, art. 18). O projeto pode ser publicado em três serviços no mesmo projeto do Railway:
 
 | Serviço | Origem | Variáveis |
 |---|---|---|
