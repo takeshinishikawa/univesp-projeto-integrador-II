@@ -3,35 +3,49 @@
     <p class="aviso-erro" role="alert">{{ mensagem }}</p>
   }
 
-  <app-form-field label="Tipo" inputId="transacao-tipo" [control]="form.controls.tipo">
-    <select id="transacao-tipo" formControlName="tipo">
-      <option value="DESPESA">Despesa</option>
-      <option value="RECEITA">Receita</option>
-    </select>
-  </app-form-field>
+  <!-- Despesa/Receita em dois botões: um clique, e o tipo escolhido fica visível (protótipo, Figura 7). -->
+  <fieldset class="tipo">
+    <legend class="sr-only">Tipo</legend>
+    <label class="tipo__opcao">
+      <input
+        class="sr-only"
+        type="radio"
+        formControlName="tipo"
+        value="DESPESA"
+        id="transacao-tipo-despesa"
+      />
+      <span>Despesa</span>
+    </label>
+    <label class="tipo__opcao">
+      <input
+        class="sr-only"
+        type="radio"
+        formControlName="tipo"
+        value="RECEITA"
+        id="transacao-tipo-receita"
+      />
+      <span>Receita</span>
+    </label>
+  </fieldset>
 
-  <app-form-field
-    label="Categoria"
-    inputId="transacao-categoria"
-    [control]="form.controls.categoriaId"
-  >
-    <select id="transacao-categoria" formControlName="categoriaId">
-      <option [ngValue]="0" disabled>Selecione…</option>
-      @for (categoria of categoriasDoTipo(); track categoria.id) {
-        <option [ngValue]="categoria.id">{{ categoria.nome }}</option>
-      }
-    </select>
-  </app-form-field>
-
-  @if (contas().length > 1) {
-    <app-form-field label="Conta" inputId="transacao-conta" [control]="form.controls.contaId">
-      <select id="transacao-conta" formControlName="contaId">
-        @for (conta of contas(); track conta.id) {
-          <option [ngValue]="conta.id">{{ conta.nome }}</option>
-        }
-      </select>
+  <div class="linha">
+    <app-form-field label="Valor (R$)" inputId="transacao-valor" [control]="form.controls.valor">
+      <!-- O valor vem logo depois do tipo: é o campo que muda em todo lançamento. -->
+      <input
+        id="transacao-valor"
+        type="number"
+        appMoeda
+        inputmode="decimal"
+        step="0.01"
+        min="0.01"
+        formControlName="valor"
+      />
     </app-form-field>
-  }
+
+    <app-form-field label="Data" inputId="transacao-data" [control]="form.controls.dataTransacao">
+      <input id="transacao-data" type="text" appDataBr formControlName="dataTransacao" />
+    </app-form-field>
+  </div>
 
   <app-form-field
     label="Descrição"
@@ -47,21 +61,30 @@
     />
   </app-form-field>
 
-  <app-form-field label="Valor (R$)" inputId="transacao-valor" [control]="form.controls.valor">
-    <input
-      id="transacao-valor"
-      type="number"
-      appMoeda
-      inputmode="decimal"
-      step="0.01"
-      min="0.01"
-      formControlName="valor"
-    />
-  </app-form-field>
+  <div class="linha">
+    <app-form-field
+      label="Categoria"
+      inputId="transacao-categoria"
+      [control]="form.controls.categoriaId"
+    >
+      <select id="transacao-categoria" formControlName="categoriaId">
+        <option [ngValue]="0" disabled>Selecione…</option>
+        @for (categoria of categoriasDoTipo(); track categoria.id) {
+          <option [ngValue]="categoria.id">{{ categoria.nome }}</option>
+        }
+      </select>
+    </app-form-field>
 
-  <app-form-field label="Data" inputId="transacao-data" [control]="form.controls.dataTransacao">
-    <input id="transacao-data" type="date" formControlName="dataTransacao" />
-  </app-form-field>
+    @if (contas().length > 1) {
+      <app-form-field label="Conta" inputId="transacao-conta" [control]="form.controls.contaId">
+        <select id="transacao-conta" formControlName="contaId">
+          @for (conta of contas(); track conta.id) {
+            <option [ngValue]="conta.id">{{ conta.nome }}</option>
+          }
+        </select>
+      </app-form-field>
+    }
+  </div>
 
   <div class="acoes">
     <app-button variant="secondary" (click)="cancelar.emit()">Cancelar</app-button>

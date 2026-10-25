@@ -12,6 +12,7 @@ import { Conta, TipoConta } from '../../core/models/api.models';
 import { hojeIso } from '../../core/utils/data';
 import { formatarMoeda } from '../../core/utils/formato';
 import { Button } from '../../shared/button/button';
+import { DataBr } from '../../shared/data-br/data-br';
 import { Moeda } from '../../shared/moeda/moeda';
 import { FormField } from '../../shared/form-field/form-field';
 import { Modal } from '../../shared/modal/modal';
@@ -41,7 +42,7 @@ const plural = (n: number, singular: string, mais: string): string =>
 
 @Component({
   selector: 'app-contas',
-  imports: [Moeda, ReactiveFormsModule, RouterLink, Button, FormField, Modal],
+  imports: [DataBr, Moeda, ReactiveFormsModule, RouterLink, Button, FormField, Modal],
   templateUrl: './contas.html',
   styleUrl: './contas.scss',
 })
