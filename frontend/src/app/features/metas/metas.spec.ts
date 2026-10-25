@@ -264,8 +264,8 @@ describe('Metas', () => {
     it('cada campo tem o nome da categoria e mostra a meta atual (vazio se não há)', async () => {
       const { el } = await criar();
 
-      expect(campoDe(el, 'Alimentação').value).toBe('1000.00');
-      expect(campoDe(el, 'Transporte').value).toBe('500.00');
+      expect(campoDe(el, 'Alimentação').value).toBe('1.000,00');
+      expect(campoDe(el, 'Transporte').value).toBe('500,00');
       expect(campoDe(el, 'Lazer').value).toBe('');
       expect(el.querySelector('button[aria-label="Salvar meta de Lazer"]')).not.toBeNull();
     });
@@ -356,7 +356,7 @@ describe('Metas', () => {
       await fixture.whenStable();
 
       expect(el.querySelector('[role="alert"]')?.textContent).toContain('Só categorias de despesa');
-      expect(campoDe(el, 'Lazer').value).toBe('300.00');
+      expect(campoDe(el, 'Lazer').value).toBe('300');
     });
 
     it('o que foi digitado em outra linha sobrevive ao salvar uma linha', async () => {
@@ -368,7 +368,7 @@ describe('Metas', () => {
       enviarLinha(el, 'Lazer');
       await fixture.whenStable();
 
-      expect(campoDe(el, 'Transporte').value).toBe('650.00');
+      expect(campoDe(el, 'Transporte').value).toBe('650');
     });
 
     it('salvar ou remover a meta de uma categoria relê o ano: a meta do mês é a soma', async () => {

@@ -11,7 +11,7 @@ test.describe('Fluxo principal: cadastro, login, lançamento e Resumo', { tag: '
     await page.goto('/transacoes');
     await page.getByRole('button', { name: /nova transação/i }).click();
 
-    await page.selectOption('#transacao-tipo', 'RECEITA');
+    await page.click('label:has(#transacao-tipo-receita)');
     await page.selectOption('#transacao-categoria', { label: 'Salário' });
     await page.fill('#transacao-descricao', 'Salário de teste E2E');
     await page.fill('#transacao-valor', '5000');

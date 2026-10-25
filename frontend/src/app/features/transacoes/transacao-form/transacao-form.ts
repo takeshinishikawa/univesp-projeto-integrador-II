@@ -16,6 +16,7 @@ import {
 } from '../../../core/models/api.models';
 import { hojeIso } from '../../../core/utils/data';
 import { Button } from '../../../shared/button/button';
+import { DataBr } from '../../../shared/data-br/data-br';
 import { Moeda } from '../../../shared/moeda/moeda';
 import { FormField } from '../../../shared/form-field/form-field';
 
@@ -32,7 +33,7 @@ export function categoriaEscolhida(controle: AbstractControl): ValidationErrors 
 
 @Component({
   selector: 'app-transacao-form',
-  imports: [Moeda, ReactiveFormsModule, Button, FormField],
+  imports: [DataBr, Moeda, ReactiveFormsModule, Button, FormField],
   templateUrl: './transacao-form.html',
   styleUrl: './transacao-form.scss',
 })

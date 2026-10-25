@@ -31,7 +31,7 @@ describe('TransacaoForm', () => {
     const { fixture, el } = await criar();
     expect(opcoesDaCategoria(el)).toEqual(['Alimentação', 'Moradia']);
 
-    escolher(el, '#transacao-tipo', 'RECEITA');
+    el.querySelector<HTMLInputElement>('#transacao-tipo-receita')!.click();
     await fixture.whenStable();
     await fixture.whenStable();
     expect(opcoesDaCategoria(el)).toEqual(['Salário']);
@@ -46,6 +46,35 @@ describe('TransacaoForm', () => {
     expect(mensagensDeErro(el)).toHaveLength(3);
     expect(salvar).not.toHaveBeenCalled();
     expect(await violacoesDeAcessibilidade(el)).toBe('');
+  });
+
+  it('começa pelo valor: tipo, valor e data antes de descrição, categoria e conta', async () => {
+    const { el } = await criar();
+    const ordem = Array.from(el.querySelectorAll('input:not([type="radio"]), select')).map(
+      (c) => c.id,
+    );
+
+    expect(ordem).toEqual([
+      'transacao-valor',
+      'transacao-data',
+      'transacao-descricao',
+      'transacao-categoria',
+    ]);
+    expect(el.querySelector<HTMLInputElement>('#transacao-tipo-despesa')?.checked).toBe(true);
+  });
+
+  it('mostra a data em dd/mm/aaaa e recusa data que não existe', async () => {
+    const { fixture, el, salvar } = await criar();
+    expect(el.querySelector<HTMLInputElement>('#transacao-data')?.value).toMatch(
+      /^\d{2}\/\d{2}\/\d{4}$/,
+    );
+
+    digitar(el, '#transacao-data', '31/02/2026');
+    enviarFormulario(el);
+    await fixture.whenStable();
+
+    expect(mensagensDeErro(el)).toContain('Informe uma data válida no formato dd/mm/aaaa.');
+    expect(salvar).not.toHaveBeenCalled();
   });
 
   it('sem violações de acessibilidade (axe-core) no estado inicial', async () => {
@@ -76,7 +105,7 @@ describe('TransacaoForm', () => {
     select.dispatchEvent(new Event('change'));
     digitar(el, '#transacao-descricao', ' Mercado ');
     digitar(el, '#transacao-valor', '89.9');
-    digitar(el, '#transacao-data', '2026-03-15');
+    digitar(el, '#transacao-data', '15032026'); // a máscara põe as barras
     enviarFormulario(el);
     await fixture.whenStable();
 
@@ -105,9 +134,9 @@ describe('TransacaoForm', () => {
     expect(el.querySelector<HTMLInputElement>('#transacao-descricao')?.value).toBe(
       'Salário de março',
     );
-    expect(el.querySelector<HTMLInputElement>('#transacao-valor')?.value).toBe('4500.00');
-    expect(el.querySelector<HTMLInputElement>('#transacao-data')?.value).toBe('2026-03-05');
-    expect(el.querySelector<HTMLSelectElement>('#transacao-tipo')?.value).toBe('RECEITA');
+    expect(el.querySelector<HTMLInputElement>('#transacao-valor')?.value).toBe('4.500,00');
+    expect(el.querySelector<HTMLInputElement>('#transacao-data')?.value).toBe('05/03/2026');
+    expect(el.querySelector<HTMLInputElement>('#transacao-tipo-receita')?.checked).toBe(true);
   });
 
   describe('campo Conta', () => {
