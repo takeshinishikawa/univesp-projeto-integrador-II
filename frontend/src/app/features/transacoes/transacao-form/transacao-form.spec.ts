@@ -134,7 +134,7 @@ describe('TransacaoForm', () => {
     expect(el.querySelector<HTMLInputElement>('#transacao-descricao')?.value).toBe(
       'Salário de março',
     );
-    expect(el.querySelector<HTMLInputElement>('#transacao-valor')?.value).toBe('4500.00');
+    expect(el.querySelector<HTMLInputElement>('#transacao-valor')?.value).toBe('4.500,00');
     expect(el.querySelector<HTMLInputElement>('#transacao-data')?.value).toBe('05/03/2026');
     expect(el.querySelector<HTMLInputElement>('#transacao-tipo-receita')?.checked).toBe(true);
   });

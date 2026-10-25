@@ -121,11 +121,9 @@
 
               <div class="categoria__campo">
                 <input
-                  type="number"
+                  type="text"
                   appMoeda
                   inputmode="decimal"
-                  step="0.01"
-                  min="0.01"
                   placeholder="Sem meta"
                   [attr.aria-label]="'Meta de ' + linha.categoria"
                   [formControl]="controle(linha.categoriaId)"
