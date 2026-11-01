@@ -49,7 +49,7 @@ jobs:
         run: npx playwright test --grep @sanidade
       - name: Relatório do Playwright (se falhar)
         if: failure()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: sanidade-playwright-report
           path: e2e/playwright-report/
