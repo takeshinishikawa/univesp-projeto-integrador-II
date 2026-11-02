@@ -11,6 +11,16 @@
   }
 }
 
+.cabecalho__acoes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--espaco-2);
+}
+
+.progresso-lote {
+  margin-top: 0;
+}
+
 .envio {
   display: flex;
   flex-direction: column;

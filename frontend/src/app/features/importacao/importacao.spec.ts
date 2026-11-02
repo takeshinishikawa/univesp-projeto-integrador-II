@@ -85,10 +85,10 @@ describe('Importacao', () => {
     return { fixture, el, pronto };
   }
 
-  function enviar(el: HTMLElement, arquivo: File): void {
+  function enviar(el: HTMLElement, ...arquivos: File[]): void {
     const campo = el.querySelector<HTMLInputElement>('#arquivo-ofx');
     if (!campo) throw new Error('Campo de arquivo não encontrado');
-    Object.defineProperty(campo, 'files', { value: [arquivo], configurable: true });
+    Object.defineProperty(campo, 'files', { value: arquivos, configurable: true });
     campo.dispatchEvent(new Event('change'));
   }
 
@@ -117,6 +117,7 @@ describe('Importacao', () => {
 
     const campo = el.querySelector<HTMLInputElement>('#arquivo-ofx');
     expect(campo?.accept).toBe('.ofx');
+    expect(campo?.multiple).toBe(true);
     expect(el.querySelector('label[for="arquivo-ofx"]')?.textContent).toContain('Escolher arquivo');
     expect(el.querySelector('details summary')?.textContent).toContain('Como exportar');
     expect(el.textContent).toContain('não fica armazenado');
@@ -316,7 +317,7 @@ describe('Importacao', () => {
     expect(el.querySelector('a[href="/dashboard"]')).not.toBeNull();
   });
 
-  it('"Importar outro arquivo" volta para a etapa de envio', async () => {
+  it('"Importar outros arquivos" volta para a etapa de envio', async () => {
     const { el, pronto } = await criar();
     enviar(el, arquivoOfx());
     await pronto();
@@ -491,6 +492,135 @@ describe('Importacao', () => {
       await pronto();
 
       expect(confirmar.mock.calls[0][0][0]).toMatchObject({ idExterno: 'f', contaDestinoId: 2 });
+    });
+  });
+
+  describe('vários arquivos de uma vez', () => {
+    const botao = (el: HTMLElement, texto: string) =>
+      Array.from(el.querySelectorAll<HTMLButtonElement>('app-button button')).find((b) =>
+        b.textContent?.includes(texto),
+      );
+
+    it('lê um arquivo por vez: o seguinte só depois de confirmar o anterior', async () => {
+      const { el, pronto } = await criar();
+
+      enviar(el, arquivoOfx('jan.ofx'), arquivoOfx('fev.ofx'));
+      await pronto();
+
+      // O preview do segundo só pode procurar duplicatas depois que o primeiro foi gravado.
+      expect(enviarArquivo).toHaveBeenCalledTimes(1);
+      expect(enviarArquivo.mock.calls[0][0].name).toBe('jan.ofx');
+      expect(el.querySelector('.progresso-lote')?.textContent).toMatch(/Arquivo\s+1\s+de 2/);
+
+      clicarImportar(el);
+      await pronto();
+
+      expect(enviarArquivo).toHaveBeenCalledTimes(2);
+      expect(enviarArquivo.mock.calls[1][0].name).toBe('fev.ofx');
+      expect(el.textContent).toContain('fev.ofx');
+      expect(el.querySelector('.progresso-lote')?.textContent).toContain(
+        '2 transações já importadas',
+      );
+
+      clicarImportar(el);
+      await pronto();
+
+      expect(confirmar).toHaveBeenCalledTimes(2);
+      expect(el.textContent).toContain('Importação concluída');
+      expect(el.querySelector('.aviso-sucesso')?.textContent?.replace(/\s+/g, ' ')).toContain(
+        '4 transações importadas com sucesso de 2 arquivos',
+      );
+    });
+
+    it('o mesmo arquivo escolhido duas vezes entra uma vez só', async () => {
+      const { el, pronto } = await criar();
+      const arquivo = arquivoOfx('jan.ofx');
+
+      enviar(el, arquivo, arquivo);
+      await pronto();
+      clicarImportar(el);
+      await pronto();
+
+      expect(enviarArquivo).toHaveBeenCalledTimes(1);
+      expect(confirmar).toHaveBeenCalledTimes(1);
+      expect(el.querySelector('.progresso-lote')).toBeNull();
+    });
+
+    it('um arquivo inválido barra o lote antes de chamar a API', async () => {
+      const { el, pronto } = await criar();
+
+      enviar(el, arquivoOfx('jan.ofx'), arquivoOfx('fev.csv'));
+      await pronto();
+
+      expect(enviarArquivo).not.toHaveBeenCalled();
+      expect(el.querySelector('[role="alert"]')?.textContent).toContain('fev.csv');
+    });
+
+    it('pular um arquivo não grava nada dele e segue para o próximo', async () => {
+      const { el, pronto } = await criar();
+      enviar(el, arquivoOfx('jan.ofx'), arquivoOfx('fev.ofx'));
+      await pronto();
+
+      botao(el, 'Pular este arquivo')?.click();
+      await pronto();
+
+      expect(confirmar).not.toHaveBeenCalled();
+      expect(enviarArquivo.mock.calls[1][0].name).toBe('fev.ofx');
+
+      clicarImportar(el);
+      await pronto();
+
+      expect(confirmar).toHaveBeenCalledTimes(1);
+      expect(el.textContent).toContain('Pulados, sem gravar nada: jan.ofx');
+    });
+
+    it('pular o último arquivo leva ao resumo do lote', async () => {
+      const { el, pronto } = await criar();
+      enviar(el, arquivoOfx('jan.ofx'), arquivoOfx('fev.ofx'));
+      await pronto();
+      clicarImportar(el);
+      await pronto();
+
+      // Ex.: o último arquivo veio todo como "já importada" e não há o que confirmar.
+      botao(el, 'Pular este arquivo')?.click();
+      await pronto();
+
+      expect(el.textContent).toContain('Importação concluída');
+      expect(el.querySelector('.aviso-sucesso')?.textContent?.replace(/\s+/g, ' ')).toContain(
+        'de 1 arquivo',
+      );
+      expect(el.textContent).toContain('Pulados, sem gravar nada: fev.ofx');
+    });
+
+    it('um arquivo ilegível no meio do lote não interrompe os outros', async () => {
+      enviarArquivo
+        .mockReturnValueOnce(throwError(() => new ApiError(400, 'Arquivo inválido')))
+        .mockReturnValue(of(preview));
+      const { el, pronto } = await criar();
+
+      enviar(el, arquivoOfx('jan.ofx'), arquivoOfx('fev.ofx'));
+      await pronto();
+
+      expect(enviarArquivo.mock.calls[1][0].name).toBe('fev.ofx');
+      clicarImportar(el);
+      await pronto();
+
+      expect(el.textContent).toContain('Importação concluída');
+      expect(el.querySelector('[role="alert"]')?.textContent).toContain(
+        'jan.ofx: Arquivo inválido',
+      );
+    });
+
+    it('cancelar os restantes volta para o envio', async () => {
+      const { el, pronto } = await criar();
+      enviar(el, arquivoOfx('jan.ofx'), arquivoOfx('fev.ofx'));
+      await pronto();
+
+      botao(el, 'Cancelar os arquivos restantes')?.click();
+      await pronto();
+
+      expect(el.querySelector('#arquivo-ofx')).not.toBeNull();
+      expect(enviarArquivo).toHaveBeenCalledTimes(1);
     });
   });
 });

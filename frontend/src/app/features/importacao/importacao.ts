@@ -44,6 +44,12 @@ export class Importacao {
   private readonly categoriaService = inject(CategoriaService);
   private readonly contaService = inject(ContaService);
   private arquivo: File | null = null;
+  /**
+   * Arquivos que ainda esperam a vez. Um arquivo só é lido depois que o anterior foi confirmado
+   * (ou pulado): assim as duplicatas do preview já levam em conta o que acabou de ser gravado, e
+   * uma conta criada na revisão de um arquivo é reconhecida nos seguintes.
+   */
+  private fila: File[] = [];
 
   protected readonly categorias = toSignal(this.categoriaService.listar(), {
     initialValue: [] as Categoria[],
@@ -75,6 +81,14 @@ export class Importacao {
   protected readonly linhas = signal<LinhaRevisao[]>([]);
   protected readonly linhasIgnoradas = signal(0);
   protected readonly resultado = signal<ResultadoImportacao | null>(null);
+  /** Posição do arquivo atual na seleção (1, 2, …) e quantos arquivos foram escolhidos de uma vez. */
+  protected readonly posicaoArquivo = signal(0);
+  protected readonly totalArquivos = signal(0);
+  protected readonly emLote = computed(() => this.totalArquivos() > 1);
+  /** Somatório do lote: arquivos importados, pulados e os que não puderam ser lidos. */
+  protected readonly arquivosImportados = signal(0);
+  protected readonly arquivosPulados = signal<string[]>([]);
+  protected readonly falhas = signal<{ arquivo: string; mensagem: string }[]>([]);
 
   protected readonly categoriasPorTipo = computed(() => ({
     RECEITA: this.categorias().filter((c) => c.tipo === 'RECEITA'),
@@ -120,9 +134,9 @@ export class Importacao {
 
   protected aoEscolherArquivo(evento: Event): void {
     const campo = evento.target as HTMLInputElement;
-    const arquivo = campo.files?.[0];
+    const arquivos = Array.from(campo.files ?? []);
     campo.value = ''; // permite escolher o mesmo arquivo de novo depois de trocar
-    if (arquivo) this.processar(arquivo);
+    this.iniciar(arquivos);
   }
 
   protected aoArrastar(evento: DragEvent): void {
@@ -133,17 +147,49 @@ export class Importacao {
   protected aoSoltar(evento: DragEvent): void {
     evento.preventDefault();
     this.arrastando.set(false);
-    const arquivo = evento.dataTransfer?.files?.[0];
-    if (arquivo) this.processar(arquivo);
+    this.iniciar(Array.from(evento.dataTransfer?.files ?? []));
   }
 
-  private processar(arquivo: File): void {
-    const mensagem = this.validarArquivo(arquivo);
-    if (mensagem) {
-      this.erro.set(mensagem);
+  /**
+   * Valida a seleção inteira antes de ler qualquer arquivo: um arquivo inválido barra o lote, para
+   * o usuário não descobrir o problema no meio da revisão. O mesmo arquivo escolhido duas vezes
+   * entra uma vez só.
+   */
+  private iniciar(selecionados: File[]): void {
+    if (selecionados.length === 0) return;
+    const chave = (a: File) => `${a.name}|${a.size}|${a.lastModified}`;
+    const arquivos = [...new Map(selecionados.map((a) => [chave(a), a])).values()];
+    const invalidos = arquivos.flatMap((arquivo) => {
+      const mensagem = this.validarArquivo(arquivo);
+      return mensagem ? [arquivos.length > 1 ? `${arquivo.name}: ${mensagem}` : mensagem] : [];
+    });
+    if (invalidos.length > 0) {
+      this.erro.set(invalidos.join(' '));
       return;
     }
 
+    this.fila = arquivos;
+    this.totalArquivos.set(arquivos.length);
+    this.posicaoArquivo.set(0);
+    this.arquivosImportados.set(0);
+    this.arquivosPulados.set([]);
+    this.falhas.set([]);
+    this.resultado.set(null);
+    this.lerProximo();
+  }
+
+  /** Lê o próximo arquivo da fila; sem mais arquivos, mostra o resumo. */
+  private lerProximo(): void {
+    const arquivo = this.fila.shift();
+    if (!arquivo) {
+      this.etapa.set('concluido');
+      return;
+    }
+    this.posicaoArquivo.update((posicao) => posicao + 1);
+    this.processar(arquivo);
+  }
+
+  private processar(arquivo: File): void {
     this.erro.set(null);
     this.nomeArquivo.set(arquivo.name);
     this.arquivo = arquivo;
@@ -168,10 +214,25 @@ export class Importacao {
         this.etapa.set('revisao');
       },
       error: (e: unknown) => {
-        this.erro.set(descreverErro(e));
-        this.etapa.set('envio');
+        if (!this.emLote()) {
+          this.erro.set(descreverErro(e));
+          this.etapa.set('envio');
+          return;
+        }
+        // No lote, um arquivo ilegível não interrompe os outros: entra no resumo do final.
+        this.falhas.update((f) => [...f, { arquivo: arquivo.name, mensagem: descreverErro(e) }]);
+        this.lerProximo();
       },
     });
+  }
+
+  /**
+   * Deixa o arquivo atual de fora e segue para o próximo do lote (ou para o resumo, se era o último).
+   * Nada dele é gravado. É a saída de um arquivo que veio todo como "já importada".
+   */
+  protected pularArquivo(): void {
+    this.arquivosPulados.update((pulados) => [...pulados, this.nomeArquivo()]);
+    this.lerProximo();
   }
 
   private guardarConta(preview: PreviewImportacao): void {
@@ -304,8 +365,14 @@ export class Importacao {
       })
       .subscribe({
         next: (resultado) => {
-          this.resultado.set(resultado);
-          this.etapa.set('concluido');
+          const anterior = this.resultado();
+          this.resultado.set({
+            importadas: (anterior?.importadas ?? 0) + resultado.importadas,
+            ignoradasPorDuplicidade:
+              (anterior?.ignoradasPorDuplicidade ?? 0) + resultado.ignoradasPorDuplicidade,
+          });
+          this.arquivosImportados.update((n) => n + 1);
+          this.lerProximo();
         },
         error: (e: unknown) => {
           this.erro.set(descreverErro(e));
@@ -315,6 +382,12 @@ export class Importacao {
   }
 
   protected recomecar(): void {
+    this.fila = [];
+    this.totalArquivos.set(0);
+    this.posicaoArquivo.set(0);
+    this.arquivosImportados.set(0);
+    this.arquivosPulados.set([]);
+    this.falhas.set([]);
     this.linhas.set([]);
     this.linhasIgnoradas.set(0);
     this.resultado.set(null);
