@@ -4,7 +4,7 @@ import { registrar, usuarioNovo } from './suporte/usuario';
 /** Lança uma despesa pelo modal "Nova transação" e espera ela aparecer na tabela. */
 async function lancarDespesa(page: Page, descricao: string, valor: string, categoria = 'Outros') {
   await page.getByRole('button', { name: /nova transação/i }).click();
-  await page.selectOption('#transacao-tipo', 'DESPESA');
+  await page.click('label:has(#transacao-tipo-despesa)');
   await page.selectOption('#transacao-categoria', { label: categoria });
   await page.fill('#transacao-descricao', descricao);
   await page.fill('#transacao-valor', valor);

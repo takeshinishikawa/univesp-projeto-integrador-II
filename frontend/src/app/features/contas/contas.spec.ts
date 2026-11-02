@@ -209,7 +209,7 @@ describe('Contas', () => {
       escolher(el, '#transf-origem', 'Conta principal');
       escolher(el, '#transf-destino', 'Cartão Nubank');
       digitar(el, '#transf-valor', '300');
-      digitar(el, '#transf-data', '2026-09-10');
+      digitar(el, '#transf-data', '10/09/2026');
       enviar(el, '#form-transferencia');
       await fixture.whenStable();
 

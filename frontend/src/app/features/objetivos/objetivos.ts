@@ -11,6 +11,7 @@ import {
   nomeDoMes,
 } from '../../core/utils/formato';
 import { Button } from '../../shared/button/button';
+import { DataBr } from '../../shared/data-br/data-br';
 import { Moeda } from '../../shared/moeda/moeda';
 import { FormField } from '../../shared/form-field/form-field';
 import { Modal } from '../../shared/modal/modal';
@@ -36,6 +37,7 @@ const VALOR_MAXIMO = 99999999.99;
 @Component({
   selector: 'app-objetivos',
   imports: [
+    DataBr,
     Moeda,
     CurrencyPipe,
     DatePipe,

@@ -11,6 +11,13 @@ const LANCAMENTOS = [
   { descricao: 'Ônibus', valor: 88, tipo: 'DESPESA', categoria: 'Transporte', dia: '14' },
 ];
 
+// Uma meta em cada situação, para o print do Resumo mostrar as três (cor, ícone e texto).
+const METAS = [
+  { categoria: 'Moradia', valor: 1450 }, // 103% — estourada
+  { categoria: 'Alimentação', valor: 450 }, // 94% — perto do limite
+  { categoria: 'Transporte', valor: 300 }, // 29% — dentro da meta
+];
+
 test.describe('Regressão visual', () => {
   test('Login', async ({ page }) => {
     await page.clock.setFixedTime(HOJE);
@@ -42,6 +49,14 @@ test.describe('Regressão visual', () => {
       });
       expect(resposta.status()).toBe(201);
     }
+    for (const m of METAS) {
+      const categoria = categorias.find((c) => c.nome === m.categoria && c.tipo === 'DESPESA');
+      const resposta = await request.put('/api/metas/categorias', {
+        headers: auth,
+        data: { ano: 2026, mes: 9, categoriaId: categoria?.id, valor: m.valor },
+      });
+      expect(resposta.ok()).toBe(true);
+    }
 
     await page.clock.setFixedTime(HOJE);
     await page.goto('/login');
@@ -59,5 +74,11 @@ test.describe('Regressão visual', () => {
       await page.waitForLoadState('networkidle');
       await expect(page).toHaveScreenshot(arquivo, { fullPage: true });
     }
+
+    // Formulário de nova transação: tipo em botões, valor no início e data em dd/mm/aaaa.
+    await page.goto('/transacoes');
+    await page.waitForLoadState('networkidle');
+    await page.getByRole('button', { name: /nova transação/i }).first().click();
+    await expect(page.locator('dialog[open]')).toHaveScreenshot('nova-transacao.png');
   });
 });
