@@ -2,7 +2,7 @@ import { CurrencyPipe, DecimalPipe } from '@angular/common';
 import { Component, computed, inject, input, signal } from '@angular/core';
 import { takeUntilDestroyed, toObservable } from '@angular/core/rxjs-interop';
 import { RouterLink } from '@angular/router';
-import { ChartConfiguration, Plugin } from 'chart.js';
+import { ChartConfiguration, ChartType, Plugin } from 'chart.js';
 import { catchError, EMPTY, switchMap, tap } from 'rxjs';
 import { descreverErro } from '../../../core/models/api-error';
 import { TotaisPorCategoria } from '../../../core/models/api.models';
@@ -23,29 +23,44 @@ const PALETA = [
   '#4a5568',
 ];
 
-// Escreve o total no centro da rosca (igual ao protótipo de alta fidelidade); usa o `total` do
-// próprio dataset, então funciona com qualquer gráfico de rosca que receba esse plugin.
-function criarPluginTotalCentral(textoTotal: () => string): Plugin<'doughnut'> {
-  return {
-    id: 'totalCentral',
-    afterDraw(chart) {
-      const { ctx, chartArea } = chart;
-      const x = (chartArea.left + chartArea.right) / 2;
-      const y = (chartArea.top + chartArea.bottom) / 2;
-
-      ctx.save();
-      ctx.textAlign = 'center';
-      ctx.textBaseline = 'middle';
-      ctx.fillStyle = '#1a2433';
-      ctx.font = "700 15px system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif";
-      ctx.fillText(textoTotal(), x, y - 8);
-      ctx.fillStyle = '#4a5568';
-      ctx.font = "11px system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif";
-      ctx.fillText('total', x, y + 10);
-      ctx.restore();
-    },
-  };
+interface OpcoesTotalCentral {
+  texto?: string;
 }
+
+declare module 'chart.js' {
+  // O parâmetro de tipo precisa repetir a declaração original do Chart.js para a fusão funcionar.
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  interface PluginOptionsByType<TType extends ChartType> {
+    totalCentral?: OpcoesTotalCentral;
+  }
+}
+
+// Escreve o total no centro da rosca (igual ao protótipo de alta fidelidade). O texto vem de
+// `options.plugins.totalCentral`, e não de uma closure: ao trocar o mês, o componente Grafico
+// atualiza `data` e `options` do gráfico já criado, mas mantém os plugins da criação. Com uma
+// closure, o centro continuaria mostrando o total do primeiro período carregado.
+const pluginTotalCentral: Plugin<'doughnut', OpcoesTotalCentral> = {
+  id: 'totalCentral',
+  afterDraw(chart, _args, opcoes) {
+    if (!opcoes.texto) return;
+    const { ctx, chartArea } = chart;
+    const x = (chartArea.left + chartArea.right) / 2;
+    const y = (chartArea.top + chartArea.bottom) / 2;
+
+    ctx.save();
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillStyle = '#1a2433';
+    ctx.font =
+      "700 15px system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif";
+    ctx.fillText(opcoes.texto, x, y - 8);
+    ctx.fillStyle = '#4a5568';
+    ctx.font =
+      "11px system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif";
+    ctx.fillText('total', x, y + 10);
+    ctx.restore();
+  },
+};
 
 @Component({
   selector: 'app-grafico-categorias',
@@ -111,11 +126,12 @@ export class GraficoCategorias {
           },
         ],
       },
-      plugins: [criarPluginTotalCentral(() => formatarMoeda(dados.total))],
+      plugins: [pluginTotalCentral as Plugin],
       options: {
         plugins: {
           // A tabela ao lado (sempre visível) já mostra cor, nome e percentual de cada categoria.
           legend: { display: false },
+          totalCentral: { texto: formatarMoeda(dados.total) },
           tooltip: {
             callbacks: { label: (item) => ` ${formatarMoeda(Number(item.parsed))}` },
           },

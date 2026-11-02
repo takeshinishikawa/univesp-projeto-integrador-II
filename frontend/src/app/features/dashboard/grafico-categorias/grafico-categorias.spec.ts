@@ -124,6 +124,40 @@ describe('GraficoCategorias', () => {
     expect(el.querySelector('.resumo-grafico')?.textContent).toContain('todo o ano de 2026');
   });
 
+  it('o total no centro da rosca acompanha a troca de mês', async () => {
+    const instancias: { options: ChartConfiguration['options'] }[] = [];
+    criarGrafico.mockImplementation((_canvas: unknown, config: ChartConfiguration) => {
+      const instancia = {
+        data: config.data,
+        options: config.options,
+        update: () => undefined,
+        resize: () => undefined,
+        destroy: () => undefined,
+      };
+      instancias.push(instancia);
+      return instancia;
+    });
+    const { fixture } = await criar();
+    const plugin = (criarGrafico.mock.calls[0][1] as ChartConfiguration).plugins![0];
+    const textoDesenhado = () => {
+      const fillText = vi.fn();
+      const ctx = { save: vi.fn(), restore: vi.fn(), fillText };
+      const chart = { ctx, chartArea: { left: 0, right: 100, top: 0, bottom: 100 } };
+      const opcoes = instancias[0].options?.plugins?.totalCentral ?? {};
+      (plugin.afterDraw as (c: unknown, a: unknown, o: unknown) => void)(chart, {}, opcoes);
+      return fillText.mock.calls[0]?.[0] as string;
+    };
+    expect(textoDesenhado()).toMatch(/R\$\s?1\.000,00/);
+
+    obterCategorias.mockReturnValue(of({ ...totais, total: 2500 }));
+    fixture.componentInstance.mes.set(4);
+    await fixture.whenStable();
+
+    // O gráfico é o mesmo (só data e options mudam); o centro precisa mostrar o novo total.
+    expect(criarGrafico).toHaveBeenCalledTimes(1);
+    expect(textoDesenhado()).toMatch(/R\$\s?2\.500,00/);
+  });
+
   it('mudar o mês, o ano ou atualizar refaz a consulta', async () => {
     const { fixture } = await criar();
 
