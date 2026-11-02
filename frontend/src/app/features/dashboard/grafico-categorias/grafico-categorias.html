@@ -17,7 +17,12 @@
       <p class="resumo-grafico" aria-live="polite">{{ resumoTexto() }}</p>
 
       @if (configuracao(); as config) {
-        <app-grafico [configuracao]="config" [descricao]="descricao()" altura="14rem" [expandido]="true">
+        <app-grafico
+          [configuracao]="config"
+          [descricao]="descricao()"
+          altura="14rem"
+          [expandido]="true"
+        >
           <table class="tabela-dados">
             <caption class="sr-only">
               Despesas por categoria em
