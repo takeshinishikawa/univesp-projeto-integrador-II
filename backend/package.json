@@ -17,7 +17,8 @@
     "fixtures:ofx": "tsx scripts/gerar-ofx-ficticios.ts",
     "demo:criar": "tsx scripts/contas-demo.ts",
     "demo:limpar": "tsx scripts/limpar-dados-teste.ts",
-    "carga:volume": "tsx scripts/popular-volume.ts"
+    "carga:volume": "tsx scripts/popular-volume.ts",
+    "carga:participantes": "tsx scripts/carga-participantes.ts"
   },
   "dependencies": {
     "@prisma/client": "^6.19.3",

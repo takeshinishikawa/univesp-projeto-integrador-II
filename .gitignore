@@ -19,3 +19,6 @@ backend/tests/*.ofx
 /.projects/
 CLAUDE.md
 .claude/
+
+# Carga do teste com a comunidade: OFX gerados por backend/scripts/carga-participantes.ts
+backend/carga-participantes/
