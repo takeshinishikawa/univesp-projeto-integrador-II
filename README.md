@@ -211,7 +211,8 @@ Scripts do k6 em `testes-carga/`, para rodar na máquina contra o Docker Compose
 
 O teste roda com a aplicação local (modo integração, acima), na máquina do grupo ou na do participante. Para ninguém
 precisar digitar dados financeiros reais, há contas de demonstração com os extratos e faturas **fictícios** de
-`backend/tests/fixtures` (janeiro a setembro de 2026, deslocados para terminar no mês atual):
+`backend/tests/fixtures` (janeiro a setembro de 2026, deslocados para terminar no mês atual). Cada conta já vem com
+metas por categoria no mês atual e nos 3 anteriores e com três objetivos (no ritmo, atrasado e concluído):
 
 ```powershell
 cd backend
