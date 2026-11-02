@@ -1,3 +1,54 @@
+// Despesa/Receita como dois botões lado a lado. O rádio continua no lugar (só fica invisível), então
+// setas do teclado e leitores de tela funcionam como em qualquer grupo de rádio.
+.tipo {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--espaco-2);
+  padding: 0;
+  margin: 0 0 var(--espaco-3);
+  border: 0;
+}
+
+.tipo__opcao {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 2.75rem;
+  padding: var(--espaco-2) var(--espaco-3);
+  color: var(--cor-primaria);
+  background: var(--cor-superficie);
+  border: 2px solid var(--cor-primaria);
+  border-radius: 999px;
+  font-weight: 600;
+  cursor: pointer;
+
+  &:hover {
+    background: var(--cor-primaria-fundo);
+  }
+
+  // Escolhido: fundo cheio e o sinal ✓ (o estado não depende só da cor).
+  &:has(input:checked) {
+    color: #fff;
+    background: var(--cor-primaria);
+
+    span::before {
+      content: '\2713\FE0E  ';
+    }
+  }
+
+  &:has(input:focus-visible) {
+    outline: 3px solid var(--cor-foco);
+    outline-offset: 2px;
+  }
+}
+
+// Dois campos por linha (valor e data, categoria e conta); quebra em uma coluna em telas estreitas.
+.linha {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
+  column-gap: var(--espaco-3);
+}
+
 .acoes {
   display: flex;
   flex-wrap: wrap;

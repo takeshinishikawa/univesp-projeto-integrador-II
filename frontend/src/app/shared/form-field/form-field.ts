@@ -25,6 +25,8 @@ export function mensagemDeErro(erros: ValidationErrors | null): string | null {
   if (erros['min']) return `O valor deve ser maior ou igual a ${formatarNumero(erros['min'].min)}.`;
   if (erros['max']) return `O valor deve ser menor ou igual a ${formatarNumero(erros['max'].max)}.`;
   if (erros['pattern']) return 'Formato inválido.';
+  if (erros['moeda']) return 'Informe um valor em reais, por exemplo 35,00.';
+  if (erros['dataInvalida']) return 'Informe uma data válida no formato dd/mm/aaaa.';
   return 'Valor inválido.';
 }
 
