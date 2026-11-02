@@ -9,6 +9,8 @@
  * Os lançamentos são deslocados para que o último mês dos arquivos (set/2026) caia no mês atual,
  * e os que ficariam no futuro são descartados; assim o Resumo abre com dados. Use --sem-deslocar
  * para manter as datas originais.
+ * Cada conta também ganha metas por categoria (mês atual e os 3 anteriores, a partir da média de gastos)
+ * e três objetivos: um no ritmo, um atrasado e um concluído.
  * Contas que já existem são mantidas como estão (apague antes com `npm run demo:limpar`).
  */
 import { readdirSync, readFileSync } from 'node:fs';
@@ -16,6 +18,7 @@ import path from 'node:path';
 import { prisma } from '../src/config/database';
 import { PrismaCategoriaRepository } from '../src/repositories/categoria.repository';
 import { PrismaContaRepository } from '../src/repositories/conta.repository';
+import { PrismaMetaCategoriaRepository } from '../src/repositories/meta-categoria.repository';
 import { PrismaRegraRepository } from '../src/repositories/regra.repository';
 import { PrismaTransacaoRepository } from '../src/repositories/transacao.repository';
 import { PrismaUsuarioRepository } from '../src/repositories/usuario.repository';
@@ -47,6 +50,99 @@ function arquivos(pasta: string): string[] {
     .filter((nome) => nome.endsWith('.ofx') && nome !== EXTRATO_COMPLETO)
     .sort()
     .map((nome) => path.join(FIXTURES, pasta, nome));
+}
+
+interface AnoMes {
+  ano: number;
+  mes: number;
+}
+
+function deslocarMes({ ano, mes }: AnoMes, n: number): AnoMes {
+  const indice = ano * 12 + (mes - 1) + n;
+  return { ano: Math.floor(indice / 12), mes: (indice % 12) + 1 };
+}
+
+const inicioDoMes = ({ ano, mes }: AnoMes): Date => new Date(Date.UTC(ano, mes - 1, 1));
+
+/**
+ * Meta de cada categoria de despesa = média dos 3 meses anteriores ao mês da meta + 10%, arredondada
+ * para cima em múltiplos de 50. Como os gastos variam, umas ficam dentro, outras em atenção ou estouradas.
+ */
+async function criarMetas(usuarioId: number, atual: AnoMes): Promise<number> {
+  const metas = new PrismaMetaCategoriaRepository();
+  let criadas = 0;
+  for (let i = -3; i <= 0; i++) {
+    const mesMeta = deslocarMes(atual, i);
+    const gastos = await prisma.transacao.groupBy({
+      by: ['categoriaId'],
+      where: {
+        usuarioId,
+        tipo: 'DESPESA',
+        transferenciaId: null,
+        dataTransacao: { gte: inicioDoMes(deslocarMes(mesMeta, -3)), lt: inicioDoMes(mesMeta) },
+      },
+      _sum: { valor: true },
+    });
+    for (const { categoriaId, _sum } of gastos) {
+      const media = (_sum.valor?.toNumber() ?? 0) / 3;
+      if (media < 30) continue;
+      const valor = Math.ceil((media * 1.1) / 50) * 50;
+      await metas.definir(usuarioId, mesMeta.ano, mesMeta.mes, categoriaId, valor);
+      criadas++;
+    }
+  }
+  return criadas;
+}
+
+/**
+ * Objetivos gravados direto no banco para poder datar a criação no passado: é ela que define o ritmo
+ * esperado (no ritmo ou atrasado), e pelo serviço todo objetivo nasceria hoje.
+ */
+async function criarObjetivos(usuarioId: number, atual: AnoMes): Promise<number> {
+  const exemplos = [
+    // Guardou 6 x R$ 1.000 de 13 meses: acima da linha reta até o prazo.
+    {
+      nome: 'Reserva de emergência',
+      valorAlvo: 12000,
+      criado: -5,
+      prazo: 8,
+      aportes: [1000, 1000, 1000, 1000, 1000, 1000],
+    },
+    // Guardou R$ 800 de R$ 6.000 na metade do prazo.
+    { nome: 'Viagem de férias', valorAlvo: 6000, criado: -4, prazo: 4, aportes: [500, 300] },
+    {
+      nome: 'Notebook novo',
+      valorAlvo: 3500,
+      criado: -6,
+      prazo: -1,
+      aportes: [1000, 1000, 1000, 500],
+    },
+  ];
+  for (const exemplo of exemplos) {
+    const criadoEm = inicioDoMes(deslocarMes(atual, exemplo.criado));
+    const prazo = deslocarMes(atual, exemplo.prazo);
+    const datas = exemplo.aportes.map((_, i) => {
+      const data = new Date(criadoEm);
+      data.setUTCMonth(data.getUTCMonth() + i, 5);
+      return data;
+    });
+    const total = exemplo.aportes.reduce((soma, valor) => soma + valor, 0);
+    await prisma.objetivo.create({
+      data: {
+        usuarioId,
+        nome: exemplo.nome,
+        valorAlvo: exemplo.valorAlvo,
+        prazoAno: prazo.ano,
+        prazoMes: prazo.mes,
+        createdAt: criadoEm,
+        concluidoEm: total >= exemplo.valorAlvo ? datas[datas.length - 1] : null,
+        aportes: {
+          create: exemplo.aportes.map((valor, i) => ({ valor, data: datas[i] })),
+        },
+      },
+    });
+  }
+  return exemplos.length;
 }
 
 async function main(): Promise<void> {
@@ -115,7 +211,12 @@ async function main(): Promise<void> {
         total += (await importacao.confirmar(usuarioId, dto)).importadas;
       }
     }
-    console.log(`${email}: criada com ${total} transações.`);
+    const atual = { ano: anoHoje, mes: mesHoje };
+    const metas = await criarMetas(usuarioId, atual);
+    const objetivos = await criarObjetivos(usuarioId, atual);
+    console.log(
+      `${email}: criada com ${total} transações, ${metas} metas por categoria e ${objetivos} objetivos.`,
+    );
   }
 }
 
