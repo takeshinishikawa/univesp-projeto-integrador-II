@@ -26,6 +26,31 @@ test.describe('Importação de extrato OFX', () => {
     await expect(page.locator('p.aviso-sucesso')).toContainText(/transaç(ão|ões) importada/i);
   });
 
+  test('vários arquivos com períodos sobrepostos não duplicam lançamentos', async ({ page }) => {
+    const usuario = usuarioNovo('importacao-lote');
+    await registrar(page, usuario);
+    const pasta = path.dirname(ARQUIVO_OFX);
+
+    await page.goto('/importar');
+    // Abril sozinho e depois o extrato de janeiro a setembro, que contém abril de novo.
+    await page.setInputFiles('#arquivo-ofx', [
+      ARQUIVO_OFX,
+      path.join(pasta, 'NU_123456789_01JAN2026_25SET2026.ofx'),
+    ]);
+
+    await expect(page.getByRole('status')).toContainText(/arquivo 1 de 2 lido/i);
+    await page.getByRole('button', { name: /^importar \d+ transaç/i }).click();
+
+    // O segundo só é lido depois do primeiro gravado: as linhas de abril já vêm como importadas.
+    await expect(page.getByRole('status')).toContainText(/arquivo 2 de 2 lido/i);
+    await expect(page.locator('tbody tr.linha-desabilitada').first()).toBeVisible();
+    await expect(page.getByText('já importada').first()).toBeVisible();
+    await page.getByRole('button', { name: /^importar \d+ transaç/i }).click();
+
+    await expect(page.getByRole('heading', { name: /importação concluída/i })).toBeVisible();
+    await expect(page.locator('p.aviso-sucesso')).toContainText(/de 2 arquivos/i);
+  });
+
   test('arquivo sem extensão .ofx é recusado antes de chamar a API', async ({ page }) => {
     const usuario = usuarioNovo('importacao-invalida');
     await registrar(page, usuario);

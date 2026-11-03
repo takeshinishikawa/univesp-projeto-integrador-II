@@ -4,16 +4,25 @@
 <p class="sr-only" role="status">
   @switch (etapa()) {
     @case ('lendo') {
-      Lendo o arquivo…
+      Lendo o arquivo
+      @if (emLote()) {
+        {{ posicaoArquivo() }} de {{ totalArquivos() }}
+      }
+      …
     }
     @case ('revisao') {
-      Arquivo lido: {{ linhas().length }} lançamentos encontrados. Revise antes de importar.
+      @if (emLote()) {
+        Arquivo {{ posicaoArquivo() }} de {{ totalArquivos() }} lido:
+      } @else {
+        Arquivo lido:
+      }
+      {{ linhas().length }} lançamentos encontrados. Revise antes de importar.
     }
     @case ('importando') {
       Importando as transações…
     }
     @case ('concluido') {
-      {{ resultado()?.importadas }} transações importadas.
+      {{ resultado()?.importadas ?? 0 }} transações importadas.
     }
   }
 </p>
@@ -27,9 +36,15 @@
     <section class="sucesso" aria-labelledby="titulo-sucesso">
       <h2 id="titulo-sucesso">Importação concluída</h2>
       <p class="aviso-sucesso">
-        {{ resultado()?.importadas }}
+        {{ resultado()?.importadas ?? 0 }}
         {{ resultado()?.importadas === 1 ? 'transação importada' : 'transações importadas' }}
-        com sucesso.
+        com sucesso
+        @if (emLote()) {
+          de
+          {{ arquivosImportados() }}
+          {{ arquivosImportados() === 1 ? 'arquivo' : 'arquivos' }}
+        }
+        .
       </p>
       @if (resultado()?.ignoradasPorDuplicidade) {
         <p>
@@ -41,18 +56,31 @@
           }}.
         </p>
       }
+      @if (arquivosPulados().length > 0) {
+        <p>Pulados, sem gravar nada: {{ arquivosPulados().join(', ') }}.</p>
+      }
+      @if (falhas().length > 0) {
+        <div class="aviso-erro" role="alert">
+          <p>Não foi possível ler:</p>
+          <ul>
+            @for (falha of falhas(); track falha.arquivo) {
+              <li>{{ falha.arquivo }}: {{ falha.mensagem }}</li>
+            }
+          </ul>
+        </div>
+      }
       <p class="acoes">
         <a routerLink="/transacoes">Ver transações</a>
         <a routerLink="/dashboard">Ver resumo</a>
       </p>
-      <app-button variant="secondary" (click)="recomecar()">Importar outro arquivo</app-button>
+      <app-button variant="secondary" (click)="recomecar()">Importar outros arquivos</app-button>
     </section>
   }
 
   @case ('envio') {
     <p>
-      Envie o arquivo <strong>OFX</strong> do extrato da conta ou da fatura do cartão. Você poderá
-      revisar tudo antes de importar.
+      Envie o arquivo <strong>OFX</strong> do extrato da conta ou da fatura do cartão. Pode escolher
+      vários de uma vez: eles são revisados um de cada vez, antes de importar.
     </p>
     <div
       class="envio"
@@ -61,9 +89,15 @@
       (dragleave)="arrastando.set(false)"
       (drop)="aoSoltar($event)"
     >
-      <p class="envio__texto" aria-hidden="true">Arraste o arquivo .ofx até aqui ou</p>
-      <label class="envio__rotulo" for="arquivo-ofx">Escolher arquivo OFX</label>
-      <input id="arquivo-ofx" type="file" accept=".ofx" (change)="aoEscolherArquivo($event)" />
+      <p class="envio__texto" aria-hidden="true">Arraste os arquivos .ofx até aqui ou</p>
+      <label class="envio__rotulo" for="arquivo-ofx">Escolher arquivos OFX</label>
+      <input
+        id="arquivo-ofx"
+        type="file"
+        accept=".ofx"
+        multiple
+        (change)="aoEscolherArquivo($event)"
+      />
     </div>
 
     <details class="ajuda">
@@ -72,7 +106,9 @@
         No aplicativo ou no site do seu banco, procure a opção de exportar ou baixar o
         <strong>extrato</strong> da conta ou a <strong>fatura</strong> do cartão em formato
         <strong>OFX</strong>. No Nubank, ela fica nas telas de extrato e de fatura (o caminho exato
-        pode mudar conforme a versão do aplicativo). Um arquivo por vez, com até 2 MB.
+        pode mudar conforme a versão do aplicativo). Cada arquivo pode ter até 2 MB. Ao enviar
+        vários, importe primeiro os extratos da conta e depois as faturas do cartão, em ordem de
+        mês: assim o pagamento de cada fatura já encontra a conta do cartão.
       </p>
     </details>
 
@@ -84,17 +120,47 @@
   }
 
   @case ('lendo') {
-    <p aria-hidden="true">Lendo {{ nomeArquivo() }}…</p>
+    <p aria-hidden="true">
+      Lendo {{ nomeArquivo() }}
+      @if (emLote()) {
+        (arquivo {{ posicaoArquivo() }} de {{ totalArquivos() }})
+      }
+      …
+    </p>
   }
 
   @default {
     <section aria-labelledby="titulo-revisao">
       <div class="cabecalho">
         <h2 id="titulo-revisao">Revise as transações</h2>
-        <app-button variant="secondary" [disabled]="etapa() === 'importando'" (click)="recomecar()">
-          Escolher outro arquivo
-        </app-button>
+        <div class="cabecalho__acoes">
+          @if (emLote()) {
+            <app-button
+              variant="secondary"
+              [disabled]="etapa() === 'importando'"
+              (click)="pularArquivo()"
+            >
+              Pular este arquivo
+            </app-button>
+          }
+          <app-button
+            variant="secondary"
+            [disabled]="etapa() === 'importando'"
+            (click)="recomecar()"
+          >
+            {{ emLote() ? 'Cancelar os arquivos restantes' : 'Escolher outro arquivo' }}
+          </app-button>
+        </div>
       </div>
+
+      @if (emLote()) {
+        <p class="progresso-lote">
+          Arquivo <strong>{{ posicaoArquivo() }}</strong> de {{ totalArquivos() }}.
+          @if (arquivosImportados() > 0) {
+            {{ resultado()?.importadas ?? 0 }} transações já importadas dos anteriores.
+          }
+        </p>
+      }
 
       <p>
         <strong>{{ nomeArquivo() }}</strong> ({{ descricaoOrigem() }}):

@@ -85,8 +85,11 @@ Em **Importar** (menu superior), envie o arquivo OFX do extrato da conta ou da f
 cada lançamento com a categoria sugerida; revise, troque o que estiver errado e clique em **Importar**.
 
 1. No aplicativo ou site do banco, exporte o **extrato** ou a **fatura** em formato **OFX** (no Nubank, nas telas
-   de extrato e de fatura; o caminho exato pode mudar conforme a versão do aplicativo). Um arquivo por vez, até 2 MB.
-2. Envie o arquivo na tela **Importar**. Nada é gravado nessa etapa e o arquivo não fica armazenado.
+   de extrato e de fatura; o caminho exato pode mudar conforme a versão do aplicativo). Até 2 MB por arquivo.
+2. Envie o arquivo na tela **Importar**. Nada é gravado nessa etapa e o arquivo não fica armazenado. Dá para
+   escolher vários arquivos de uma vez: eles entram numa fila e são revisados e confirmados um de cada vez, e cada
+   um só é lido depois que o anterior foi gravado, para que as duplicatas já considerem o que acabou de entrar.
+   Envie primeiro os extratos e depois as faturas, em ordem de mês.
 3. Vêm **desmarcados**: o pagamento da fatura (já aparece como compras na fatura) e as transferências entre
    as suas próprias contas (nome do titular igual ao do cadastro). Marque só se quiser importá-los.
 4. Reenviar o mesmo arquivo, ou outro com período sobreposto, **não duplica** lançamentos (o `FITID` do OFX é único por usuário).
