@@ -65,7 +65,7 @@ jobs:
         run: npm test -- --ci --coverage
       - name: Relatório de cobertura do backend
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: cobertura-backend
           path: backend/coverage/
@@ -92,7 +92,7 @@ jobs:
         run: npm test -- --watch=false --coverage
       - name: Relatório de cobertura do frontend
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: cobertura-frontend
           path: frontend/coverage/
@@ -146,7 +146,7 @@ jobs:
           mcr.microsoft.com/playwright:v1.63.0-noble npm run test:visual
       - name: Diferenças da regressão visual (se falhar)
         if: failure()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: regressao-visual
           path: e2e/test-results/
@@ -156,7 +156,7 @@ jobs:
         run: npm run lighthouse
       - name: Relatório do Lighthouse
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: performance-lighthouse
           path: e2e/lighthouse-report/
@@ -172,7 +172,7 @@ jobs:
           cat zap/zap.md >> "$GITHUB_STEP_SUMMARY"
       - name: Relatório do OWASP ZAP
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: seguranca-zap
           path: zap/
